@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/light_grey"
     tools:context="fastphrase.com.PlaybackListActivity">
+
+    <fastphrase.com.views.TitleBarView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <fastphrase.com.views.PlaybackListView.PlaybackListView
         android:id="@+id/playback_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-</RelativeLayout>
+</LinearLayout>

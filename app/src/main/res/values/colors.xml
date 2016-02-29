@@ -4,22 +4,39 @@
     <color name="white">#ffffff</color>
     <color name="light_grey">#f6f6f6</color>
 
-    <!-- Primary logo colors -->
-    <color name="p500">#50ae54</color>
-    <color name="p600">#479f4b</color>
-    <color name="p700">#3b8d40</color>
-    <color name="p800">#317c35</color>
+    <!-- Playback colors -->
     <color name="p900">#1e5d23</color>
-
-    <color name="a100">#bbf5cb</color>
-    <color name="a200">#6fefb0</color>
-    <color name="a400">#24e47a</color>
-    <color name="a700">#1ec659</color>
-
+    <color name="p800">#317c35</color>
+    <color name="p700">#3b8d40</color>
+    <color name="p600">#479f4b</color>
+    <color name="p500">#50ae54</color>
     <color name="p400">#69ba6d</color>
     <color name="p300">#83c686</color>
     <color name="p200">#a6d5a9</color>
     <color name="p100">#c9e6ca</color>
     <color name="p50">#e8f5e9</color>
+    <!-- playback accent colors -->
+    <color name="pa100">#bbf5cb</color>
+    <color name="pa200">#6fefb0</color>
+    <color name="pa400">#24e47a</color>
+    <color name="pa700">#1ec659</color>
+
+
+    <!-- recording colors -->
+    <color name="r900">#B71C1C</color>
+    <color name="r800">#C62828</color>
+    <color name="r700">#D32F2F</color>
+    <color name="r600">#E53935</color>
+    <color name="r500">#F44336</color>
+    <color name="r400">#EF5350</color>
+    <color name="r300">#E57373</color>
+    <color name="r200">#EF9A9A</color>
+    <color name="r100">#FFCDD2</color>
+    <color name="r50">#FFEBEE</color>
+    <!-- recording accent colors -->
+    <color name="ra100">#FF8A80</color>
+    <color name="ra200">#FF5252</color>
+    <color name="ra400">#FF1744</color>
+    <color name="ra700">#D50000</color>
 
 </resources>

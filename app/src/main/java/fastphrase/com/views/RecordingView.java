@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.lang.ref.WeakReference;
+
 import fastphrase.com.R;
 import fastphrase.com.models.Recording;
 
@@ -16,7 +18,7 @@ import fastphrase.com.models.Recording;
 public class RecordingView extends LinearLayout{
 
     private TextView mRecordingName;
-    private IRecordingListener mListener;
+    private WeakReference<IRecordingListener> mListener;
     private Recording mRecording;
 
     public RecordingView(Context context) {
@@ -43,7 +45,7 @@ public class RecordingView extends LinearLayout{
         // example callback (always check for null)
         if(mListener != null){
             // lets parent know which recording to play
-            mListener.onPlayRecording(mRecording);
+            mListener.get().onPlayRecording(mRecording);
         }
     }
 
@@ -61,7 +63,7 @@ public class RecordingView extends LinearLayout{
      * @param listener IFolderListener
      */
     public void setRecordingListener(IRecordingListener listener){
-        mListener = listener;
+        mListener = new WeakReference<IRecordingListener>(listener);
     }
 
     public interface IRecordingListener{
