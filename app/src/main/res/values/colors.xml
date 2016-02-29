@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+
+
+    <!-- Primary logo colors -->
+    <color name="p500">#50ae54</color>
+    <color name="p600">#479f4b</color>
+    <color name="p700">#3b8d40</color>
+    <color name="p800">#317c35</color>
+    <color name="p900">#1e5d23</color>
+
+    <color name="a100">#bbf5cb</color>
+    <color name="a200">#6fefb0</color>
+    <color name="a400">#24e47a</color>
+    <color name="a700">#1ec659</color>
+
+    <color name="p400">#69ba6d</color>
+    <color name="p300">#83c686</color>
+    <color name="p200">#a6d5a9</color>
+    <color name="p100">#c9e6ca</color>
+    <color name="p50">#e8f5e9</color>
+
 </resources>

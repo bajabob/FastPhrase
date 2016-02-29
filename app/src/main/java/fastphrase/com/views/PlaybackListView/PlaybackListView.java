@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import fastphrase.com.R;
-import fastphrase.com.models.AppData;
 
 /**
  * Created by bob on 2/28/16.

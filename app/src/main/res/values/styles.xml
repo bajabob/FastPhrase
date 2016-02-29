@@ -1,11 +1,25 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="AppTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
+
+        <!-- notification drawer -->
+        <item name="colorPrimaryDark">@color/p700</item>
+        <item name="android:typeface">monospace</item>
+
+        <!-- edit text line color -->
+        <item name="colorControlNormal">@color/p400</item>
+        <item name="colorControlActivated">@color/p600</item>
+        <item name="colorControlHighlight">@color/p600</item>
+
+    </style>
+
+    <style name="h0" parent="TextAppearance.AppCompat.Headline"></style>
+    <style name="h1" parent="TextAppearance.AppCompat.Large"></style>
+    <style name="h2" parent="TextAppearance.AppCompat.Medium"></style>
+    <style name="h3" parent="TextAppearance.AppCompat.Small"></style>
+    <style name="h4" parent="TextAppearance.AppCompat.Small">
+        <item name="android:textSize">12sp</item>
     </style>
 
 </resources>
