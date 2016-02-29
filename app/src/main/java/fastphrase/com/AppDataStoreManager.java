@@ -46,7 +46,7 @@ public class AppDataStoreManager {
     }
 
     /**
-     * App data to use the first time the application is loaded
+     * App data to use the first time the application is loaded (for testing purposes)
      * @return AppData
      */
     private static AppData defaultAppData(){
@@ -54,18 +54,28 @@ public class AppDataStoreManager {
 
         ad.tags.add(new Tag("Arabic"));
         ad.tags.add(new Tag("Greek"));
+        ad.tags.add(new Tag("First Encounter"));
+        ad.tags.add(new Tag("Random"));
 
         ad.recordings = new ArrayList<Recording>();
         ad.recordings.add(new Recording("Sit Down", Arrays.asList(
-                ad.tags.get(0).hash
-        )));
+                ad.tags.get(0).hash,
+                ad.tags.get(3).hash
+        ), 955));
         ad.recordings.add(new Recording("20 Degrees Port", Arrays.asList(
                 ad.tags.get(0).hash,
                 ad.tags.get(1).hash
-        )));
+        ), 1430));
         ad.recordings.add(new Recording("Stay in the boat", Arrays.asList(
                 ad.tags.get(1).hash
-        )));
+        ), 1200));
+        ad.recordings.add(new Recording("Where are my keys?", Arrays.asList(
+                ad.tags.get(3).hash
+        ), 3000));
+        ad.recordings.add(new Recording("Where is the bathroom?", null, 3430));
+        ad.recordings.add(new Recording("Are you thirsty?", Arrays.asList(
+                ad.tags.get(2).hash
+        ), 850));
 
         return ad;
     }

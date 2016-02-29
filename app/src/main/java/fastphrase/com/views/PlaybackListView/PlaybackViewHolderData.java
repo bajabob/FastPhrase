@@ -1,5 +1,7 @@
 package fastphrase.com.views.PlaybackListView;
 
+import java.util.List;
+
 import fastphrase.com.models.Recording;
 import fastphrase.com.models.Tag;
 
@@ -9,10 +11,7 @@ import fastphrase.com.models.Tag;
 public class PlaybackViewHolderData {
 
     public Tag tag;
-    public Recording recording = null;
-
-    public boolean isFolder(){
-        return recording == null;
-    }
+    public List<Recording> recordings;
+    public boolean isFolderOpen = false;
 
 }

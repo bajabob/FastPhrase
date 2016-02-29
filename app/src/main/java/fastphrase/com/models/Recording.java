@@ -17,13 +17,19 @@ public class Recording implements Comparable<Recording>{
     public long createdAt;
     public List<Long> tagHashes;
     public long hash;
+    public long playbackLengthMs;
 
-    public Recording(String label, List<Long> tagHashes){
+    public Recording(String label, List<Long> tagHashes, long playbackLengthMs){
         this.label = label;
-        this.tagHashes = new ArrayList<Long>(tagHashes);
+        if(tagHashes != null) {
+            this.tagHashes = new ArrayList<Long>(tagHashes);
+        }else{
+            this.tagHashes = new ArrayList<Long>();
+        }
         this.createdAt = DateTime.now().getMillis();
         Random r = new Random();
         this.hash = r.nextLong();
+        this.playbackLengthMs = playbackLengthMs;
     }
 
     public String toJson(){

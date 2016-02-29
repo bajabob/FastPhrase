@@ -35,7 +35,7 @@ public class FolderView extends LinearLayout{
 
         mFolderIcon = (ImageView)view.findViewById(R.id.folder_icon);
         mFolderName = (TextView)view.findViewById(R.id.folder_name);
-        ;
+
         /*
             todo: setup onClickListener for this view, so that when it is pressed it opens and closes the folder icon
             As the folder opens and closes it should issue a callback that something has happened.
@@ -47,7 +47,7 @@ public class FolderView extends LinearLayout{
             mListener.onFolderOpened();
         }
 
-        // example (will be called by parent
+        // example (will be called by parent)
         setFolderName("Arabic");
     }
 

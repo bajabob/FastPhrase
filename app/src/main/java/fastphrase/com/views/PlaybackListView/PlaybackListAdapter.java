@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,19 +18,21 @@ import fastphrase.com.models.Tag;
 /**
  * Created by bob on 2/28/16.
  */
-public class PlaybackListAdapter extends RecyclerView.Adapter<PlaybackViewHolder> {
+public class PlaybackListAdapter extends RecyclerView.Adapter<FolderViewHolder> {
 
     private AppDataPresenter mPresenter;
     private IPlaybackViewHolderListener mListener;
+    private WeakReference<Context> mContext;
 
 
     public PlaybackListAdapter(Context context, IPlaybackViewHolderListener listener){
         mPresenter = new AppDataPresenter(context);
         mListener = listener;
+        mContext = new WeakReference<Context>(context);
     }
 
     @Override
-    public PlaybackViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public FolderViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
 
         if(viewType == R.layout.viewholder_folder){
@@ -38,25 +41,19 @@ public class PlaybackListAdapter extends RecyclerView.Adapter<PlaybackViewHolder
             return holder;
         }
 
-        if(viewType == R.layout.viewholder_recording){
-            RecordingViewHolder holder = new RecordingViewHolder(v);
-            holder.setPlaybackViewHolderListener(mListener);
-            return holder;
-        }
-
         return null;
     }
 
     @Override
-    public void onBindViewHolder(PlaybackViewHolder holder, int position) {
+    public void onBindViewHolder(FolderViewHolder holder, int position) {
         if(holder != null){
-            holder.onBindData(mPresenter.get(position), position);
+            holder.onBindData(mPresenter.get(position), position, mContext.get());
         }
     }
 
     @Override
-    public int getItemViewType(int postion){
-        return mPresenter.getViewHolderId(postion);
+    public int getItemViewType(int position){
+        return R.layout.viewholder_folder;
     }
 
     @Override
@@ -84,17 +81,16 @@ public class PlaybackListAdapter extends RecyclerView.Adapter<PlaybackViewHolder
             // get all recordings that have tags and put in filtered list
             for(Tag tag : appData.getTags()){
 
-                // create folder name (by leaving recording null, it will register as a folder)
+                // create folder name
                 PlaybackViewHolderData folder = new PlaybackViewHolderData();
                 folder.tag = tag;
-                mList.add(folder);
+                folder.recordings = new ArrayList<Recording>();
 
                 for(Recording r : appData.getRecordings(tag)) {
-                    PlaybackViewHolderData recording = new PlaybackViewHolderData();
-                    recording.recording = r;
-                    recording.tag = tag;
-                    mList.add(recording);
+                    folder.recordings.add(r);
                 }
+
+                mList.add(folder);
             }
 
             // get all recordings that don't have tags and put in "untagged" folder
@@ -103,17 +99,16 @@ public class PlaybackListAdapter extends RecyclerView.Adapter<PlaybackViewHolder
 
                 Tag tag = new Tag(context.getString(R.string.untagged));
 
-                // create folder name (by leaving recording null, it will register as a folder)
+                // create folder name
                 PlaybackViewHolderData folder = new PlaybackViewHolderData();
                 folder.tag = tag;
-                mList.add(folder);
+                folder.recordings = new ArrayList<Recording>();
 
-                for(Recording r : appData.getRecordingsWithoutTags()) {
-                    PlaybackViewHolderData recording = new PlaybackViewHolderData();
-                    recording.recording = r;
-                    recording.tag = tag;
-                    mList.add(recording);
+                for(Recording r : untagged) {
+                    folder.recordings.add(r);
                 }
+
+                mList.add(folder);
             }
 
         }
@@ -124,14 +119,6 @@ public class PlaybackListAdapter extends RecyclerView.Adapter<PlaybackViewHolder
 
         public int getItemCount(){
             return mList.size();
-        }
-
-        public int getViewHolderId(int position){
-            PlaybackViewHolderData data = mList.get(position);
-            if(data.isFolder()){
-                return R.layout.viewholder_folder;
-            }
-            return R.layout.viewholder_recording;
         }
 
     }

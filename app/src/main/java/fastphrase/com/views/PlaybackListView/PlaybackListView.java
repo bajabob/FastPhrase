@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import fastphrase.com.R;
+import fastphrase.com.models.Recording;
 
 /**
  * Created by bob on 2/28/16.
@@ -38,4 +39,19 @@ public class PlaybackListView extends LinearLayout implements IPlaybackViewHolde
         mRecyclerView.setAdapter(mAdapter);
     }
 
+
+    @Override
+    public void onFolderOpened(int position) {
+        // todo, folder just opened, change list accordingly
+    }
+
+    @Override
+    public void onFolderClosed(int position) {
+        // todo, folder just closed, change list accordingly
+    }
+
+    @Override
+    public void onPlayRecording(Recording recording, int position) {
+        // todo, play recording
+    }
 }

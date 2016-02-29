@@ -6,7 +6,7 @@ import android.graphics.Typeface;
 import java.lang.reflect.Field;
 
 /**
- * Created by bob on 2/29/16.
+ * Used to change the default font in the applicaton.
  */
 public class FontsOverride {
 
