@@ -9,4 +9,9 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="fastphrase.com.PlaybackListActivity">
 
+    <fastphrase.com.views.PlaybackListView.PlaybackListView
+        android:id="@+id/playback_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
 </RelativeLayout>

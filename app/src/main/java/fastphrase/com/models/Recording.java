@@ -11,16 +11,16 @@ import java.util.Random;
 /**
  * This model represents a single recording in the system.
  */
-public class Recording {
+public class Recording implements Comparable<Recording>{
 
     public String label;
     public long createdAt;
-    public List<Tag> tags;
+    public List<Long> tagHashes;
     public long hash;
 
-    public Recording(String label, List<Tag> tags){
+    public Recording(String label, List<Long> tagHashes){
         this.label = label;
-        this.tags = new ArrayList<Tag>(tags);
+        this.tagHashes = new ArrayList<Long>(tagHashes);
         this.createdAt = DateTime.now().getMillis();
         Random r = new Random();
         this.hash = r.nextLong();
@@ -28,5 +28,10 @@ public class Recording {
 
     public String toJson(){
         return new Gson().toJson(this);
+    }
+
+    @Override
+    public int compareTo(Recording another) {
+        return this.label.compareTo(another.label);
     }
 }

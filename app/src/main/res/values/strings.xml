@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">FastPhrase</string>
+
+    <string name="error_duplicate_label_exists">This label is currently in use.</string>
+
+    <string name="untagged">Untagged</string>
 </resources>

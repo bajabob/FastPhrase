@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import fastphrase.com.models.AppData;
 import fastphrase.com.models.Recording;
@@ -55,9 +56,16 @@ public class AppDataStoreManager {
         ad.tags.add(new Tag("Greek"));
 
         ad.recordings = new ArrayList<Recording>();
-        ad.recordings.add(new Recording("Sit Down", ad.tags));
-        ad.recordings.add(new Recording("20 Degrees Port", ad.tags));
-        ad.recordings.add(new Recording("Stay in the boat", ad.tags));
+        ad.recordings.add(new Recording("Sit Down", Arrays.asList(
+                ad.tags.get(0).hash
+        )));
+        ad.recordings.add(new Recording("20 Degrees Port", Arrays.asList(
+                ad.tags.get(0).hash,
+                ad.tags.get(1).hash
+        )));
+        ad.recordings.add(new Recording("Stay in the boat", Arrays.asList(
+                ad.tags.get(1).hash
+        )));
 
         return ad;
     }

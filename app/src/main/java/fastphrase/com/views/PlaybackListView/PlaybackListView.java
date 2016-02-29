@@ -1,6 +1,7 @@
 package fastphrase.com.views.PlaybackListView;
 
 import android.content.Context;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -29,16 +30,13 @@ public class PlaybackListView extends LinearLayout implements IPlaybackViewHolde
     public PlaybackListView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        LayoutInflater inflator = LayoutInflater.from(context);
-        View view = (View) inflator.inflate(R.layout.view_playback_list, this, true);
+        LayoutInflater inflater = LayoutInflater.from(context);
+        View view = (View) inflater.inflate(R.layout.view_playback_list, this, true);
 
         mRecyclerView = (RecyclerView)view.findViewById(R.id.list);
-        mAdapter = new PlaybackListAdapter();
-
-    }
-
-    public void onCreate(AppData appData){
-
+        mAdapter = new PlaybackListAdapter(context, this);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+        mRecyclerView.setAdapter(mAdapter);
     }
 
 }

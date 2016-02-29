@@ -4,10 +4,12 @@ import com.google.gson.Gson;
 
 import java.util.Random;
 
+import fastphrase.com.views.PlaybackListView.PlaybackListAdapter;
+
 /**
  * This model represents a single recording in the system.
  */
-public class Tag {
+public class Tag implements Comparable<Tag>{
 
     public String label;
     public long hash;
@@ -20,5 +22,18 @@ public class Tag {
 
     public String toJson(){
         return new Gson().toJson(this);
+    }
+
+    @Override
+    public boolean equals(Object o){
+        if(o instanceof Tag){
+            return ((Tag)o).hash == this.hash;
+        }
+        return false;
+    }
+
+    @Override
+    public int compareTo(Tag another) {
+        return this.label.compareTo(another.label);
     }
 }
