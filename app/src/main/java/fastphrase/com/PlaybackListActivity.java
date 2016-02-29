@@ -9,5 +9,7 @@ public class PlaybackListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_playback_list);
+
+
     }
 }
