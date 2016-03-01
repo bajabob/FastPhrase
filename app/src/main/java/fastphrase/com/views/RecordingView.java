@@ -20,6 +20,7 @@ public class RecordingView extends LinearLayout{
     private TextView mRecordingName;
     private WeakReference<IRecordingListener> mListener;
     private Recording mRecording;
+    private PlayButtonView mPlayButton;
 
     public RecordingView(Context context) {
         this(context, null);
@@ -36,6 +37,7 @@ public class RecordingView extends LinearLayout{
         View view = (View) inflater.inflate(R.layout.view_recording, this, true);
 
         mRecordingName = (TextView)view.findViewById(R.id.recording_name);
+        mPlayButton = (PlayButtonView)view.findViewById(R.id.play_button);
 
         /*
             todo: setup onClickListener for this view, so that when it is pressed it calls the listener
@@ -56,6 +58,7 @@ public class RecordingView extends LinearLayout{
     public void setRecording(Recording recording){
         mRecording = recording;
         mRecordingName.setText(recording.label);
+        mPlayButton.setPlayLengthMs(recording.playbackLengthMs);
     }
 
     /**

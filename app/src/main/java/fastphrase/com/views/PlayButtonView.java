@@ -5,9 +5,6 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import fastphrase.com.R;
 
@@ -16,6 +13,7 @@ import fastphrase.com.R;
  */
 public class PlayButtonView extends FrameLayout{
 
+    private long mPlayLengthMs;
     private IPlayButtonListener mListener;
 
     public PlayButtonView(Context context) {
@@ -32,6 +30,14 @@ public class PlayButtonView extends FrameLayout{
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = (View) inflater.inflate(R.layout.view_play_button, this, true);
 
+    }
+
+    /**
+     * How long does the clip play for in MS?
+     * @param playLengthMs long
+     */
+    public void setPlayLengthMs(long playLengthMs){
+        mPlayLengthMs = playLengthMs;
     }
 
     /**
