@@ -1,10 +1,12 @@
 package fastphrase.com.views;
 
 import android.content.Context;
+import android.media.Image;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import fastphrase.com.R;
 
@@ -14,6 +16,7 @@ import fastphrase.com.R;
 public class TitleBarView extends FrameLayout{
 
     private FrameLayout mBackground;
+    private ImageView mLogo;
 
     public TitleBarView(Context context) {
         this(context, null);
@@ -30,6 +33,7 @@ public class TitleBarView extends FrameLayout{
         View view = (View) inflater.inflate(R.layout.view_title_bar, this, true);
 
         mBackground = (FrameLayout)view.findViewById(R.id.background);
+        mLogo = (ImageView)view.findViewById(R.id.logo);
     }
 
     /**
@@ -37,5 +41,15 @@ public class TitleBarView extends FrameLayout{
      *  Should call these, initPlaybackMode, initRecordingMode.
      *  Make sure these methods update the colors and use the correct colors
      */
+
+    public void setPlaybackTitleBar() {
+        mLogo.setImageResource(R.drawable.logo_playback_white);
+        mBackground.setBackgroundColor(getResources().getColor(R.color.p500));
+    }
+
+    public void setRecordingTitleBar() {
+        mLogo.setImageResource(R.drawable.logo_recording_white);
+        mBackground.setBackgroundColor(getResources().getColor(R.color.r500));
+    }
 
 }

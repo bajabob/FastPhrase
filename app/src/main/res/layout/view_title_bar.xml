@@ -5,11 +5,12 @@
     android:id="@+id/background"
     android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:background="@color/p300">
+    android:background="@color/p500">
 
     <!-- logo  -->
-    <TextView
-        android:text="LOGO HERE"
+    <ImageView
+        android:id="@+id/logo"
+        android:src="@drawable/logo_playback_white"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
