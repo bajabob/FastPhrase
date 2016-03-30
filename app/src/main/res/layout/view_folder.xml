@@ -3,16 +3,29 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground">
 
-    <ImageView
-        android:id="@+id/folder_icon"
-        android:padding="@dimen/spacing_large"
+    <ViewFlipper
+        android:id="@+id/folder_flipper"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_folder_black_24dp"/>
-
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/close_folder_icon"
+            android:padding="@dimen/spacing_large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_folder_black_24dp"
+            android:tint="@color/p700"/>
+        <ImageView
+            android:id="@+id/open_folder_icon"
+            android:padding="@dimen/spacing_large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_folder_open_black_24dp"
+            android:tint="@color/p700"/>
+    </ViewFlipper>
     <TextView
         android:id="@+id/folder_name"
         android:layout_width="wrap_content"

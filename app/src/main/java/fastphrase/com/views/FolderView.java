@@ -4,9 +4,12 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.ViewFlipper;
 
 import fastphrase.com.R;
 
@@ -16,7 +19,7 @@ import fastphrase.com.R;
 public class FolderView extends LinearLayout{
 
     private TextView mFolderName;
-    private ImageView mFolderIcon;
+    private ViewFlipper mFolderIcon;
     private IFolderListener mListener;
 
     public FolderView(Context context) {
@@ -31,22 +34,35 @@ public class FolderView extends LinearLayout{
         super(context, attrs, defStyleAttr);
 
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = (View) inflater.inflate(R.layout.view_folder, this, true);
+        View view = inflater.inflate(R.layout.view_folder, this, true);
 
-        mFolderIcon = (ImageView)view.findViewById(R.id.folder_icon);
         mFolderName = (TextView)view.findViewById(R.id.folder_name);
+        mFolderIcon = (ViewFlipper)view.findViewById(R.id.folder_flipper);
+        mFolderIcon.setInAnimation(this.getContext(),R.anim.folder_open);
+        mFolderIcon.setOutAnimation(this.getContext(),R.anim.folder_close);
 
         /*
             todo: setup onClickListener for this view, so that when it is pressed it opens and closes the folder icon
             As the folder opens and closes it should issue a callback that something has happened.
          */
-
-        // example callback (always check for null)
-        if(mListener != null){
-            // lets parent know the folder has opened
-            mListener.onFolderOpened();
-        }
-
+        this.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if(mFolderIcon.getDisplayedChild()==0) {
+                    mFolderIcon.showNext();
+                    if (mListener != null) {
+                        // lets parent know the folder has opened
+                        mListener.onFolderOpened();
+                    }
+                }
+                else{
+                    mFolderIcon.showPrevious();
+                    if (mListener != null) {
+                        // lets parent know the folder has opened
+                        mListener.onFolderClosed();
+                    }
+                }
+            }
+        });
         // example (will be called by parent)
         setFolderName("Arabic");
     }
