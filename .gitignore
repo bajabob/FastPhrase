@@ -1,8 +1,30 @@
-*.iml
-.gradle
-/local.properties
+#built application files
+*.apk
+*.ap_
+
+# files for the dex VM
+*.dex
+
+# Java class files
+*.class
+
+# generated files
+bin/
+gen/
+
+# Windows thumbnail db
+Thumbs.db
+
+# OSX files
+.DS_Store
+
+# Eclipse project files
+.classpath
+.project
+
+# Android Studio
 /.idea/workspace.xml
 /.idea/libraries
-.DS_Store
+/local.properties
 /build
-/captures
+.gradle
