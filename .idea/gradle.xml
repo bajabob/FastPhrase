@@ -6,8 +6,11 @@
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
 <<<<<<< HEAD
+<<<<<<< HEAD
         <option name="gradleJvm" value="1.7" />
 =======
+=======
+>>>>>>> feature/playbuttonview
         <option name="gradleJvm" value="1.8" />
 >>>>>>> feature/folderview
         <option name="modules">

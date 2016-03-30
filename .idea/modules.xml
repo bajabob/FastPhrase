@@ -5,9 +5,12 @@
       <module fileurl="file://$PROJECT_DIR$/FastPhrase.iml" filepath="$PROJECT_DIR$/FastPhrase.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
 <<<<<<< HEAD
+<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/cap.iml" filepath="$PROJECT_DIR$/cap.iml" />
 =======
 >>>>>>> feature/folderview
+=======
+>>>>>>> feature/playbuttonview
     </modules>
   </component>
 </project>
