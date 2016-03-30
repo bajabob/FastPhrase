@@ -1,11 +1,17 @@
 package fastphrase.com.views;
 
 import android.content.Context;
+import android.graphics.Canvas;
+import android.media.Image;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+
+import java.util.Timer;
 
 import fastphrase.com.R;
 
@@ -13,6 +19,8 @@ import fastphrase.com.R;
  * Created by bob on 2/29/16.
  */
 public class PlayButtonView extends FrameLayout{
+
+    private ProgressBar mProgress;
 
     private long mPlayLengthMs;
     private long ellapsedPlayTimeMs = 0;
@@ -31,32 +39,36 @@ public class PlayButtonView extends FrameLayout{
 
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = (View) inflater.inflate(R.layout.view_play_button, this, true);
+
+        mProgress = (ProgressBar)view.findViewById(R.id.progress);
+
         this.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
 
 //              NEED TO GET THE BUTTON: CALCULATE AMOUNT OF TIME REMAINING AND DISPLAY PERCENTAGE OF THAT.
-//              I BELIVE I CAN USE THIS METHOD: public void addArc (RectF oval, float startAngle, float sweepAngle);
-                long timeButtonPush = System.currentTimeMillis();
-//              PLAY THE CLIP HERE
-//              ANNIMATE HERE
+//              I BELIEVE I CAN USE THIS METHOD: public void addArc (RectF oval, float startAngle, float sweepAngle);
+
+                final long timeButtonPush = System.currentTimeMillis();
                 mPlayLengthMs = 5000;
-                float percentFilled = 0;
-                while(ellapsedPlayTimeMs < mPlayLengthMs){
 
-//                  DIFFERNCE BETWEEN CURRENT TIME AND WHEN THE BUTTON WAS PUSHED
-                    long currentTime = System.currentTimeMillis();
-                    ellapsedPlayTimeMs = currentTime - timeButtonPush;
+//              Handler that calls myself every 10 miliseconds with exit condition
+                final Timer drawTimer = new Timer();
+                drawTimer.scheduleAtFixedRate(new java.util.TimerTask() {
+                    @Override
+                    public void run() {
+                        long currentTime = System.currentTimeMillis();
+                        ellapsedPlayTimeMs = currentTime - timeButtonPush;
 
-//                  Calculates percent the pie should be filled: Between 0 and 100
-                    percentFilled = ((ellapsedPlayTimeMs/(float)mPlayLengthMs));
-//                  ANNIMATE BUTTON BASED OFF percentFilled: CREATE CANVAS?
-//                  http://stackoverflow.com/questions/12458476/how-to-create-circular-progress-barpie-chart-like-indicator-android
+                        float percentFilled = ((ellapsedPlayTimeMs / (float) mPlayLengthMs) * 100);
 
-                    
+                        mProgress.setProgress((int)percentFilled);
+//                      DRAW HERE
+                        if (ellapsedPlayTimeMs > mPlayLengthMs) {
+                            drawTimer.cancel();
+                        }
+                    }
+                }, 0, 50);//put here time 1000 milliseconds=1 second
 
-                    Log.d("Wes", "Current Ellapsed Time: " + String.valueOf(ellapsedPlayTimeMs) + " mPlayLengthMS: " + String.valueOf(mPlayLengthMs) + " Percent Filled: " + String.valueOf(percentFilled));
-                }
-                Log.d("Wes", String.valueOf(timeButtonPush));
             }
         });
     }

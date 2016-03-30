@@ -3,9 +3,26 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="60dp"
-    android:layout_height="60dp"
-    android:background="@color/p300">
+    android:layout_height="60dp">
+
+    <ImageView
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:id="@+id/play_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:tint="@color/p500"
+        android:src="@drawable/ic_play_arrow_white_24dp" />
 
     <!-- play button stuff here -->
+    <ProgressBar
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:id="@+id/progress"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:max="100"
+        android:progress="100"
+        android:progressDrawable="@drawable/play_progress_bar" />
 
 </FrameLayout>
