@@ -41,10 +41,6 @@ public class FolderView extends LinearLayout{
         mFolderIcon.setInAnimation(this.getContext(),R.anim.folder_open);
         mFolderIcon.setOutAnimation(this.getContext(),R.anim.folder_close);
 
-        /*
-            todo: setup onClickListener for this view, so that when it is pressed it opens and closes the folder icon
-            As the folder opens and closes it should issue a callback that something has happened.
-         */
         this.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 if(mFolderIcon.getDisplayedChild()==0) {
@@ -57,14 +53,12 @@ public class FolderView extends LinearLayout{
                 else{
                     mFolderIcon.showPrevious();
                     if (mListener != null) {
-                        // lets parent know the folder has opened
+                        // lets parent know the folder has closed
                         mListener.onFolderClosed();
                     }
                 }
             }
         });
-        // example (will be called by parent)
-        setFolderName("Arabic");
     }
 
     /**
