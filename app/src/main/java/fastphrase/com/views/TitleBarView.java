@@ -36,12 +36,6 @@ public class TitleBarView extends FrameLayout{
         mLogo = (ImageView)view.findViewById(R.id.logo);
     }
 
-    /**
-     * TODO: need method to control whether view is "green" or "red"
-     *  Should call these, initPlaybackMode, initRecordingMode.
-     *  Make sure these methods update the colors and use the correct colors
-     */
-
     public void setPlaybackTitleBar() {
         mLogo.setImageResource(R.drawable.logo_playback_white);
         mBackground.setBackgroundColor(getResources().getColor(R.color.p500));
