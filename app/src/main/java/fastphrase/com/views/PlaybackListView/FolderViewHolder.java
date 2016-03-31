@@ -51,7 +51,7 @@ public class FolderViewHolder extends RecyclerView.ViewHolder implements
         if(context != null) {
             for (Recording r : data.recordings) {
                 RecordingView recordingView = new RecordingView(context);
-                recordingView.setRecording(r);
+                recordingView.setRecording(r, data.tag, context);
                 recordingView.setRecordingListener(this);
                 recordingView.setLayoutParams(new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,

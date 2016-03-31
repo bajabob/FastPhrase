@@ -87,6 +87,7 @@ public class PlaybackListAdapter extends RecyclerView.Adapter<FolderViewHolder> 
                 folder.recordings = new ArrayList<Recording>();
 
                 for(Recording r : appData.getRecordings(tag)) {
+                    r.afterLoad(appData.getTags());
                     folder.recordings.add(r);
                 }
 
@@ -105,6 +106,7 @@ public class PlaybackListAdapter extends RecyclerView.Adapter<FolderViewHolder> 
                 folder.recordings = new ArrayList<Recording>();
 
                 for(Recording r : untagged) {
+                    r.afterLoad(appData.getTags());
                     folder.recordings.add(r);
                 }
 

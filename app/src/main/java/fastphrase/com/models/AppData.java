@@ -22,4 +22,15 @@ public class AppData {
     public String toJson(){
         return new Gson().toJson(AppData.this);
     }
+
+    /**
+     * Called directly after a load to form any additional data needed
+     */
+    public void afterLoad(){
+
+        // let each recording know what kind of tags it has
+        for(Recording r : recordings){
+            r.afterLoad(tags);
+        }
+    }
 }

@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:minHeight="10dp"
     android:minWidth="20dp"
+    android:layout_marginRight="@dimen/spacing_medium"
     android:background="@color/p500">
 
     <!-- tag text here, update `background` above to drawable  -->

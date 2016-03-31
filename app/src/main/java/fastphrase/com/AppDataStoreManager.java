@@ -31,7 +31,15 @@ public class AppDataStoreManager {
             return defaultAppData();
         }
         Gson gson = new Gson();
-        return gson.fromJson(json, AppData.class);
+        AppData data = gson.fromJson(json, AppData.class);
+
+        /**
+         *  load complete, form any additional data here
+         */
+        data.afterLoad();
+
+
+        return data;
     }
 
     /**
@@ -60,6 +68,7 @@ public class AppDataStoreManager {
         ad.recordings = new ArrayList<Recording>();
         ad.recordings.add(new Recording("Sit Down", Arrays.asList(
                 ad.tags.get(0).hash,
+                ad.tags.get(2).hash,
                 ad.tags.get(3).hash
         ), 955));
         ad.recordings.add(new Recording("20 Degrees Port", Arrays.asList(
