@@ -31,12 +31,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <fastphrase.com.views.ElapsedTimeView
+                android:id="@+id/elapsed_time"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/spacing_xlarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
             <fastphrase.com.views.RecordButtonView
                 android:id="@+id/record_button"
                 android:layout_margin="@dimen/spacing_large"
                 android:layout_gravity="center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
+
+            <Button
+                android:id="@+id/test_timer"
+                android:text="Start Timer"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 
