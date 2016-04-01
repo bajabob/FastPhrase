@@ -1,5 +1,6 @@
 package fastphrase.com;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -26,10 +27,7 @@ public class PlaybackListActivity extends AppCompatActivity implements RecordFAB
 
     @Override
     public void onRecordActivityRequested() {
-        Log.d("RecordFAB", "Has been pressed, load record activity");
-
-        /**
-         * TODO: Start RecordActivity
-         */
+        Intent intent = RecordingActivity.newInstance(this);
+        startActivity(intent);
     }
 }

@@ -10,6 +10,8 @@ import fastphrase.com.R;
 
 public class RecordFABView extends FrameLayout{
 
+    private IRecordFABListener mListener;
+
     public RecordFABView(Context context) {
         this(context, null);
     }
@@ -24,6 +26,14 @@ public class RecordFABView extends FrameLayout{
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = (View) inflater.inflate(R.layout.view_record_fab, this, true);
 
+        view.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mListener != null){
+                    mListener.onRecordActivityRequested();
+                }
+            }
+        });
     }
 
     /**
@@ -31,7 +41,7 @@ public class RecordFABView extends FrameLayout{
      * @param listener IRecordFABListener
      */
     public void setRecordFABListener(IRecordFABListener listener){
-        // todo
+        mListener = listener;
     }
 
     /**
