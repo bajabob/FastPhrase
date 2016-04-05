@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
-import fastphrase.com.dialog.EditRecordingDialog;
+import fastphrase.com.dialog.MoreOptionsDialog;
 import fastphrase.com.models.Recording;
 import fastphrase.com.views.PlaybackListView.PlaybackListView;
 import fastphrase.com.views.RecordFABView;
@@ -37,21 +37,21 @@ public class PlaybackListActivity extends AppCompatActivity implements
 
     @Override
     public void onRequestEditRecordingDialog(long recordingHash) {
-        EditRecordingDialog dialog = EditRecordingDialog.newInstance(recordingHash);
-        dialog.setDialogListener(new EditRecordingDialog.DialogListener() {
+        MoreOptionsDialog dialog = MoreOptionsDialog.newInstance(recordingHash);
+        dialog.setDialogListener(new MoreOptionsDialog.DialogListener() {
             @Override
             public void onCancel() {
-
+                Log.d("Dialog", "User closed dialog.");
             }
 
             @Override
             public void onEdit(long recordingHash) {
-
+                Log.d("Dialog", "User would like to edit a recording (hash): "+recordingHash);
             }
 
             @Override
             public void onDelete(long recordingHash) {
-
+                Log.d("Dialog", "User would like to delete a recording (hash): "+recordingHash);
             }
         });
         dialog.show(getSupportFragmentManager(), "edit recording dialog");

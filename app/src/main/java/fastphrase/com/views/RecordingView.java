@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -24,6 +25,7 @@ public class RecordingView extends LinearLayout{
     private WeakReference<IPlaybackController> mListener;
     private Recording mRecording;
     private PlayButtonView mPlayButton;
+    private ImageButton mOptions;
 
     public RecordingView(Context context) {
         this(context, null);
@@ -41,6 +43,16 @@ public class RecordingView extends LinearLayout{
 
         mRecordingName = (TextView)view.findViewById(R.id.recording_name);
         mTagContainer = (LinearLayout)view.findViewById(R.id.tag_container);
+        mOptions = (ImageButton)view.findViewById(R.id.options_button);
+        mOptions.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mListener != null){
+                    // lets parent know which recording to edit
+                    mListener.get().onRequestEditRecordingDialog(mRecording.hash);
+                }
+            }
+        });
 
         mPlayButton = (PlayButtonView)view.findViewById(R.id.play_button);
         mPlayButton.setPlayButtonListener(new PlayButtonView.IPlayButtonListener() {

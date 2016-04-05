@@ -17,24 +17,25 @@
         android:textColor="@color/black_90"
         style="@style/h0"/>
 
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/spacing_large">
 
-    <Button
-        android:id="@+id/edit"
-        android:text="@string/edit_uc"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:textColor="@color/black_90"
-        android:layout_gravity="center"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"/>
+        <fastphrase.com.views.IconTextButtonView
+            android:id="@+id/edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/spacing_large"/>
 
-    <Button
-        android:id="@+id/delete"
-        android:text="@string/delete_uc"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:textColor="@color/black_90"
-        android:layout_gravity="center"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"/>
+        <fastphrase.com.views.IconTextButtonView
+            android:id="@+id/delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
 
     <Button
         android:id="@+id/cancel"
