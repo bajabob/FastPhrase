@@ -4,6 +4,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginRight="@dimen/spacing_small"
+    android:layout_marginTop="@dimen/spacing_small"
     android:background="@drawable/tag_background">
 
     <TextView android:layout_width="fill_parent"

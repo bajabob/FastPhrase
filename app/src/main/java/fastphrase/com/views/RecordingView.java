@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.apmem.tools.layouts.FlowLayout;
+
 import java.lang.ref.WeakReference;
 
 import fastphrase.com.R;
@@ -18,7 +20,7 @@ import fastphrase.com.models.Tag;
  */
 public class RecordingView extends LinearLayout{
 
-    private LinearLayout mTagContainer;
+    private FlowLayout mTagContainer;
     private TextView mRecordingName;
     private WeakReference<IRecordingListener> mListener;
     private Recording mRecording;
@@ -40,7 +42,7 @@ public class RecordingView extends LinearLayout{
 
         mRecordingName = (TextView)view.findViewById(R.id.recording_name);
         mPlayButton = (PlayButtonView)view.findViewById(R.id.play_button);
-        mTagContainer = (LinearLayout)view.findViewById(R.id.tag_container);
+        mTagContainer = (FlowLayout)view.findViewById(R.id.tag_container);
 
         /*
             todo: setup onClickListener for this view, so that when it is pressed it calls the listener
