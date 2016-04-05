@@ -1,6 +1,7 @@
 package fastphrase.com.views;
 
 import android.content.Context;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -33,7 +34,13 @@ public class RecordFABView extends FrameLayout{
             @Override
             public void onClick(View v) {
                 if (mListener != null) {
-                    mListener.onRecordActivityRequested();
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        public void run() {
+                            mListener.onRecordActivityRequested();
+                        }
+                    }, 50);
+                    onFadeOut();
                 }
             }
         });
