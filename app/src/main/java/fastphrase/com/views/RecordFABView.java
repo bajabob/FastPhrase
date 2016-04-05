@@ -1,6 +1,7 @@
 package fastphrase.com.views;
 
 import android.content.Context;
+import android.support.design.widget.FloatingActionButton;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import fastphrase.com.R;
 public class RecordFABView extends FrameLayout{
 
     private IRecordFABListener mListener;
+    private FloatingActionButton mRecordButton;
 
     public RecordFABView(Context context) {
         this(context, null);
@@ -26,10 +28,11 @@ public class RecordFABView extends FrameLayout{
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = (View) inflater.inflate(R.layout.view_record_fab, this, true);
 
-        view.setOnClickListener(new OnClickListener() {
+        mRecordButton = (FloatingActionButton)view.findViewById(R.id.record_button);
+        mRecordButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(mListener != null){
+                if (mListener != null) {
                     mListener.onRecordActivityRequested();
                 }
             }
@@ -48,14 +51,14 @@ public class RecordFABView extends FrameLayout{
      * Fade out this button from view
      */
     public void onFadeOut(){
-        // todo
+        mRecordButton.hide();
     }
 
     /**
      * Fade in this button from view
      */
     public void onFadeIn(){
-        // todo
+        mRecordButton.show();
     }
 
 
