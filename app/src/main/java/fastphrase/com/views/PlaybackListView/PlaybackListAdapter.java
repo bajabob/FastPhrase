@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fastphrase.com.AppDataManager;
+import fastphrase.com.IPlaybackController;
 import fastphrase.com.R;
 import fastphrase.com.models.Recording;
 import fastphrase.com.models.Tag;
@@ -21,13 +22,12 @@ import fastphrase.com.models.Tag;
 public class PlaybackListAdapter extends RecyclerView.Adapter<FolderViewHolder> {
 
     private AppDataPresenter mPresenter;
-    private IPlaybackViewHolderListener mListener;
     private WeakReference<Context> mContext;
+    private IPlaybackController mListener;
 
 
-    public PlaybackListAdapter(Context context, IPlaybackViewHolderListener listener){
+    public PlaybackListAdapter(Context context){
         mPresenter = new AppDataPresenter(context);
-        mListener = listener;
         mContext = new WeakReference<Context>(context);
     }
 
@@ -37,7 +37,7 @@ public class PlaybackListAdapter extends RecyclerView.Adapter<FolderViewHolder> 
 
         if(viewType == R.layout.viewholder_folder){
             FolderViewHolder holder = new FolderViewHolder(v);
-            holder.setPlaybackViewHolderListener(mListener);
+            holder.setPlaybackController(mListener);
             return holder;
         }
 
@@ -64,6 +64,9 @@ public class PlaybackListAdapter extends RecyclerView.Adapter<FolderViewHolder> 
         return mPresenter.getItemCount();
     }
 
+    public void setPlaybackController(IPlaybackController listener){
+        mListener = listener;
+    }
 
     /**
      * This class converts app data to a form that we can use more easily
@@ -98,7 +101,7 @@ public class PlaybackListAdapter extends RecyclerView.Adapter<FolderViewHolder> 
             List<Recording> untagged = appData.getRecordingsWithoutTags();
             if(untagged.size() > 0){
 
-                Tag tag = new Tag(context.getString(R.string.untagged));
+                Tag tag = new Tag(context.getString(R.string.untagged_ucf));
 
                 // create folder name
                 PlaybackViewHolderData folder = new PlaybackViewHolderData();

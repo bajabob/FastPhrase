@@ -1,7 +1,24 @@
 <resources>
+
+    <!--
+        KEY
+        ================================================================
+        Append to the end of a resource to provide more information
+        ucf: uppercase first - the first letter of the word is uppercase
+        uc: uppercase - all characters are uppercase
+        lc: lowercase - all characters are lowercase
+        ================================================================
+    -->
+
     <string name="app_name">FastPhrase</string>
 
-    <string name="error_duplicate_label_exists">This label is currently in use.</string>
+    <string name="error_duplicate_label_exists">This label is currently in use. Labels must be unique.</string>
 
-    <string name="untagged">Untagged</string>
+    <string name="untagged_ucf">Untagged</string>
+    <string name="options_ucf">Options</string>
+
+    <string name="cancel_uc">CANCEL</string>
+    <string name="edit_uc">EDIT</string>
+    <string name="delete_uc">DELETE</string>
+
 </resources>

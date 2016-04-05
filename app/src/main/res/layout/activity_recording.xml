@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_grey"
+    android:background="@color/white_90"
     tools:context="fastphrase.com.PlaybackListActivity">
 
     <fastphrase.com.views.TitleBarView
@@ -22,7 +22,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/spacing_small"
-        card_view:cardBackgroundColor="@color/white"
+        card_view:cardBackgroundColor="@color/white_100"
         card_view:cardElevation="@dimen/spacing_xsmall"
         card_view:cardCornerRadius="@dimen/card_corners">
 
