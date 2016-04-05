@@ -14,8 +14,7 @@ import fastphrase.com.views.RecordingView;
 /**
  * Created by bob on 2/28/16.
  */
-public class FolderViewHolder extends RecyclerView.ViewHolder implements
-        FolderView.IFolderListener{
+public class FolderViewHolder extends RecyclerView.ViewHolder {
 
     private int mPosition;
     private FolderView mFolderView;
@@ -28,7 +27,7 @@ public class FolderViewHolder extends RecyclerView.ViewHolder implements
         mFolderView = (FolderView)view.findViewById(R.id.folder);
 
         // lets us listen for folder events (onFolderOpen, etc)
-        mFolderView.setFolderListener(this);
+
 
         mRecordings = (LinearLayout)view.findViewById(R.id.recordings);
     }
@@ -37,13 +36,20 @@ public class FolderViewHolder extends RecyclerView.ViewHolder implements
         mListener = listener;
     }
 
+    public void setFolderListener(FolderView.IFolderListener listener){
+        mFolderView.setFolderListener(listener);
+    };
+
     public void onBindData(PlaybackViewHolderData data, int position, Context context) {
         mFolderView.setFolderName(data.tag.label);
-        mPosition = position;
-
+        mFolderView.setFolderPostion(position);
         if(data.isFolderOpen){
-            // todo: update icon to open/close
+            mFolderView.openFolder();
+        }else{
+            mFolderView.closeFolder();
         }
+
+        mPosition = position;
 
         // remove all views from container
         mRecordings.removeAllViews();
@@ -62,17 +68,4 @@ public class FolderViewHolder extends RecyclerView.ViewHolder implements
 
     }
 
-    @Override
-    public void onFolderOpened() {
-        if(mListener != null){
-            mListener.onFolderOpened(mPosition);
-        }
-    }
-
-    @Override
-    public void onFolderClosed() {
-        if(mListener != null){
-            mListener.onFolderClosed(mPosition);
-        }
-    }
 }

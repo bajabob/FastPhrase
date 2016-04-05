@@ -15,11 +15,13 @@ import fastphrase.com.IPlaybackController;
 import fastphrase.com.R;
 import fastphrase.com.models.Recording;
 import fastphrase.com.models.Tag;
+import fastphrase.com.views.FolderView;
 
 /**
  * Created by bob on 2/28/16.
  */
-public class PlaybackListAdapter extends RecyclerView.Adapter<FolderViewHolder> {
+public class PlaybackListAdapter extends RecyclerView.Adapter<FolderViewHolder>
+    implements FolderView.IFolderListener{
 
     private AppDataPresenter mPresenter;
     private WeakReference<Context> mContext;
@@ -38,6 +40,7 @@ public class PlaybackListAdapter extends RecyclerView.Adapter<FolderViewHolder> 
         if(viewType == R.layout.viewholder_folder){
             FolderViewHolder holder = new FolderViewHolder(v);
             holder.setPlaybackController(mListener);
+            holder.setFolderListener(this);
             return holder;
         }
 
@@ -66,6 +69,27 @@ public class PlaybackListAdapter extends RecyclerView.Adapter<FolderViewHolder> 
 
     public void setPlaybackController(IPlaybackController listener){
         mListener = listener;
+    }
+
+
+    @Override
+    public void onFolderOpened(int position) {
+        if(mListener != null){
+            mListener.onFolderOpened(position);
+        }
+        if(mPresenter != null){
+            mPresenter.openFolder(position);
+        }
+    }
+
+    @Override
+    public void onFolderClosed(int position) {
+        if(mListener != null){
+            mListener.onFolderClosed(position);
+        }
+        if(mPresenter != null){
+            mPresenter.closeFolder(position);
+        }
     }
 
     /**
@@ -124,6 +148,14 @@ public class PlaybackListAdapter extends RecyclerView.Adapter<FolderViewHolder> 
 
         public int getItemCount(){
             return mList.size();
+        }
+
+        public void openFolder(int position){
+            mList.get(position).isFolderOpen = true;
+        }
+
+        public void closeFolder(int position){
+            mList.get(position).isFolderOpen = false;
         }
 
     }

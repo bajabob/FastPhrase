@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 
 import fastphrase.com.models.AppData;
 import fastphrase.com.models.Recording;
@@ -85,6 +86,11 @@ public class AppDataStoreManager {
         ad.recordings.add(new Recording("Are you thirsty?", Arrays.asList(
                 ad.tags.get(2).hash
         ), 850));
+
+        Random r = new Random();
+        for(int i = 0; i < 20; i++){
+            ad.recordings.add(new Recording("Test "+i, Arrays.asList(ad.tags.get(1).hash), 300 + r.nextInt(3000)));
+        }
 
         return ad;
     }
