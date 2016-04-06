@@ -82,8 +82,8 @@ public class FolderView extends LinearLayout{
     }
 
 
-    public void setFolderPostion(int postion){
-        mPosition = postion;
+    public void setFolderPosition(int position){
+        mPosition = position;
     }
 
     /**
