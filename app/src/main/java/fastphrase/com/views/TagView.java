@@ -6,10 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import fastphrase.com.R;
 
 public class TagView extends FrameLayout{
+    private TextView mTag;
 
     public TagView(Context context) {
         this(context, null);
@@ -24,13 +26,15 @@ public class TagView extends FrameLayout{
 
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = (View) inflater.inflate(R.layout.view_tag, this, true);
-
+        mTag = (TextView) view.findViewById(R.id.tag);
     }
 
     public void setLabel(String label) {
-        /**
-         * TODO: using `label` set this view's name. The parent view will call this for you (it's magic)
-         */
+        if(label.length() > 12){
+            mTag.setText(label.substring(0,12) + "...");
+        } else{
+            mTag.setText(label);
+        }
     }
 
 }

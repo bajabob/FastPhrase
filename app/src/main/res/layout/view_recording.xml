@@ -32,7 +32,7 @@
                 android:fontFamily="sans-serif-light"
                 tools:text="Sit Down"/>
 
-            <LinearLayout
+            <org.apmem.tools.layouts.FlowLayout
                 android:id="@+id/tag_container"
                 android:orientation="horizontal"
                 android:layout_width="wrap_content"
