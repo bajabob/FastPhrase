@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="fastphrase.com"
-    android:versionCode="4"
-    android:versionName="0.0.4">
+    package="fastphrase.com">
 
     <uses-sdk
         android:minSdkVersion="19"
