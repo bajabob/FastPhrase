@@ -8,9 +8,9 @@
         <item name="android:typeface">monospace</item>
 
         <!-- edit text line color -->
-        <item name="colorControlNormal">@color/p400</item>
-        <item name="colorControlActivated">@color/p600</item>
-        <item name="colorControlHighlight">@color/p600</item>
+        <item name="colorControlNormal">@color/pa400</item>
+        <item name="colorControlActivated">@color/pa400</item>
+        <item name="colorControlHighlight">@color/pa400</item>
 
     </style>
 
@@ -18,9 +18,9 @@
         <!-- notification drawer -->
         <item name="colorPrimaryDark">@color/r700</item>
 
-        <item name="colorControlNormal">@color/r400</item>
-        <item name="colorControlActivated">@color/r600</item>
-        <item name="colorControlHighlight">@color/r600</item>
+        <item name="colorControlNormal">@color/ra400</item>
+        <item name="colorControlActivated">@color/ra400</item>
+        <item name="colorControlHighlight">@color/ra400</item>
     </style>
 
     <style name="h0" parent="TextAppearance.AppCompat.Headline"></style>
