@@ -26,6 +26,10 @@ public class Recording implements Comparable<Recording>{
      */
     private List<Tag> mTags;
 
+    public Recording(){
+        this("", null, 0);
+    }
+
     public Recording(String label, List<Long> tagHashes, long playbackLengthMs){
         this.label = label;
         if(tagHashes != null) {
@@ -41,6 +45,10 @@ public class Recording implements Comparable<Recording>{
 
     public String toJson(){
         return new Gson().toJson(this);
+    }
+
+    public String getFilename(){
+        return "Recording-"+this.hash;
     }
 
     @Override
