@@ -7,7 +7,6 @@ import android.widget.FrameLayout;
 import android.widget.ViewFlipper;
 
 import fastphrase.com.R;
-import fastphrase.com.RecordingActivity;
 
 public class RecordButtonView extends FrameLayout{
 
