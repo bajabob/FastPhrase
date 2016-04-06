@@ -64,8 +64,8 @@ public class AppDataStoreManager {
         ad.tags.add(new Tag("Greek"));
         ad.tags.add(new Tag("First Encounter"));
         ad.tags.add(new Tag("Random"));
-        ad.tags.add(new Tag("BLAHHAHAHAHAHAHAHAHAHAHAHA"));
-        ad.tags.add(new Tag("a"));
+        ad.tags.add(new Tag("ECP-1"));
+        ad.tags.add(new Tag("ECP-2"));
 
         ad.recordings = new ArrayList<Recording>();
         ad.recordings.add(new Recording("Sit Down", Arrays.asList(
