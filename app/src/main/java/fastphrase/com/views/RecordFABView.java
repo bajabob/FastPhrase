@@ -39,7 +39,7 @@ public class RecordFABView extends FrameLayout{
                         public void run() {
                             mListener.onRecordActivityRequested();
                         }
-                    }, 50);
+                    }, 250);
                     onFadeOut();
                 }
             }
