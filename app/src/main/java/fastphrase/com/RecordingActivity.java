@@ -3,15 +3,13 @@ package fastphrase.com;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.github.lassana.recorder.AudioRecorder;
 import com.github.lassana.recorder.AudioRecorderBuilder;
 
-import java.io.File;
-
+import fastphrase.com.helpers.RecordingFileSystem;
 import fastphrase.com.models.Recording;
 import fastphrase.com.views.ElapsedTimeView;
 import fastphrase.com.views.RecordButtonView;
@@ -49,10 +47,10 @@ public class RecordingActivity extends AppCompatActivity
     public void onStartRecording() {
         mNewRecording = new Recording();
 
-        // todo check for FastPhrase folder on filesystem
 
+        RecordingFileSystem rfs = new RecordingFileSystem(mNewRecording);
         mAudioRecorder = AudioRecorderBuilder.with(this)
-                .fileName(mNewRecording.getFilenameAndPath())
+                .fileName(rfs.getFilenameAndPath())
                 .config(AudioRecorder.MediaRecorderConfig.DEFAULT)
                 .loggable()
                 .build();

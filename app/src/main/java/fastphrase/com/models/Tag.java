@@ -2,9 +2,7 @@ package fastphrase.com.models;
 
 import com.google.gson.Gson;
 
-import java.util.Random;
-
-import fastphrase.com.views.PlaybackListView.PlaybackListAdapter;
+import fastphrase.com.helpers.Hash;
 
 /**
  * This model represents a single recording in the system.
@@ -16,8 +14,7 @@ public class Tag implements Comparable<Tag>{
 
     public Tag(String label){
         this.label = label;
-        Random r = new Random();
-        this.hash = r.nextLong();
+        this.hash = Hash.generate();
     }
 
     public String toJson(){
