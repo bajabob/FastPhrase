@@ -3,8 +3,14 @@ package fastphrase.com;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+
+import com.github.lassana.recorder.AudioRecorder;
+import com.github.lassana.recorder.AudioRecorderBuilder;
+
+import java.io.File;
 
 import fastphrase.com.models.Recording;
 import fastphrase.com.views.ElapsedTimeView;
@@ -16,6 +22,7 @@ public class RecordingActivity extends AppCompatActivity
 
     private Recording mNewRecording;
     private ElapsedTimeView mElapsedTime;
+    private AudioRecorder mAudioRecorder;
 
     public static Intent newInstance(Context context){
         Intent intent = new Intent(context, RecordingActivity.class);
@@ -42,11 +49,43 @@ public class RecordingActivity extends AppCompatActivity
     public void onStartRecording() {
         mNewRecording = new Recording();
 
+        // todo check for FastPhrase folder on filesystem
+
+        mAudioRecorder = AudioRecorderBuilder.with(this)
+                .fileName(mNewRecording.getFilenameAndPath())
+                .config(AudioRecorder.MediaRecorderConfig.DEFAULT)
+                .loggable()
+                .build();
+
+        mAudioRecorder.start(new AudioRecorder.OnStartListener() {
+            @Override
+            public void onStarted() {
+                Log.d("AudioRecorder", "started");
+            }
+
+            @Override
+            public void onException(Exception e) {
+                Log.e("AudioRecorder", e.getLocalizedMessage());
+            }
+        });
+
         mElapsedTime.onStart();
     }
 
     @Override
     public void onStopRecording() {
+
+        mAudioRecorder.pause(new AudioRecorder.OnPauseListener() {
+            @Override
+            public void onPaused(String activeRecordFileName) {
+                Log.d("AudioRecorder", "paused, "+activeRecordFileName);
+            }
+
+            @Override
+            public void onException(Exception e) {
+                Log.e("AudioRecorder", e.getLocalizedMessage());
+            }
+        });
 
         // stop timer and get elapsed time
         mElapsedTime.onStop();

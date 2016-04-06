@@ -1,11 +1,13 @@
 package fastphrase.com.models;
 
+import android.os.Environment;
 import android.util.Log;
 
 import com.google.gson.Gson;
 
 import org.joda.time.DateTime;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -14,6 +16,10 @@ import java.util.Random;
  * This model represents a single recording in the system.
  */
 public class Recording implements Comparable<Recording>{
+
+    private static final String FILENAME_PREFIX = "Recording_";
+    private static final String FILENAME_EXTENSION = ".mp4";
+    private static final String FOLDER = "FastPhrase";
 
     public String label;
     public long createdAt;
@@ -47,8 +53,28 @@ public class Recording implements Comparable<Recording>{
         return new Gson().toJson(this);
     }
 
+    /**
+     * Returns the path
+     * @return String
+     */
+    public String getPath(){
+        return Environment.getExternalStorageDirectory() + File.separator + FOLDER + File.separator;
+    }
+
+    /**
+     * Returns the path and filename
+     * @return String
+     */
+    public String getFilenameAndPath(){
+        return this.getPath() + this.getFilename();
+    }
+
+    /**
+     * Get just the filename
+     * @return String
+     */
     public String getFilename(){
-        return "Recording-"+this.hash;
+        return FILENAME_PREFIX + Long.toString(this.hash) + FILENAME_EXTENSION;
     }
 
     @Override
