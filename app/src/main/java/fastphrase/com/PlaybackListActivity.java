@@ -30,6 +30,14 @@ public class PlaybackListActivity extends AppCompatActivity implements
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        mRecordFAB.onFadeIn();
+    }
+
+
+
+    @Override
     public void onRecordActivityRequested() {
         Intent intent = RecordingActivity.newInstance(this);
         startActivity(intent);
