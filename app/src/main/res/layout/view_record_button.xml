@@ -1,13 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:minHeight="100dp"
-    android:minWidth="100dp"
-    android:background="@color/r900">
+    android:minWidth="100dp">
 
     <!-- recording button contents here, work with whoever is doing the FAB, you'll be using the same styles -->
-
-
+    <ImageView
+        android:id="@+id/record_button_outer_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/recording_outer_circle"
+        android:layout_gravity="center"
+        />
+    <ViewFlipper
+        android:id="@+id/record_button_flipper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+        <ImageView
+            android:id="@+id/record_button_inner_circle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/recording_inner_cir"/>
+        <ImageView
+            android:id="@+id/record_button_inner_square"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/recording_inner_sq"/>
+    </ViewFlipper>
 </FrameLayout>
