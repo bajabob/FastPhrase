@@ -11,23 +11,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fastphrase.com.AppDataManager;
+import fastphrase.com.IPlaybackController;
 import fastphrase.com.R;
 import fastphrase.com.models.Recording;
 import fastphrase.com.models.Tag;
+import fastphrase.com.views.FolderView;
 
 /**
  * Created by bob on 2/28/16.
  */
-public class PlaybackListAdapter extends RecyclerView.Adapter<FolderViewHolder> {
+public class PlaybackListAdapter extends RecyclerView.Adapter<FolderViewHolder>
+    implements FolderView.IFolderListener{
 
     private AppDataPresenter mPresenter;
-    private IPlaybackViewHolderListener mListener;
     private WeakReference<Context> mContext;
+    private IPlaybackController mListener;
 
 
-    public PlaybackListAdapter(Context context, IPlaybackViewHolderListener listener){
+    public PlaybackListAdapter(Context context){
         mPresenter = new AppDataPresenter(context);
-        mListener = listener;
         mContext = new WeakReference<Context>(context);
     }
 
@@ -37,7 +39,8 @@ public class PlaybackListAdapter extends RecyclerView.Adapter<FolderViewHolder> 
 
         if(viewType == R.layout.viewholder_folder){
             FolderViewHolder holder = new FolderViewHolder(v);
-            holder.setPlaybackViewHolderListener(mListener);
+            holder.setPlaybackController(mListener);
+            holder.setFolderListener(this);
             return holder;
         }
 
@@ -64,6 +67,30 @@ public class PlaybackListAdapter extends RecyclerView.Adapter<FolderViewHolder> 
         return mPresenter.getItemCount();
     }
 
+    public void setPlaybackController(IPlaybackController listener){
+        mListener = listener;
+    }
+
+
+    @Override
+    public void onFolderOpened(int position) {
+        if(mListener != null){
+            mListener.onFolderOpened(position);
+        }
+        if(mPresenter != null){
+            mPresenter.openFolder(position);
+        }
+    }
+
+    @Override
+    public void onFolderClosed(int position) {
+        if(mListener != null){
+            mListener.onFolderClosed(position);
+        }
+        if(mPresenter != null){
+            mPresenter.closeFolder(position);
+        }
+    }
 
     /**
      * This class converts app data to a form that we can use more easily
@@ -98,7 +125,7 @@ public class PlaybackListAdapter extends RecyclerView.Adapter<FolderViewHolder> 
             List<Recording> untagged = appData.getRecordingsWithoutTags();
             if(untagged.size() > 0){
 
-                Tag tag = new Tag(context.getString(R.string.untagged));
+                Tag tag = new Tag(context.getString(R.string.untagged_ucf));
 
                 // create folder name
                 PlaybackViewHolderData folder = new PlaybackViewHolderData();
@@ -121,6 +148,14 @@ public class PlaybackListAdapter extends RecyclerView.Adapter<FolderViewHolder> 
 
         public int getItemCount(){
             return mList.size();
+        }
+
+        public void openFolder(int position){
+            mList.get(position).isFolderOpen = true;
+        }
+
+        public void closeFolder(int position){
+            mList.get(position).isFolderOpen = false;
         }
 
     }

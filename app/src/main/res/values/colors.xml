@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="white">#ffffff</color>
-    <color name="light_grey">#f6f6f6</color>
+    <color name="white_100">#ffffff</color>
+    <color name="white_90">#f6f6f6</color>
+    <color name="white_80">#e7e7e7</color>
+
+    <color name="black_100">#000000</color>
+    <color name="black_90">#f5000000</color>
 
     <!-- Playback colors -->
     <color name="p900">#1e5d23</color>

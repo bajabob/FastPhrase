@@ -43,7 +43,7 @@
     </LinearLayout>
 
     <ImageButton
-        android:id="@+id/more_button"
+        android:id="@+id/options_button"
         android:src="@drawable/ic_more_horiz_black_24dp"
         android:background="?attr/selectableItemBackground"
         android:layout_gravity="right"

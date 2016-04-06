@@ -21,6 +21,7 @@ public class FolderView extends LinearLayout{
     private TextView mFolderName;
     private ViewFlipper mFolderIcon;
     private IFolderListener mListener;
+    private int mPosition;
 
     public FolderView(Context context) {
         this(context, null);
@@ -43,22 +44,33 @@ public class FolderView extends LinearLayout{
 
         this.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if(mFolderIcon.getDisplayedChild()==0) {
+                if (mFolderIcon.getDisplayedChild() == 0) {
                     mFolderIcon.showNext();
                     if (mListener != null) {
                         // lets parent know the folder has opened
-                        mListener.onFolderOpened();
+                        mListener.onFolderOpened(mPosition);
                     }
-                }
-                else{
+                } else {
                     mFolderIcon.showPrevious();
                     if (mListener != null) {
                         // lets parent know the folder has closed
-                        mListener.onFolderClosed();
+                        mListener.onFolderClosed(mPosition);
                     }
                 }
             }
         });
+    }
+
+    public void openFolder(){
+        if(mFolderIcon.getDisplayedChild() == 0) {
+            mFolderIcon.showNext();
+        }
+    }
+
+    public void closeFolder(){
+        if(mFolderIcon.getDisplayedChild() != 0) {
+            mFolderIcon.showPrevious();
+        }
     }
 
     /**
@@ -67,6 +79,11 @@ public class FolderView extends LinearLayout{
      */
     public void setFolderName(String name){
         mFolderName.setText(name);
+    }
+
+
+    public void setFolderPostion(int postion){
+        mPosition = postion;
     }
 
     /**
@@ -78,7 +95,7 @@ public class FolderView extends LinearLayout{
     }
 
     public interface IFolderListener{
-        void onFolderOpened();
-        void onFolderClosed();
+        void onFolderOpened(int position);
+        void onFolderClosed(int position);
     }
 }

@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import fastphrase.com.IPlaybackController;
 import fastphrase.com.R;
 import fastphrase.com.models.Recording;
 import fastphrase.com.views.FolderView;
@@ -13,14 +14,12 @@ import fastphrase.com.views.RecordingView;
 /**
  * Created by bob on 2/28/16.
  */
-public class FolderViewHolder extends RecyclerView.ViewHolder implements
-        FolderView.IFolderListener,
-        RecordingView.IRecordingListener{
+public class FolderViewHolder extends RecyclerView.ViewHolder {
 
     private int mPosition;
     private FolderView mFolderView;
     private LinearLayout mRecordings;
-    private IPlaybackViewHolderListener mListener;
+    private IPlaybackController mListener;
 
     public FolderViewHolder(View view) {
         super(view);
@@ -28,22 +27,29 @@ public class FolderViewHolder extends RecyclerView.ViewHolder implements
         mFolderView = (FolderView)view.findViewById(R.id.folder);
 
         // lets us listen for folder events (onFolderOpen, etc)
-        mFolderView.setFolderListener(this);
+
 
         mRecordings = (LinearLayout)view.findViewById(R.id.recordings);
     }
 
-    public void setPlaybackViewHolderListener(IPlaybackViewHolderListener listener) {
+    public void setPlaybackController(IPlaybackController listener) {
         mListener = listener;
     }
 
+    public void setFolderListener(FolderView.IFolderListener listener){
+        mFolderView.setFolderListener(listener);
+    };
+
     public void onBindData(PlaybackViewHolderData data, int position, Context context) {
         mFolderView.setFolderName(data.tag.label);
-        mPosition = position;
-
+        mFolderView.setFolderPostion(position);
         if(data.isFolderOpen){
-            // todo: update icon to open/close
+            mFolderView.openFolder();
+        }else{
+            mFolderView.closeFolder();
         }
+
+        mPosition = position;
 
         // remove all views from container
         mRecordings.removeAllViews();
@@ -52,7 +58,7 @@ public class FolderViewHolder extends RecyclerView.ViewHolder implements
             for (Recording r : data.recordings) {
                 RecordingView recordingView = new RecordingView(context);
                 recordingView.setRecording(r, data.tag, context);
-                recordingView.setRecordingListener(this);
+                recordingView.setPlaybackController(mListener);
                 recordingView.setLayoutParams(new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.MATCH_PARENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT));
@@ -62,22 +68,4 @@ public class FolderViewHolder extends RecyclerView.ViewHolder implements
 
     }
 
-    @Override
-    public void onPlayRecording(Recording recording) {
-
-    }
-
-    @Override
-    public void onFolderOpened() {
-        if(mListener != null){
-            mListener.onFolderOpened(mPosition);
-        }
-    }
-
-    @Override
-    public void onFolderClosed() {
-        if(mListener != null){
-            mListener.onFolderClosed(mPosition);
-        }
-    }
 }
