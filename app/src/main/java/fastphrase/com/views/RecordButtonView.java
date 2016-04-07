@@ -3,6 +3,9 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.FrameLayout;
 import android.widget.ViewFlipper;
 
@@ -54,7 +57,17 @@ public class RecordButtonView extends FrameLayout{
         mListener = listener;
     }
 
+    public void removeRecordButtonListener(){
+        mListener = null;
+    }
 
+    public void onFadeOut(){
+        Animation fadeOut = new AlphaAnimation(1, 0);
+        fadeOut.setInterpolator(new AccelerateInterpolator()); //and this
+        fadeOut.setDuration(1000);
+        fadeOut.setFillAfter(true);
+        this.setAnimation(fadeOut);
+    }
 
     public interface IRecordButtonListener{
         void onStartRecording();

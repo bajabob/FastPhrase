@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 
 import fastphrase.com.helpers.RecordingFileSystem;
 import fastphrase.com.models.Recording;
@@ -23,6 +24,7 @@ public class RecordingActivity extends AppCompatActivity
     private ElapsedTimeView mElapsedTime;
     private AudioRecorder mAudioRecorder;
     private AmplitudeView mAmplitude;
+    private RecordButtonView mRecordButton;
 
 
 
@@ -42,8 +44,8 @@ public class RecordingActivity extends AppCompatActivity
         mElapsedTime = (ElapsedTimeView) findViewById(R.id.elapsed_time);
         mAmplitude = (AmplitudeView) findViewById(R.id.amplitude);
 
-        RecordButtonView recordButton = (RecordButtonView) findViewById(R.id.record_button);
-        recordButton.setRecordButtonListener(this);
+        mRecordButton = (RecordButtonView) findViewById(R.id.record_button);
+        mRecordButton.setRecordButtonListener(this);
 
         mNewRecording = new Recording();
         mRecordingFileSystem = new RecordingFileSystem(mNewRecording);
@@ -65,6 +67,9 @@ public class RecordingActivity extends AppCompatActivity
 
     @Override
     public void onStopRecording() {
+
+        mRecordButton.removeRecordButtonListener();
+        mRecordButton.onFadeOut();
 
         mAudioRecorder.pause(new AudioRecorder.OnPauseListener() {
             @Override
