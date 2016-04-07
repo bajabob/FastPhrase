@@ -31,6 +31,5 @@ dependencies {
     compile 'com.squareup.retrofit:converter-gson:2.0.0-beta2'
     compile 'org.apmem.tools:layouts:1.10@aar'
     compile "com.googlecode.mp4parser:isoparser:1.0.2"
-    compile "com.github.lassana:continuous-audiorecorder:1.1.0"
     compile files('libs/simplesound-0.1.jar')
 }

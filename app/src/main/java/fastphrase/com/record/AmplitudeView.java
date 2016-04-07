@@ -12,8 +12,10 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
-import fastphrase.com.record.audio.Recorder;
-import fastphrase.com.record.audio.SimpleRecorder;
+import fastphrase.com.helpers.RecordingFileSystem;
+import fastphrase.com.models.Recording;
+import fastphrase.com.record.audio.AudioRecorder;
+import fastphrase.com.record.audio.AudioRecorderBuilder;
 
 import java.util.Random;
 
@@ -27,7 +29,7 @@ public class AmplitudeView extends View {
     static final int MAX_DATA_POINTS = 500;
     static final int CURSOR_COLOUR = Color.GREEN;
 
-    private Recorder mAudioRecord;
+    private AudioRecorder mAudioRecord;
     private boolean mIsRecording = false;
     private int mPos;
     Handler mHandler;
@@ -41,22 +43,24 @@ public class AmplitudeView extends View {
     private float mBandSize;
     private Rect mClipBounds = new Rect();
 
+    private Recording mNewRecording;
+
     public AmplitudeView(Context context) {
         super(context);
-        init();
+        init(context);
     }
 
     public AmplitudeView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
+        init(context);
     }
 
     public AmplitudeView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        init();
+        init(context);
     }
 
-    private void init() {
+    private void init(Context context) {
         mPos = 0;
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
@@ -64,8 +68,18 @@ public class AmplitudeView extends View {
         // Initialise audio record settings
         mNormaliser = new Normaliser();
 
+        mNewRecording = new Recording();
+
+        RecordingFileSystem rfs = new RecordingFileSystem(mNewRecording);
+
         // TODO: Use dependency injection rather than creating this here.
-        mAudioRecord = new SimpleRecorder();
+        mAudioRecord = AudioRecorderBuilder.with(context)
+                .fileName(rfs.getFilenameAndPath())
+                .config(AudioRecorder.MediaRecorderConfig.DEFAULT)
+                .loggable()
+                .build();
+
+
         startAudioRecord();
 
         // Set up values that require the view to have been measured (i.e. require height and width values)
@@ -102,7 +116,7 @@ public class AmplitudeView extends View {
             public void run() {
                 // TODO: consider separating the audio record control into a separate audio controller loop
                 if (mAudioRecord != null) {
-                    mAudioRecord.read();
+//                    mAudioRecord.read();
                 }
                 invalidate();
                 mHandler.postDelayed(this, INTERVAL);
@@ -114,13 +128,33 @@ public class AmplitudeView extends View {
 
     private void startAudioRecord() {
         if (mAudioRecord != null) {
-            mAudioRecord.start();
+            mAudioRecord.start(new AudioRecorder.OnStartListener() {
+                @Override
+                public void onStarted() {
+                    // started
+                }
+
+                @Override
+                public void onException(Exception e) {
+                    // error
+                }
+            });
         }
     }
 
     private void stopAudioRecord() {
         if (mAudioRecord != null) {
-            mAudioRecord.stop();
+            mAudioRecord.pause(new AudioRecorder.OnPauseListener() {
+                @Override
+                public void onPaused(String activeRecordFileName) {
+                    // paused
+                }
+
+                @Override
+                public void onException(Exception e) {
+                    // error
+                }
+            });
         }
     }
 
@@ -157,7 +191,7 @@ public class AmplitudeView extends View {
         if (!mClipBounds.isEmpty()) {
             int amplitude = 0; //mRandom.nextInt(canvas.getHeight());
             if (mAudioRecord != null) {
-                amplitude = mAudioRecord.getMeanAmplitude();
+//                amplitude = mAudioRecord.getMeanAmplitude();
             }
             int normalisedAmplitude = mNormaliser.normalise(amplitude);
             mAmplitudes[mPos] = normalisedAmplitude;

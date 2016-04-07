@@ -3,15 +3,15 @@ package fastphrase.com;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-
-import com.github.lassana.recorder.AudioRecorder;
-import com.github.lassana.recorder.AudioRecorderBuilder;
 
 import fastphrase.com.helpers.RecordingFileSystem;
 import fastphrase.com.models.Recording;
 import fastphrase.com.record.AmplitudeView;
+import fastphrase.com.record.audio.AudioRecorder;
+import fastphrase.com.record.audio.AudioRecorderBuilder;
 import fastphrase.com.views.ElapsedTimeView;
 import fastphrase.com.views.RecordButtonView;
 import fastphrase.com.views.TitleBarView;
@@ -22,7 +22,11 @@ public class RecordingActivity extends AppCompatActivity
     private Recording mNewRecording;
     private ElapsedTimeView mElapsedTime;
     private AudioRecorder mAudioRecorder;
-    private AmplitudeView mAmplitude;
+//    private AmplitudeView mAmplitude;
+
+
+    private Handler mHandler;
+    private Runnable mRunnable;
 
     public static Intent newInstance(Context context){
         Intent intent = new Intent(context, RecordingActivity.class);
@@ -38,7 +42,7 @@ public class RecordingActivity extends AppCompatActivity
         titleBarView.setRecordingTitleBar();
 
         mElapsedTime = (ElapsedTimeView) findViewById(R.id.elapsed_time);
-        mAmplitude = (AmplitudeView) findViewById(R.id.amplitude);
+//        mAmplitude = (AmplitudeView) findViewById(R.id.amplitude);
 
         RecordButtonView recordButton = (RecordButtonView) findViewById(R.id.record_button);
         recordButton.setRecordButtonListener(this);
@@ -47,6 +51,18 @@ public class RecordingActivity extends AppCompatActivity
 
     @Override
     public void onStartRecording() {
+
+        mHandler = new Handler();
+        mRunnable = new Runnable() {
+            @Override
+            public void run() {
+                if(mAudioRecorder != null && mAudioRecorder.isRecording()) {
+                    Log.d("Amp", "" + mAudioRecorder.getMaxAmplitude());
+                }
+                mHandler.postDelayed(this, 50);
+            }
+        };
+
         mNewRecording = new Recording();
 
         RecordingFileSystem rfs = new RecordingFileSystem(mNewRecording);
@@ -56,11 +72,11 @@ public class RecordingActivity extends AppCompatActivity
                 .loggable()
                 .build();
 
-
         mAudioRecorder.start(new AudioRecorder.OnStartListener() {
             @Override
             public void onStarted() {
                 Log.d("AudioRecorder", "started");
+                mHandler.postDelayed(mRunnable, 50);
             }
 
             @Override
@@ -70,7 +86,7 @@ public class RecordingActivity extends AppCompatActivity
         });
 
         mElapsedTime.onStart();
-        mAmplitude.onRecordingStarted();
+//        mAmplitude.onRecordingStarted();
     }
 
     @Override
@@ -90,7 +106,7 @@ public class RecordingActivity extends AppCompatActivity
 
         // stop timer and get elapsed time
         mElapsedTime.onStop();
-        mAmplitude.onRecordingStopped();
+//        mAmplitude.onRecordingStopped();
         mNewRecording.playbackLengthMs = mElapsedTime.getElapsedTimeInMilliseconds();
 
         Log.d("Recording Complete", mNewRecording.toJson());
