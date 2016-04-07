@@ -1,6 +1,5 @@
-package fastphrase.com.record.audio;
+package fastphrase.com.record;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 
 /**
@@ -8,7 +7,6 @@ import android.support.annotation.NonNull;
  */
 public class AudioRecorderBuilder {
 
-    private Context mContext;
     private String mFileName;
     private AudioRecorder.MediaRecorderConfig mConfig;
     private boolean mIsLoggable;
@@ -16,9 +14,8 @@ public class AudioRecorderBuilder {
     private AudioRecorderBuilder() {
     }
 
-    public static AudioRecorderBuilder with(@NonNull Context context) {
+    public static AudioRecorderBuilder with() {
         final AudioRecorderBuilder audioRecorderBuilder = new AudioRecorderBuilder();
-        audioRecorderBuilder.mContext = context;
         return audioRecorderBuilder;
     }
 
@@ -46,6 +43,6 @@ public class AudioRecorderBuilder {
         if (mFileName == null) {
             throw new RuntimeException("Target filename is not set: use `#fileName` method");
         }
-        return new AudioRecorder(mContext, mFileName, mConfig, mIsLoggable);
+        return new AudioRecorder(mFileName, mConfig, mIsLoggable);
     }
 }

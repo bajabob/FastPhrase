@@ -1,4 +1,4 @@
-package fastphrase.com.record.audio;
+package fastphrase.com.record;
 
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -114,7 +114,7 @@ public class AudioRecorder {
                 mAmpRunnable = new Runnable() {
                     @Override
                     public void run() {
-                        if(isRecording()) {
+                        if(mMediaRecorder != null && isRecording()) {
                             // convert to percentage
                             mOnStartListener.onAmplitudeChange(((getMaxAmplitude() * 100) / MAX_AMPLITUDE));
                             mAmpHandler.postDelayed(this, AMPLITUDE_SAMPLE_RATE_MILLISECONDS);
@@ -161,50 +161,19 @@ public class AudioRecorder {
     private Status mStatus;
     private MediaRecorder mMediaRecorder;
     private final String mTargetRecordFileName;
-    private final Context mContext;
     private final MediaRecorderConfig mMediaRecorderConfig;
     private final boolean mIsLoggable;
     private Handler mAmpHandler;
     private Runnable mAmpRunnable;
 
-    /* package-local */ AudioRecorder(@NonNull final Context context,
-                                      @NonNull final String targetRecordFileName,
+    /* package-local */ AudioRecorder(@NonNull final String targetRecordFileName,
                                       @NonNull final MediaRecorderConfig mediaRecorderConfig,
                                       final boolean isLoggable) {
         mTargetRecordFileName = targetRecordFileName;
-        mContext = context;
         mMediaRecorderConfig = mediaRecorderConfig;
         mIsLoggable = isLoggable;
 
         mStatus = Status.STATUS_READY_TO_RECORD;
-    }
-
-    /**
-     * Returns a ready-to-use AudioRecorder.
-     * {@link android.media.MediaRecorder} config.
-     *
-     * @deprecated Use AudioRecorderBuilder instead.
-     */
-    public static AudioRecorder build(@NonNull final Context context,
-                                      @NonNull final String targetFileName) {
-        return build(context, targetFileName, MediaRecorderConfig.DEFAULT);
-    }
-
-    /**
-     * Returns a ready-to-use AudioRecorder.
-     *
-     * @deprecated Use AudioRecorderBuilder instead.
-     */
-    public static AudioRecorder build(@NonNull final Context context,
-                                      @NonNull final String targetFileName,
-                                      @NonNull final MediaRecorderConfig mediaRecorderConfig) {
-        AudioRecorder rvalue = new AudioRecorder(
-                context,
-                targetFileName,
-                mediaRecorderConfig,
-                false);
-        rvalue.mStatus = Status.STATUS_READY_TO_RECORD;
-        return rvalue;
     }
 
     /**
@@ -268,7 +237,11 @@ public class AudioRecorder {
 
     public int getMaxAmplitude(){
         if(mMediaRecorder != null && isRecording()){
-            return mMediaRecorder.getMaxAmplitude();
+            try {
+                return mMediaRecorder.getMaxAmplitude();
+            } catch (RuntimeException e){
+                Log.e("Audio Recorder", e.getLocalizedMessage());
+            }
         }
         return 0;
     }
@@ -277,13 +250,15 @@ public class AudioRecorder {
      * Drops the current recording.
      */
     public void cancel() {
-        try {
-            if (mMediaRecorder != null) {
-                mMediaRecorder.stop();
-                mMediaRecorder.release();
+        if(mStatus == Status.STATUS_RECORDING) {
+            try {
+                if (mMediaRecorder != null) {
+                    mMediaRecorder.stop();
+                    mMediaRecorder.release();
+                }
+            } catch (Exception e) {
+                error("Exception during record cancelling", e);
             }
-        } catch (Exception e) {
-            error("Exception during record cancelling", e);
         }
         mStatus = Status.STATUS_UNKNOWN;
     }

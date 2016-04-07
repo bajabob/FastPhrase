@@ -5,13 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.KeyEvent;
 
 import fastphrase.com.helpers.RecordingFileSystem;
 import fastphrase.com.models.Recording;
-import fastphrase.com.record.AmplitudeView;
-import fastphrase.com.record.audio.AudioRecorder;
-import fastphrase.com.record.audio.AudioRecorderBuilder;
+import fastphrase.com.views.AmplitudeView;
+import fastphrase.com.record.AudioRecorder;
+import fastphrase.com.record.AudioRecorderBuilder;
 import fastphrase.com.views.ElapsedTimeView;
 import fastphrase.com.views.RecordButtonView;
 import fastphrase.com.views.TitleBarView;
@@ -48,12 +47,6 @@ public class RecordingActivity extends AppCompatActivity
 
         mNewRecording = new Recording();
         mRecordingFileSystem = new RecordingFileSystem(mNewRecording);
-        mAudioRecorder = AudioRecorderBuilder.with(this)
-                .fileName(mRecordingFileSystem.getFilenameAndPath())
-                .config(AudioRecorder.MediaRecorderConfig.DEFAULT)
-                .loggable()
-                .build();
-        mAudioRecorder.start(this);
     }
 
     @Override
@@ -118,11 +111,19 @@ public class RecordingActivity extends AppCompatActivity
         finish();
     }
 
+    protected void onResume(){
+        super.onResume();
+        mAudioRecorder = AudioRecorderBuilder.with()
+                .fileName(mRecordingFileSystem.getFilenameAndPath())
+                .config(AudioRecorder.MediaRecorderConfig.DEFAULT)
+                .loggable()
+                .build();
+        mAudioRecorder.start(this);
+    }
+
     @Override
     protected void onPause(){
         super.onPause();
         mAudioRecorder.cancel();
-        mRecordingFileSystem.deleteCurrent();
-        finish();
     }
 }

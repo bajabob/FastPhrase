@@ -1,4 +1,4 @@
-package fastphrase.com.record.audio;
+package fastphrase.com.record;
 
 import android.annotation.SuppressLint;
 import android.media.MediaRecorder;
