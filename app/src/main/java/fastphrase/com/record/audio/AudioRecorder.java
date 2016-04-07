@@ -114,7 +114,7 @@ public class AudioRecorder {
                 mAmpRunnable = new Runnable() {
                     @Override
                     public void run() {
-                        if(mStatus == AudioRecorder.Status.STATUS_RECORDING) {
+                        if(isRecording()) {
                             // convert to percentage
                             mOnStartListener.onAmplitudeChange(((getMaxAmplitude() * 100) / MAX_AMPLITUDE));
                             mAmpHandler.postDelayed(this, AMPLITUDE_SAMPLE_RATE_MILLISECONDS);
@@ -267,7 +267,7 @@ public class AudioRecorder {
     }
 
     public int getMaxAmplitude(){
-        if(mMediaRecorder != null){
+        if(mMediaRecorder != null && isRecording()){
             return mMediaRecorder.getMaxAmplitude();
         }
         return 0;

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 
 import fastphrase.com.helpers.RecordingFileSystem;
 import fastphrase.com.models.Recording;
@@ -105,5 +106,15 @@ public class RecordingActivity extends AppCompatActivity
     @Override
     public void onException(Exception e) {
         Log.e("AudioRecorder", e.getLocalizedMessage());
+    }
+
+    @Override
+    public void onBackPressed() {
+        /**
+         * do not keep recording if user exits (by pressing back)
+         */
+        mAudioRecorder.cancel();
+        mRecordingFileSystem.deleteCurrent();
+        finish();
     }
 }

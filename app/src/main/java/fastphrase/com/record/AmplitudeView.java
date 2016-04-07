@@ -12,6 +12,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
+import fastphrase.com.R;
 import fastphrase.com.helpers.RecordingFileSystem;
 import fastphrase.com.models.Recording;
 import fastphrase.com.record.audio.AudioRecorder;
@@ -74,7 +75,7 @@ public class AmplitudeView extends View {
                         mBandSize = viewWidth / (float) MAX_DATA_POINTS;
                     }
                     if (mShader == null) {
-                        int[] gradientColours = new int[]{Color.RED, Color.YELLOW, Color.GREEN};
+                        int[] gradientColours = new int[]{getResources().getColor(R.color.r500), Color.YELLOW, getResources().getColor(R.color.p500)};
                         mShader = new LinearGradient(0, 0, 0, mViewHeight, gradientColours, null, Shader.TileMode.MIRROR);
                     }
                     if (mGreyShader == null) {
