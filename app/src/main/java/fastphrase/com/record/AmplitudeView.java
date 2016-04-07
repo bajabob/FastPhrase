@@ -1,24 +1,25 @@
 package fastphrase.com.record;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Shader;
-import android.os.Handler;
 import android.util.AttributeSet;
+import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
-import fastphrase.com.R;
-import fastphrase.com.helpers.RecordingFileSystem;
-import fastphrase.com.models.Recording;
-import fastphrase.com.record.audio.AudioRecorder;
-import fastphrase.com.record.audio.AudioRecorderBuilder;
-
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
+
+import fastphrase.com.R;
 
 /**
  * Simple custom view that reads input from the mic and displays the amplitude.
@@ -26,20 +27,15 @@ import java.util.Random;
 public class AmplitudeView extends View {
 
     static final int MAX_DATA_POINTS = 500;
-    static final int CURSOR_COLOUR = Color.GREEN;
 
     private boolean mIsRecording = false;
-    private int mPos;
     private Paint mPaint;
-    private int[] mAmplitudes = new int[MAX_DATA_POINTS];
+    private List<Amplitude> mAmplitudes = new ArrayList<>();
     private Shader mShader;
     private Shader mGreyShader;
-
-    private float mBandSize;
+    private float mViewHeightDp = 0;
+    private float mViewWidthDp = 0;
     private Rect mClipBounds = new Rect();
-
-    private int mAmplitudePercentage = 0;
-    private int mViewHeight = 0;
 
     public AmplitudeView(Context context) {
         super(context);
@@ -57,30 +53,35 @@ public class AmplitudeView extends View {
     }
 
     private void init() {
-        mPos = 0;
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
 
-        // Set up values that require the view to have been measured (i.e. require height and width values)
+        // create MAX_DATA_POINTS (zero'ed) entries
+        // makes view fill right to left
+        Amplitude a = new Amplitude();
+        for( int i = 0; i < MAX_DATA_POINTS; i++ ){
+            mAmplitudes.add(a);
+        }
+
         this.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {
                 try {
                     int viewHeight = AmplitudeView.this.getHeight();
                     int viewWidth = AmplitudeView.this.getWidth();
-                    if (mViewHeight == 0) {
-                        mViewHeight = viewHeight;
+                    if (mViewHeightDp == 0) {
+                        mViewHeightDp = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, viewHeight, getResources().getDisplayMetrics());
                     }
-                    if (mBandSize == 0) {
-                        mBandSize = viewWidth / (float) MAX_DATA_POINTS;
+                    if (mViewWidthDp == 0) {
+                        mViewWidthDp = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, viewWidth, getResources().getDisplayMetrics());
                     }
                     if (mShader == null) {
                         int[] gradientColours = new int[]{getResources().getColor(R.color.r500), Color.YELLOW, getResources().getColor(R.color.p500)};
-                        mShader = new LinearGradient(0, 0, 0, mViewHeight, gradientColours, null, Shader.TileMode.MIRROR);
+                        mShader = new LinearGradient(0, 0, 0, mViewHeightDp, gradientColours, null, Shader.TileMode.MIRROR);
                     }
                     if (mGreyShader == null) {
                         int[] gradientColours = new int[]{Color.LTGRAY, Color.GRAY, Color.DKGRAY};
-                        mGreyShader = new LinearGradient(0, 0, 0, mViewHeight, gradientColours, null, Shader.TileMode.MIRROR);
+                        mGreyShader = new LinearGradient(0, 0, 0, mViewHeightDp, gradientColours, null, Shader.TileMode.MIRROR);
                     }
                     return true;
                 } finally {
@@ -91,17 +92,31 @@ public class AmplitudeView extends View {
     }
 
     public void onAmplitudeChange(int percentage){
-        mAmplitudePercentage = percentage;
-        mPos += 1;
-        mPos %= MAX_DATA_POINTS;
+
+        if(percentage <= 3){
+            percentage = (int)Math.round(Math.random() * 5);
+        }
+
+        // add new amplitude to array
+        Amplitude a = new Amplitude();
+        a.isRecording = mIsRecording;
+        a.height = (int)(((double)percentage * 0.01) * (double)mViewHeightDp);
+        mAmplitudes.add(a);
+
+        // redraw view
         invalidate();
     }
 
-
+    /**
+     * Call to make view change to "active"
+     */
     public void onRecordingStarted(){
         mIsRecording = true;
     }
 
+    /**
+     * Call to make view change to "non-active"
+     */
     public void onRecordingStopped(){
         mIsRecording = false;
     }
@@ -125,19 +140,28 @@ public class AmplitudeView extends View {
 
         if (!mClipBounds.isEmpty()) {
 
-            mAmplitudes[mPos] = (int)(((double)mAmplitudePercentage * 0.01) * (double)mViewHeight);
+            if(mAmplitudes.size() > 0) {
 
-            mPaint.setShader( mIsRecording ? mShader : mGreyShader);
+                float bandWidth = mViewWidthDp / mAmplitudes.size();
 
-            for (int i=0; i<MAX_DATA_POINTS; i++) {
-                canvas.drawRect(i* mBandSize, mViewHeight-mAmplitudes[i], i* mBandSize + mBandSize, mViewHeight, mPaint);
+                float position = 0;
+                Iterator<Amplitude> itr = mAmplitudes.iterator();
+                while (itr.hasNext()) {
+                    Amplitude a = itr.next();
+                    mPaint.setShader(a.isRecording ? mShader : mGreyShader);
+                    canvas.drawRect(position, mViewHeightDp - a.height, position + bandWidth, mViewHeightDp, mPaint);
+                    position += bandWidth;
+                }
+
+                while (mAmplitudes.size() > MAX_DATA_POINTS) {
+                    mAmplitudes.remove(0);
+                }
             }
-
-            // draw cursor line
-            mPaint.setColor(CURSOR_COLOUR);
-            float cursorPos = mPos* mBandSize + mBandSize;
-            canvas.drawLine(cursorPos, 0, cursorPos, mViewHeight, mPaint);
         }
     }
 
+    public class Amplitude{
+        boolean isRecording = false;
+        int height = 0;
+    }
 }

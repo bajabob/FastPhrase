@@ -8,8 +8,6 @@ import android.os.Build;
  * Created by bobtimm on 4/7/2016.
  */
 public class ApiHelper {
-    public static final boolean HAS_EXECUTE_ON_EXECUTOR_METHOD =
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB;
 
     @SuppressLint("InlinedApi")
     public static final int DEFAULT_AUDIO_ENCODER =

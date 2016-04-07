@@ -52,8 +52,8 @@ public class AudioRecorder {
 
         public static final MediaRecorderConfig DEFAULT =
                 new MediaRecorderConfig(
-                        /* 64 Kib per second            */
-                        64 * 1024,
+                        /* 128 Kib per second            */
+                        128 * 1024,
                         /* Stereo                       */
                         2,
                         /* Default audio source (usually, device microphone)  */

@@ -117,4 +117,12 @@ public class RecordingActivity extends AppCompatActivity
         mRecordingFileSystem.deleteCurrent();
         finish();
     }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        mAudioRecorder.cancel();
+        mRecordingFileSystem.deleteCurrent();
+        finish();
+    }
 }
