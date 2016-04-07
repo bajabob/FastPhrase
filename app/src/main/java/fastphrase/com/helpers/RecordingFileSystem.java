@@ -55,4 +55,13 @@ public class RecordingFileSystem {
         return FILENAME_PREFIX + Long.toString(mRecording.hash) + FILENAME_EXTENSION;
     }
 
+    /**
+     * Delete the current recording
+     */
+    public void deleteCurrent(){
+        File file = new File(getFilenameAndPath());
+        if(file.exists()){
+            file.delete();
+        }
+    }
 }

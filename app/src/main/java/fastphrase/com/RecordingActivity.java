@@ -3,7 +3,6 @@ package fastphrase.com;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -17,16 +16,15 @@ import fastphrase.com.views.RecordButtonView;
 import fastphrase.com.views.TitleBarView;
 
 public class RecordingActivity extends AppCompatActivity
-        implements RecordButtonView.IRecordButtonListener{
+        implements RecordButtonView.IRecordButtonListener, AudioRecorder.OnStartListener{
 
     private Recording mNewRecording;
+    private RecordingFileSystem mRecordingFileSystem;
     private ElapsedTimeView mElapsedTime;
     private AudioRecorder mAudioRecorder;
-//    private AmplitudeView mAmplitude;
+    private AmplitudeView mAmplitude;
 
 
-    private Handler mHandler;
-    private Runnable mRunnable;
 
     public static Intent newInstance(Context context){
         Intent intent = new Intent(context, RecordingActivity.class);
@@ -42,51 +40,33 @@ public class RecordingActivity extends AppCompatActivity
         titleBarView.setRecordingTitleBar();
 
         mElapsedTime = (ElapsedTimeView) findViewById(R.id.elapsed_time);
-//        mAmplitude = (AmplitudeView) findViewById(R.id.amplitude);
+        mAmplitude = (AmplitudeView) findViewById(R.id.amplitude);
 
         RecordButtonView recordButton = (RecordButtonView) findViewById(R.id.record_button);
         recordButton.setRecordButtonListener(this);
 
+        mNewRecording = new Recording();
+        mRecordingFileSystem = new RecordingFileSystem(mNewRecording);
+        mAudioRecorder = AudioRecorderBuilder.with(this)
+                .fileName(mRecordingFileSystem.getFilenameAndPath())
+                .config(AudioRecorder.MediaRecorderConfig.DEFAULT)
+                .loggable()
+                .build();
+        mAudioRecorder.start(this);
     }
 
     @Override
     public void onStartRecording() {
 
-        mHandler = new Handler();
-        mRunnable = new Runnable() {
-            @Override
-            public void run() {
-                if(mAudioRecorder != null && mAudioRecorder.isRecording()) {
-                    Log.d("Amp", "" + mAudioRecorder.getMaxAmplitude());
-                }
-                mHandler.postDelayed(this, 50);
-            }
-        };
+        /**
+         * restart listening system and delete previous recording
+         */
+        mAudioRecorder.cancel();
+        mRecordingFileSystem.deleteCurrent();
+        mAudioRecorder.start(this);
 
-        mNewRecording = new Recording();
-
-        RecordingFileSystem rfs = new RecordingFileSystem(mNewRecording);
-        mAudioRecorder = AudioRecorderBuilder.with(this)
-                .fileName(rfs.getFilenameAndPath())
-                .config(AudioRecorder.MediaRecorderConfig.DEFAULT)
-                .loggable()
-                .build();
-
-        mAudioRecorder.start(new AudioRecorder.OnStartListener() {
-            @Override
-            public void onStarted() {
-                Log.d("AudioRecorder", "started");
-                mHandler.postDelayed(mRunnable, 50);
-            }
-
-            @Override
-            public void onException(Exception e) {
-                Log.e("AudioRecorder", e.getLocalizedMessage());
-            }
-        });
-
+        mAmplitude.onRecordingStarted();
         mElapsedTime.onStart();
-//        mAmplitude.onRecordingStarted();
     }
 
     @Override
@@ -106,9 +86,24 @@ public class RecordingActivity extends AppCompatActivity
 
         // stop timer and get elapsed time
         mElapsedTime.onStop();
-//        mAmplitude.onRecordingStopped();
         mNewRecording.playbackLengthMs = mElapsedTime.getElapsedTimeInMilliseconds();
-
+        mAmplitude.onRecordingStopped();
         Log.d("Recording Complete", mNewRecording.toJson());
+    }
+
+
+    @Override
+    public void onStarted() {
+        Log.d("AudioRecorder", "started");
+    }
+
+    @Override
+    public void onAmplitudeChange(int percentage) {
+        mAmplitude.onAmplitudeChange(percentage);
+    }
+
+    @Override
+    public void onException(Exception e) {
+        Log.e("AudioRecorder", e.getLocalizedMessage());
     }
 }

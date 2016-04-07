@@ -1,5 +1,6 @@
 package fastphrase.com.record.audio;
 
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.annotation.SuppressLint;
@@ -16,6 +17,9 @@ import java.io.IOException;
 public class AudioRecorder {
     private static final String TAG = "AudioRecorder";
 
+    private static final int MAX_AMPLITUDE = 32767;
+    private static final int AMPLITUDE_SAMPLE_RATE_MILLISECONDS = 50;
+
     public enum Status {
         STATUS_UNKNOWN,
         STATUS_READY_TO_RECORD,
@@ -29,6 +33,7 @@ public class AudioRecorder {
 
     public interface OnStartListener extends OnException {
         void onStarted();
+        void onAmplitudeChange(int percentage);
     }
 
     public interface OnPauseListener extends OnException {
@@ -104,6 +109,19 @@ public class AudioRecorder {
             if (e == null) {
                 setStatus(AudioRecorder.Status.STATUS_RECORDING);
                 mOnStartListener.onStarted();
+
+                mAmpHandler = new Handler();
+                mAmpRunnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        if(mStatus == AudioRecorder.Status.STATUS_RECORDING) {
+                            // convert to percentage
+                            mOnStartListener.onAmplitudeChange(((getMaxAmplitude() * 100) / MAX_AMPLITUDE));
+                            mAmpHandler.postDelayed(this, AMPLITUDE_SAMPLE_RATE_MILLISECONDS);
+                        }
+                    }
+                };
+                mAmpHandler.postDelayed(mAmpRunnable, AMPLITUDE_SAMPLE_RATE_MILLISECONDS);
             } else {
                 setStatus(AudioRecorder.Status.STATUS_READY_TO_RECORD);
                 mOnStartListener.onException(e);
@@ -146,6 +164,8 @@ public class AudioRecorder {
     private final Context mContext;
     private final MediaRecorderConfig mMediaRecorderConfig;
     private final boolean mIsLoggable;
+    private Handler mAmpHandler;
+    private Runnable mAmpRunnable;
 
     /* package-local */ AudioRecorder(@NonNull final Context context,
                                       @NonNull final String targetRecordFileName,
