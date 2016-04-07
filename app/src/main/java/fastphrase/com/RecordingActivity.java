@@ -11,6 +11,7 @@ import com.github.lassana.recorder.AudioRecorderBuilder;
 
 import fastphrase.com.helpers.RecordingFileSystem;
 import fastphrase.com.models.Recording;
+import fastphrase.com.record.AmplitudeView;
 import fastphrase.com.views.ElapsedTimeView;
 import fastphrase.com.views.RecordButtonView;
 import fastphrase.com.views.TitleBarView;
@@ -21,6 +22,7 @@ public class RecordingActivity extends AppCompatActivity
     private Recording mNewRecording;
     private ElapsedTimeView mElapsedTime;
     private AudioRecorder mAudioRecorder;
+    private AmplitudeView mAmplitude;
 
     public static Intent newInstance(Context context){
         Intent intent = new Intent(context, RecordingActivity.class);
@@ -36,7 +38,7 @@ public class RecordingActivity extends AppCompatActivity
         titleBarView.setRecordingTitleBar();
 
         mElapsedTime = (ElapsedTimeView) findViewById(R.id.elapsed_time);
-
+        mAmplitude = (AmplitudeView) findViewById(R.id.amplitude);
 
         RecordButtonView recordButton = (RecordButtonView) findViewById(R.id.record_button);
         recordButton.setRecordButtonListener(this);
@@ -47,13 +49,13 @@ public class RecordingActivity extends AppCompatActivity
     public void onStartRecording() {
         mNewRecording = new Recording();
 
-
         RecordingFileSystem rfs = new RecordingFileSystem(mNewRecording);
         mAudioRecorder = AudioRecorderBuilder.with(this)
                 .fileName(rfs.getFilenameAndPath())
                 .config(AudioRecorder.MediaRecorderConfig.DEFAULT)
                 .loggable()
                 .build();
+
 
         mAudioRecorder.start(new AudioRecorder.OnStartListener() {
             @Override
@@ -68,6 +70,7 @@ public class RecordingActivity extends AppCompatActivity
         });
 
         mElapsedTime.onStart();
+        mAmplitude.onRecordingStarted();
     }
 
     @Override
@@ -76,7 +79,7 @@ public class RecordingActivity extends AppCompatActivity
         mAudioRecorder.pause(new AudioRecorder.OnPauseListener() {
             @Override
             public void onPaused(String activeRecordFileName) {
-                Log.d("AudioRecorder", "paused, "+activeRecordFileName);
+                Log.d("AudioRecorder", "paused, " + activeRecordFileName);
             }
 
             @Override
@@ -87,6 +90,7 @@ public class RecordingActivity extends AppCompatActivity
 
         // stop timer and get elapsed time
         mElapsedTime.onStop();
+        mAmplitude.onRecordingStopped();
         mNewRecording.playbackLengthMs = mElapsedTime.getElapsedTimeInMilliseconds();
 
         Log.d("Recording Complete", mNewRecording.toJson());

@@ -30,6 +30,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <fastphrase.com.record.AmplitudeView
+                android:id="@+id/amplitude"
+                android:background="@android:color/transparent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
             <fastphrase.com.views.ElapsedTimeView
                 android:id="@+id/elapsed_time"
                 android:layout_gravity="center_horizontal"
