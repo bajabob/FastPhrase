@@ -57,9 +57,9 @@ public class AudioRecorder {
                         /* Stereo                       */
                         2,
                         /* Default audio source (usually, device microphone)  */
-                        MediaRecorder.AudioSource.DEFAULT,
+                        MediaRecorder.AudioSource.MIC,
                         /* Default encoder for the target Android version   */
-                        ApiHelper.DEFAULT_AUDIO_ENCODER);
+                        MediaRecorder.AudioEncoder.DEFAULT);
 
         /**
          * Constructor.
@@ -97,7 +97,7 @@ public class AudioRecorder {
             try {
                 mMediaRecorder.prepare();
                 mMediaRecorder.start();
-            } catch (IOException e) {
+            } catch (IOException | IllegalStateException e) {
                 exception = e;
             }
             return exception;

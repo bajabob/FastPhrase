@@ -24,6 +24,11 @@ public class RecordingFileSystem {
         ensurePath( getPath() );
     }
 
+    /**
+     * Ensure the specified path exists on disk, and create any required
+     * folders if needed
+     * @param path String
+     */
     private void ensurePath(String path){
         File folder = new File(path);
         if(!folder.exists()){
@@ -32,7 +37,7 @@ public class RecordingFileSystem {
     }
 
     /**
-     * Returns the path
+     * Returns the path to the storage directory
      * @return String
      */
     public String getPath(){
@@ -40,7 +45,7 @@ public class RecordingFileSystem {
     }
 
     /**
-     * Returns the path and filename
+     * Returns the path and filename to the recording
      * @return String
      */
     public String getFilenameAndPath(){
@@ -48,7 +53,7 @@ public class RecordingFileSystem {
     }
 
     /**
-     * Get just the filename
+     * Get just the filename of the stored file
      * @return String
      */
     public String getFilename(){
