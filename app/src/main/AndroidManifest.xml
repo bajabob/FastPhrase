@@ -32,6 +32,10 @@
         <activity android:name=".RecordingActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeRecord"/>
+
+        <activity android:name=".EditRecordingActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeRecord"/>
     </application>
 
 </manifest>

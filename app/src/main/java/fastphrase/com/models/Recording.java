@@ -1,8 +1,5 @@
 package fastphrase.com.models;
 
-import android.os.Environment;
-import android.util.Log;
-
 import com.google.gson.Gson;
 
 import org.joda.time.DateTime;

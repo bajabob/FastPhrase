@@ -50,6 +50,16 @@ public class RecordingActivity extends AppCompatActivity implements IRecord{
     @Override
     public void onRecordingComplete(Recording newRecording) {
         Log.d("Recording Complete", newRecording.toJson());
+
+        // save recording to disk
+        AppDataManager appData = new AppDataManager(this);
+        appData.addRecording(newRecording, this);
+        appData.save(this);
+
+        // open recording
+        Intent intent = EditRecordingActivity.newInstance(this, newRecording.hash);
+        finish(); // we do not need to come back to this current activity
+        startActivity(intent);
     }
 
     @Override

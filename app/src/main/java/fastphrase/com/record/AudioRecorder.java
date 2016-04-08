@@ -137,8 +137,11 @@ public class AudioRecorder {
             mOnPauseListener = params[0];
             Exception exception = null;
             try {
-                mMediaRecorder.stop();
-                mMediaRecorder.release();
+                if(mMediaRecorder != null) {
+                    mMediaRecorder.reset();
+                    mMediaRecorder.release();
+                    mMediaRecorder = null;
+                }
             } catch (Exception e) {
                 exception = e;
             }
@@ -252,9 +255,10 @@ public class AudioRecorder {
     public void cancel() {
         if(mStatus == Status.STATUS_RECORDING) {
             try {
-                if (mMediaRecorder != null) {
-                    mMediaRecorder.stop();
+                if(mMediaRecorder != null) {
+                    mMediaRecorder.reset();
                     mMediaRecorder.release();
+                    mMediaRecorder = null;
                 }
             } catch (Exception e) {
                 error("Exception during record cancelling", e);

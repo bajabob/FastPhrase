@@ -26,22 +26,20 @@ public class AppDataManager {
     }
 
     /**
+     * Save data to disk
+     * @param context Context
+     */
+    public void save(Context context){
+        AppDataStoreManager.save(context, mAppData);
+    }
+
+    /**
      * Add a new recording to the system
      * @param recording Recording
      * @return ADMResponse
      */
-    public ADMResponse addRecording(Recording recording, Context context){
-
-        /**
-         * look for duplicate label
-         */
-        if(this.getRecording(recording.label) != null){
-            return new ADMResponse(context.getString(R.string.error_duplicate_label_exists), true);
-        }
-
+    public void addRecording(Recording recording, Context context){
         mAppData.recordings.add(recording);
-
-        return new ADMResponse("", false);
     }
 
     /**
@@ -70,6 +68,21 @@ public class AppDataManager {
             }
         }
         return null;
+    }
+
+    /**
+     * get a list of recordings by their exact label
+     * @param label string
+     * @return List<Recording> | empty list
+     */
+    public List<Recording> getRecordings(String label){
+        List<Recording> list = new ArrayList<>();
+        for(Recording r : mAppData.recordings){
+            if(r.label.toLowerCase() == label.toLowerCase()){
+                list.add(r);
+            }
+        }
+        return list;
     }
 
     /**
@@ -122,13 +135,13 @@ public class AppDataManager {
     /**
      * simple class for providing errors
      */
-    public class ADMResponse{
-        public String message;
-        public boolean hadError = false;
-
-        public ADMResponse(String message, boolean hadError){
-            this.message = message;
-            this.hadError = hadError;
-        }
-    }
+//    public class ADMResponse{
+//        public String message;
+//        public boolean hadError = false;
+//
+//        public ADMResponse(String message, boolean hadError){
+//            this.message = message;
+//            this.hadError = hadError;
+//        }
+//    }
 }

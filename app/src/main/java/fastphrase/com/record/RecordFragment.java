@@ -102,6 +102,8 @@ public class RecordFragment extends Fragment
         mNewRecording.playbackLengthMs = mElapsedTime.getElapsedTimeInMilliseconds();
         mAmplitude.onRecordingStopped();
         if(mCallback != null) {
+            mAudioRecorder.cancel();
+            mAudioRecorder = null;
             mCallback.onRecordingComplete(mNewRecording);
         }
     }
@@ -140,7 +142,9 @@ public class RecordFragment extends Fragment
     @Override
     public void onPause(){
         super.onPause();
-        mAudioRecorder.cancel();
+        if(mAudioRecorder != null) {
+            mAudioRecorder.cancel();
+        }
     }
 
 }
