@@ -7,7 +7,6 @@ import com.google.gson.Gson;
 
 import org.joda.time.DateTime;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,17 +63,14 @@ public class Recording implements Comparable<Recording>{
 
     /**
      * Called after load from disk to get all information this object currently points too
-     * @param tags List<Tag></Tag>
+     * @param tags List<Tag>
      */
     public void afterLoad(List<Tag> tags){
-        Log.d("Test", "e");
         mTags = new ArrayList<Tag>();
         for(long tagId : tagHashes) {
             for (Tag t : tags) {
                 if(t.hash == tagId){
                     mTags.add(t);
-
-                    Log.d("Tag", label + ": "+t.label);
                 }
             }
         }

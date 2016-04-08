@@ -8,7 +8,7 @@ import java.util.Random;
 public class Hash {
 
     public static long generate() {
-        Random r = new Random(System.currentTimeMillis());
+        Random r = new Random();
         return Math.abs(r.nextLong());
     }
 }

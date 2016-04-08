@@ -80,8 +80,8 @@ public class AppDataManager {
     public List<Recording> getRecordings(Tag tag){
         List<Recording> recordings = new ArrayList<Recording>();
         for(Recording r : mAppData.recordings){
-            for(long hash : r.tagHashes){
-                if(hash == tag.hash){
+            for(Tag t : r.getTags()){
+                if(t.hash == tag.hash){
                     recordings.add(r);
                 }
             }

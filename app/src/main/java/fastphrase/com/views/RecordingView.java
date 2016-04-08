@@ -2,6 +2,7 @@ package fastphrase.com.views;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
@@ -94,6 +95,8 @@ public class RecordingView extends LinearLayout{
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT));
             mTagContainer.addView(tagView);
+
+            Log.d("Binding Tag", tag.toJson());
         }
     }
 

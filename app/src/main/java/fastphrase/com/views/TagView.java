@@ -30,11 +30,15 @@ public class TagView extends FrameLayout{
     }
 
     public void setLabel(String label) {
-        if(label.length() > 12){
-            mTag.setText(label.substring(0,12) + "...");
-        } else{
-            mTag.setText(label);
-        }
+        /**
+         * Removed truncated string because view now wraps to next line
+         */
+//        if(label.length() > 12){
+//            mTag.setText(label.substring(0,12) + "...");
+//        } else{
+//            mTag.setText(label);
+//        }
+        mTag.setText(label);
     }
 
 }

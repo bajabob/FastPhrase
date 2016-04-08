@@ -2,6 +2,7 @@ package fastphrase.com;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -29,8 +30,11 @@ public class AppDataStoreManager {
         SharedPreferences prefs = context.getSharedPreferences(SHARED_FILE, context.MODE_PRIVATE);
         String json = prefs.getString(SHARED_FILE, null);
         if(json == null){
-            return defaultAppData();
+            json = defaultJSONAppData();
         }
+
+        Log.d("AppDataStoreManager", "Loading JSON: "+json);
+
         Gson gson = new Gson();
         AppData data = gson.fromJson(json, AppData.class);
 
@@ -38,7 +42,6 @@ public class AppDataStoreManager {
          *  load complete, form any additional data here
          */
         data.afterLoad();
-
 
         return data;
     }
@@ -58,20 +61,18 @@ public class AppDataStoreManager {
      * App data to use the first time the application is loaded (for testing purposes)
      * @return AppData
      */
-    private static AppData defaultAppData(){
+    private static String defaultJSONAppData(){
         AppData ad = new AppData();
 
         ad.tags.add(new Tag("Arabic"));
         ad.tags.add(new Tag("Greek"));
         ad.tags.add(new Tag("First Encounter"));
-        ad.tags.add(new Tag("Random"));
 
         ad.recordings = new ArrayList<Recording>();
         ad.recordings.add(new Recording("Sit Down", Arrays.asList(
                 ad.tags.get(0).hash,
                 ad.tags.get(1).hash,
-                ad.tags.get(2).hash,
-                ad.tags.get(3).hash
+                ad.tags.get(2).hash
         ), 955));
         ad.recordings.add(new Recording("20 Degrees Port", Arrays.asList(
                 ad.tags.get(0).hash,
@@ -80,15 +81,9 @@ public class AppDataStoreManager {
         ad.recordings.add(new Recording("Stay in the boat", Arrays.asList(
                 ad.tags.get(1).hash
         ), 1200));
-        ad.recordings.add(new Recording("Where are my keys?", Arrays.asList(
-                ad.tags.get(3).hash
-        ), 3000));
-        ad.recordings.add(new Recording("Where is the bathroom?", null, 3430));
-        ad.recordings.add(new Recording("Are you thirsty?", Arrays.asList(
-                ad.tags.get(2).hash
-        ), 850));
 
-        return ad;
+        Gson gson = new Gson();
+        return gson.toJson(ad, AppData.class);
     }
 
 }

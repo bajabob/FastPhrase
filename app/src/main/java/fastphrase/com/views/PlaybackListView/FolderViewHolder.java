@@ -21,7 +21,6 @@ import fastphrase.com.views.RecordingView;
 public class FolderViewHolder extends RecyclerView.ViewHolder
         implements FolderView.IFolderListener {
 
-    private int mPosition;
     private FolderView mFolderView;
     private LinearLayout mRecordings;
     private CardView mContents;
@@ -65,15 +64,6 @@ public class FolderViewHolder extends RecyclerView.ViewHolder
     public void onBindData(PlaybackViewHolderData data, int position, Context context) {
         mFolderView.setFolderName(data.tag.label);
         mFolderView.setFolderPosition(position);
-        if(data.isFolderOpen){
-            mFolderView.openFolder();
-            expand(mContents);
-        }else{
-            mFolderView.closeFolder();
-            collapse(mContents);
-        }
-
-        mPosition = position;
 
         // remove all views from container
         mRecordings.removeAllViews();
@@ -90,6 +80,13 @@ public class FolderViewHolder extends RecyclerView.ViewHolder
             }
         }
 
+        if(data.isFolderOpen){
+            mFolderView.openFolder();
+            expand(mContents);
+        }else{
+            mFolderView.closeFolder();
+            collapse(mContents);
+        }
     }
 
     private static void expand(final View v) {

@@ -27,7 +27,6 @@
                 android:id="@+id/recording_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
                 style="@style/h1"
                 android:fontFamily="sans-serif-light"
                 tools:text="Sit Down"/>

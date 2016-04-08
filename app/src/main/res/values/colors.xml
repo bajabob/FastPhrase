@@ -7,6 +7,7 @@
 
     <color name="black_100">#000000</color>
     <color name="black_90">#f5000000</color>
+    <color name="black_60">#393939</color>
 
     <!-- Playback colors -->
     <color name="p900">#1e5d23</color>

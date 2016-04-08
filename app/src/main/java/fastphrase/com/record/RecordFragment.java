@@ -72,7 +72,6 @@ public class RecordFragment extends Fragment
 
         mAmplitude.onRecordingStarted();
         mElapsedTime.onStart();
-        
     }
 
     @Override
