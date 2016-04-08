@@ -26,9 +26,10 @@ public class RecordFragment extends Fragment
     private AudioRecorder mAudioRecorder;
     private AmplitudeView mAmplitude;
     private RecordButtonView mRecordButton;
+    private IRecord mCallback;
 
 
-    public static Fragment newInstance(){
+    public static RecordFragment newInstance(){
         RecordFragment f = new RecordFragment();
         return f;
     }
@@ -51,6 +52,14 @@ public class RecordFragment extends Fragment
         return v;
     }
 
+    /**
+     * Set the parent callback for this fragment
+     * @param callback
+     */
+    public void setIRecordCallback(IRecord callback){
+        mCallback = callback;
+    }
+
     @Override
     public void onStartRecording() {
 
@@ -63,6 +72,7 @@ public class RecordFragment extends Fragment
 
         mAmplitude.onRecordingStarted();
         mElapsedTime.onStart();
+        
     }
 
     @Override
@@ -82,6 +92,9 @@ public class RecordFragment extends Fragment
                 if (e != null && e.getMessage() != null) {
                     Log.e("AudioRecorder", e.getMessage());
                 }
+                if (mCallback != null) {
+                    mCallback.onRecordingException(true);
+                }
             }
         });
 
@@ -89,7 +102,9 @@ public class RecordFragment extends Fragment
         mElapsedTime.onStop();
         mNewRecording.playbackLengthMs = mElapsedTime.getElapsedTimeInMilliseconds();
         mAmplitude.onRecordingStopped();
-        Log.d("Recording Complete", mNewRecording.toJson());
+        if(mCallback != null) {
+            mCallback.onRecordingComplete(mNewRecording);
+        }
     }
 
 
@@ -107,6 +122,9 @@ public class RecordFragment extends Fragment
     public void onException(Exception e) {
         if(e != null && e.getMessage() != null) {
             Log.e("AudioRecorder", e.getMessage());
+        }
+        if(mCallback != null) {
+            mCallback.onRecordingException(true);
         }
     }
 

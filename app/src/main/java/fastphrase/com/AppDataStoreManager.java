@@ -65,17 +65,13 @@ public class AppDataStoreManager {
         ad.tags.add(new Tag("Greek"));
         ad.tags.add(new Tag("First Encounter"));
         ad.tags.add(new Tag("Random"));
-        ad.tags.add(new Tag("ECP-1"));
-        ad.tags.add(new Tag("ECP-2"));
 
         ad.recordings = new ArrayList<Recording>();
         ad.recordings.add(new Recording("Sit Down", Arrays.asList(
                 ad.tags.get(0).hash,
                 ad.tags.get(1).hash,
                 ad.tags.get(2).hash,
-                ad.tags.get(3).hash,
-                ad.tags.get(4).hash,
-                ad.tags.get(5).hash
+                ad.tags.get(3).hash
         ), 955));
         ad.recordings.add(new Recording("20 Degrees Port", Arrays.asList(
                 ad.tags.get(0).hash,
