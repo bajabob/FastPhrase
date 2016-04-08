@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import fastphrase.com.dialog.MoreOptionsDialog;
 import fastphrase.com.models.Recording;
+import fastphrase.com.views.EmptyStateView;
 import fastphrase.com.views.PlaybackListView.PlaybackListView;
 import fastphrase.com.views.RecordFABView;
 
@@ -16,6 +18,7 @@ public class PlaybackListActivity extends AppCompatActivity implements
 
     private PlaybackListView mPlaybackList;
     private RecordFABView mRecordFAB;
+    private EmptyStateView mEmptyState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +30,8 @@ public class PlaybackListActivity extends AppCompatActivity implements
 
         mPlaybackList = (PlaybackListView)findViewById(R.id.playback_list_view);
         mPlaybackList.setPlaybackController(this);
+
+        mEmptyState = (EmptyStateView)findViewById(R.id.empty_state);
     }
 
     @Override
@@ -35,7 +40,17 @@ public class PlaybackListActivity extends AppCompatActivity implements
         mRecordFAB.onFadeIn();
     }
 
+    @Override
+    public void onPlaybackListEmpty() {
+        mEmptyState.setVisibility(View.VISIBLE);
+        mPlaybackList.setVisibility(View.GONE);
+    }
 
+    @Override
+    public void onPlaybackListHasElements() {
+        mEmptyState.setVisibility(View.GONE);
+        mPlaybackList.setVisibility(View.VISIBLE);
+    }
 
     @Override
     public void onRecordActivityRequested() {

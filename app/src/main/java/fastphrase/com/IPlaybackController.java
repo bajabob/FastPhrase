@@ -10,4 +10,6 @@ public interface IPlaybackController {
     void onFolderOpened(int position);
     void onFolderClosed(int position);
     void onPlayRecording(Recording recording);
+    void onPlaybackListEmpty();
+    void onPlaybackListHasElements();
 }

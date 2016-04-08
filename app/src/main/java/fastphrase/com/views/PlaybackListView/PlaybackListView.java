@@ -4,14 +4,12 @@ import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import fastphrase.com.IPlaybackController;
 import fastphrase.com.R;
-import fastphrase.com.models.Recording;
 
 /**
  * Created by bob on 2/28/16.

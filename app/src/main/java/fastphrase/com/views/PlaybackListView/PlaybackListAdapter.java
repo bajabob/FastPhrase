@@ -61,8 +61,14 @@ public class PlaybackListAdapter extends RecyclerView.Adapter<FolderViewHolder>
 
     @Override
     public int getItemCount() {
-        if(mPresenter == null) {
+        if(mPresenter == null || mPresenter.getItemCount() == 0) {
+            if(mListener != null){
+                mListener.onPlaybackListEmpty();
+            }
             return 0;
+        }
+        if(mListener != null){
+            mListener.onPlaybackListHasElements();
         }
         return mPresenter.getItemCount();
     }

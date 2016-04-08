@@ -27,4 +27,12 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"/>
 
+    <fastphrase.com.views.EmptyStateView
+        android:id="@+id/empty_state"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"/>
+
 </RelativeLayout>
