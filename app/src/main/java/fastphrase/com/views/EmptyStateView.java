@@ -1,10 +1,16 @@
 package fastphrase.com.views;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import fastphrase.com.R;
 
@@ -12,6 +18,9 @@ import fastphrase.com.R;
  * Created by bob on 2/29/16.
  */
 public class EmptyStateView extends LinearLayout{
+
+    private ImageView mExpandingCircle;
+    private Animation mAnimation;
 
     public EmptyStateView(Context context) {
         this(context, null);
@@ -26,6 +35,16 @@ public class EmptyStateView extends LinearLayout{
 
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.view_empty_state, this, true);
-
+        mExpandingCircle = (ImageView)view.findViewById(R.id.empty_view_circle);
+        RecordFABView fab = (RecordFABView)findViewById(R.id.record_fab);
+//        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+//            RelativeLayout.LayoutParams animationParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//            animationParams.setMargins(15,15,83,109);
+//            animationParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+//            animationParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+//            mExpandingCircle.setLayoutParams(animationParams);
+//        }
+        mAnimation = AnimationUtils.loadAnimation(this.getContext(),R.anim.fab_select);
+        mExpandingCircle.startAnimation(mAnimation);
     }
 }

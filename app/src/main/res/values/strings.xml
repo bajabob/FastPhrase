@@ -14,7 +14,7 @@
 
     <string name="error_duplicate_label_exists">This label is currently in use. Labels must be unique.</string>
 
-    <string name="empty_list_message">Some message about creating a recording</string>
+    <string name="empty_list_message">Press on the red button to create your first recording!</string>
 
     <string name="untagged_ucf">Untagged</string>
     <string name="options_ucf">Options</string>
