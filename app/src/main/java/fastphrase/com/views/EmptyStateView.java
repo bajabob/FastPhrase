@@ -35,15 +35,9 @@ public class EmptyStateView extends LinearLayout{
 
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.view_empty_state, this, true);
+        //expanding circle animation
         mExpandingCircle = (ImageView)view.findViewById(R.id.empty_view_circle);
         RecordFABView fab = (RecordFABView)findViewById(R.id.record_fab);
-//        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-//            RelativeLayout.LayoutParams animationParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//            animationParams.setMargins(15,15,83,109);
-//            animationParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-//            animationParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-//            mExpandingCircle.setLayoutParams(animationParams);
-//        }
         mAnimation = AnimationUtils.loadAnimation(this.getContext(),R.anim.fab_select);
         mExpandingCircle.startAnimation(mAnimation);
     }
