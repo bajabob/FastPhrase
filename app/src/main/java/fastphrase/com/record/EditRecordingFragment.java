@@ -10,8 +10,6 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.util.List;
-
 import fastphrase.com.AppDataManager;
 import fastphrase.com.R;
 import fastphrase.com.models.Recording;
@@ -73,11 +71,13 @@ public class EditRecordingFragment extends Fragment{
             public void onClick(View view) {
                 String newLabel = mLabel.getText().toString();
 
+                Recording possibleDuplicate = mAppData.getRecording(newLabel);
+
                 if(newLabel.length() == 0){
                     mMessage.setVisibility(View.VISIBLE);
                     mMessage.setText(R.string.error_empty_label);
                     return;
-                }else if(mAppData.hasLabel(newLabel)){
+                }else if(possibleDuplicate != null && possibleDuplicate.hash != mRecording.hash){
                     mMessage.setVisibility(View.VISIBLE);
                     mMessage.setText(R.string.error_duplicate_label_exists);
                     return;

@@ -45,8 +45,13 @@ public class AreYouSureDialog extends DialogFragment{
             @Override
             public void onClick(View view) {
                 if (mListener != null) {
-                    mListener.onCancel();
-                    AreYouSureDialog.this.delayedDismiss();
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        public void run() {
+                            dismiss();
+                            mListener.onCancel();
+                        }
+                    }, 400);
                 } else {
                     throw new RuntimeException("listener is null, not expected");
                 }
@@ -59,8 +64,13 @@ public class AreYouSureDialog extends DialogFragment{
             @Override
             public void onClick(View view) {
                 if (mListener != null) {
-                    mListener.onYes();
-                    AreYouSureDialog.this.delayedDismiss();
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        public void run() {
+                            dismiss();
+                            mListener.onYes();
+                        }
+                    }, 400);
                 } else {
                     throw new RuntimeException("listener is null, not expected");
                 }
@@ -68,18 +78,6 @@ public class AreYouSureDialog extends DialogFragment{
         });
 
         return v;
-    }
-
-    /**
-     * Delay dismissing the dialog so that ripple effects can show
-     */
-    private void delayedDismiss(){
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                dismiss();
-            }
-        }, 400);
     }
 
     public interface DialogListener{

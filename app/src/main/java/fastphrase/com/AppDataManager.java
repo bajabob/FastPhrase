@@ -64,15 +64,6 @@ public class AppDataManager {
     }
 
     /**
-     * Check if a label exists in the store
-     * @param label String
-     * @return boolean
-     */
-    public boolean hasLabel(String label){
-        return getRecording(label) != null;
-    }
-
-    /**
      * get a recording by its hash
      * @param hash long
      * @return Recording | null (if none is found)

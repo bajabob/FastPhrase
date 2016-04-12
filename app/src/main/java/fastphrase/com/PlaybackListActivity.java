@@ -63,6 +63,11 @@ public class PlaybackListActivity extends AppCompatActivity implements
         mRecordFAB.onFadeIn();
         if(mPlaybackList != null){
             mPlaybackList.onRefreshData(this);
+            if(mPlaybackList.hasElements() && mPlaybackList.getVisibility() == View.GONE){
+                onPlaybackListHasElements();
+            }else if(!mPlaybackList.hasElements()){
+                onPlaybackListEmpty();
+            }
         }
     }
 
@@ -150,6 +155,6 @@ public class PlaybackListActivity extends AppCompatActivity implements
             }
         });
 
-            mp.start();
+        mp.start();
     }
 }

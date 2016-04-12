@@ -102,7 +102,6 @@ public class PlaybackListAdapter extends RecyclerView.Adapter<FolderViewHolder>
             mPresenter.closeFolder(position);
         }
     }
-
     /**
      * This class converts app data to a form that we can use more easily
      *  App stores data in simple lists. This DS stores everything in filtered folders.
@@ -128,7 +127,9 @@ public class PlaybackListAdapter extends RecyclerView.Adapter<FolderViewHolder>
                     folder.recordings.add(r);
                 }
 
-                mList.add(folder);
+                if(folder.recordings.size() > 0) {
+                    mList.add(folder);
+                }
             }
 
             // get all recordings that don't have tags and put in "untagged" folder

@@ -78,6 +78,14 @@ public class PlaybackListView extends LinearLayout {
         mAdapter.onRefreshData(context);
     }
 
+    /**
+     * Does the list have elements?
+     * @return boolean
+     */
+    public boolean hasElements(){
+        return mAdapter.getItemCount() > 0;
+    }
+
     public interface ICallback{
         void onShowFAB();
         void onHideFAB();
