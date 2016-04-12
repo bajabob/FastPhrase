@@ -58,6 +58,9 @@ public class EditRecordingFragment extends Fragment{
         mRecording = mAppData.getRecording(recordingHash);
 
         mLabel = (EditText) v.findViewById(R.id.label);
+        if(mRecording.label != null && mRecording.label.length() > 0) {
+            mLabel.setText(mRecording.label);
+        }
         mMessage = (TextView) v.findViewById(R.id.message);
 
         // save button

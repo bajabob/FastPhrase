@@ -1,12 +1,19 @@
 package fastphrase.com;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import java.io.File;
+import java.io.IOException;
+
+import fastphrase.com.dialog.AreYouSureDialog;
 import fastphrase.com.dialog.MoreOptionsDialog;
+import fastphrase.com.helpers.RecordingFileSystem;
 import fastphrase.com.models.Recording;
 import fastphrase.com.views.EmptyStateView;
 import fastphrase.com.views.PlaybackListView.PlaybackListView;
@@ -15,6 +22,8 @@ import fastphrase.com.views.RecordFABView;
 public class PlaybackListActivity extends AppCompatActivity implements
         RecordFABView.IRecordFABListener,
         IPlaybackController {
+
+    private static final String TAG = "PlaybackListActivity";
 
     private PlaybackListView mPlaybackList;
     private RecordFABView mRecordFAB;
@@ -87,11 +96,32 @@ public class PlaybackListActivity extends AppCompatActivity implements
             @Override
             public void onEdit(long recordingHash) {
                 Log.d("Dialog", "User would like to edit a recording (hash): "+recordingHash);
+                // open recording
+                Intent intent = EditRecordingActivity.newInstance(PlaybackListActivity.this, recordingHash);
+                startActivity(intent);
             }
 
             @Override
-            public void onDelete(long recordingHash) {
+            public void onDelete(final long recordingHash) {
                 Log.d("Dialog", "User would like to delete a recording (hash): "+recordingHash);
+
+                AreYouSureDialog dialog = AreYouSureDialog.newInstance();
+                dialog.setDialogListener(new AreYouSureDialog.DialogListener() {
+                    @Override
+                    public void onYes() {
+                        AppDataManager appData = new AppDataManager(PlaybackListActivity.this);
+                        appData.removeRecording(recordingHash);
+                        appData.save(PlaybackListActivity.this);
+                        mPlaybackList.onRefreshData(PlaybackListActivity.this);
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        // do nothing!
+                    }
+                });
+                dialog.show(getSupportFragmentManager(), "are you sure dialog");
+
             }
         });
         dialog.show(getSupportFragmentManager(), "edit recording dialog");
@@ -109,6 +139,17 @@ public class PlaybackListActivity extends AppCompatActivity implements
 
     @Override
     public void onPlayRecording(Recording recording) {
-        Log.d("Recording", "Play: "+recording.label);
+        Log.d("Recording", "Play: " + recording.label);
+        RecordingFileSystem rfs = new RecordingFileSystem(recording);
+        MediaPlayer mp = MediaPlayer.create(this, Uri.fromFile(new File(rfs.getFilenameAndPath())));
+        mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                mediaPlayer.release();
+                mediaPlayer = null;
+            }
+        });
+
+            mp.start();
     }
 }

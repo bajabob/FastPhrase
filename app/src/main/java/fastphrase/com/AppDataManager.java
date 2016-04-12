@@ -47,8 +47,16 @@ public class AppDataManager {
      * @param recording Recording
      */
     public void removeRecording(Recording recording){
+        this.removeRecording(recording.hash);
+    }
+
+    /**
+     * Remove a recording from the system
+     * @param recordingHash long
+     */
+    public void removeRecording(long recordingHash){
         for(int i = 0; i < mAppData.recordings.size(); i++){
-            if(mAppData.recordings.get(i).hash == recording.hash){
+            if(mAppData.recordings.get(i).hash == recordingHash){
                 mAppData.recordings.remove(i);
                 break;
             }

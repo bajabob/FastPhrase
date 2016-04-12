@@ -9,6 +9,11 @@ import android.media.MediaRecorder;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import java.io.File;
+import java.io.FileDescriptor;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 /**
@@ -85,15 +90,26 @@ public class AudioRecorder {
         @Override
         protected Exception doInBackground(OnStartListener... params) {
             this.mOnStartListener = params[0];
+            Exception exception = null;
+
             mMediaRecorder = new MediaRecorder();
             mMediaRecorder.setAudioEncodingBitRate(mMediaRecorderConfig.mAudioEncodingBitRate);
             mMediaRecorder.setAudioChannels(mMediaRecorderConfig.mAudioChannels);
             mMediaRecorder.setAudioSource(mMediaRecorderConfig.mAudioSource);
             mMediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
-            mMediaRecorder.setOutputFile(mTargetRecordFileName);
+
+            try {
+                File file = new File(mTargetRecordFileName);
+                FileOutputStream outputStream = new FileOutputStream(file);
+                FileDescriptor fd = outputStream.getFD();
+                mMediaRecorder.setOutputFile(fd);
+//                mMediaRecorder.setOutputFile(mTargetRecordFileName);
+            }catch (IOException e){
+                exception = e;
+            }
+
             mMediaRecorder.setAudioEncoder(mMediaRecorderConfig.mAudioEncoder);
 
-            Exception exception = null;
             try {
                 mMediaRecorder.prepare();
                 mMediaRecorder.start();
