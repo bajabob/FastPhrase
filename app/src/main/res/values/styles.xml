@@ -23,6 +23,7 @@
         <item name="colorControlHighlight">@color/ra400</item>
     </style>
 
+    <!-- TEXT    ####################################################-->
     <style name="h0" parent="TextAppearance.AppCompat.Headline"></style>
     <style name="h1" parent="TextAppearance.AppCompat.Large"></style>
     <style name="h2" parent="TextAppearance.AppCompat.Medium"></style>
@@ -31,6 +32,17 @@
         <item name="android:textSize">12sp</item>
     </style>
 
+    <!-- BUTTONS ####################################################-->
+    <style name="button_h0" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="button_h1" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- FAB     ####################################################-->
     <style name="floating_action_button">
         <item name="android:layout_marginLeft">0dp</item>
         <item name="android:layout_marginRight">3dp</item>

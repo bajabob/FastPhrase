@@ -1,13 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="@dimen/spacing_large">
 
-<TextView
-    android:text="EDIT RECORDING FRAGMENT"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/h1"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/edit_save_recording_ucf"/>
 
+    <View
+        android:layout_marginTop="@dimen/spacing_small"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/r900"/>
 
-</FrameLayout>
+    <!--
+        Dummy item to prevent AutoCompleteTextView from receiving focus
+        http://stackoverflow.com/questions/1555109/stop-edittext-from-gaining-focus-at-activity-startup
+    -->
+    <LinearLayout
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_width="0px"
+        android:layout_height="0px"/>
+
+    <EditText
+        android:id="@+id/label"
+        android:layout_marginTop="@dimen/spacing_large"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/label_name_ucf"
+        android:maxLength="30"
+        android:inputType="textAutoComplete|textCapWords"
+        style="@style/h1"
+        android:nextFocusUp="@id/label"
+        android:nextFocusLeft="@id/label"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/spacing_xlarge">
+
+        <fastphrase.com.views.IconTextButtonView
+            android:id="@+id/save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <fastphrase.com.views.IconTextButtonView
+            android:id="@+id/delete"
+            android:layout_gravity="right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </FrameLayout>
+
+</LinearLayout>

@@ -10,19 +10,24 @@
         ================================================================
     -->
 
-    <string name="app_name">FastPhrase</string>
-
-    <string name="error_duplicate_label_exists">This label is currently in use. Labels must be unique.</string>
-
-    <string name="empty_list_message">Press on the red button to create your first recording!</string>
-
     <string name="untagged_ucf">Untagged</string>
     <string name="options_ucf">Options</string>
+    <string name="edit_save_recording_ucf">Edit &amp; Save Recording</string>
+    <string name="label_name_ucf">Label/Name</string>
 
     <string name="cancel_uc">CANCEL</string>
     <string name="edit_uc">EDIT</string>
     <string name="delete_uc">DELETE</string>
+    <string name="save_uc">SAVE</string>
 
+    <!-- ########################################################## -->
+
+    <string name="app_name">FastPhrase</string>
+
+    <string name="error_duplicate_label_exists">This label is currently in use. Labels must be unique.</string>
+    <string name="empty_list_message">Press on the red button to create your first recording!</string>
+
+    <!-- ABOUT ACTIVITY -->
     <string name="team_caption">FastPhrase Team (left to right): Jennings Fairchild, Justin Tan, Matt
         Dyl, Bob Timm, Wesley Vance</string>
     <string name="about_description">FastPhrase was designed and created at Texas A&amp;M University for
@@ -30,5 +35,6 @@
         is an application designed to aid emergency workers in disaster situations where translations
         are needed without a reliable internet connection. For more on Dr. Murphy and her research in
         the field of robotics and emergency response, please visit http://faculty.cs.tamu.edu/murphy/ </string>
+    <!-- ########################################################## -->
 
 </resources>

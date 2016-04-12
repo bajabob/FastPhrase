@@ -21,7 +21,7 @@
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/spacing_small"
+        android:layout_margin="@dimen/spacing_large"
         card_view:cardBackgroundColor="@color/white_100"
         card_view:cardElevation="@dimen/spacing_xsmall"
         card_view:cardCornerRadius="@dimen/card_corners">

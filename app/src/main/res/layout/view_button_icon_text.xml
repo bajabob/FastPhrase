@@ -28,6 +28,7 @@
             tools:text="@string/edit_uc"
             android:padding="@dimen/spacing_large"
             android:textColor="@color/black_90"
+            style="@style/h3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
