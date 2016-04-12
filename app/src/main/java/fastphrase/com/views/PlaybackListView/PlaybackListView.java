@@ -18,6 +18,8 @@ public class PlaybackListView extends LinearLayout {
 
     private PlaybackListAdapter mAdapter;
     private RecyclerView mRecyclerView;
+    private ICallback mCallback;
+
     public PlaybackListView(Context context) {
         this(context, null);
     }
@@ -36,7 +38,29 @@ public class PlaybackListView extends LinearLayout {
         mAdapter = new PlaybackListAdapter(context);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                if(newState == RecyclerView.SCROLL_STATE_IDLE || newState == RecyclerView.SCROLL_STATE_SETTLING){
+                    if(mCallback != null){
+                        mCallback.onShowFAB();
+                    }
+                }else if(newState == RecyclerView.SCROLL_STATE_DRAGGING){
+                    if(mCallback != null){
+                        mCallback.onHideFAB();
+                    }
+                }
+
+                if(mCallback == null){
+                    throw new RuntimeException("Callback null, not expected");
+                }
+            }
+        });
     }
+
+    public void setCallback(ICallback callback){mCallback = callback;}
 
     public void setPlaybackController(IPlaybackController listener){
         if(mAdapter != null){
@@ -46,4 +70,16 @@ public class PlaybackListView extends LinearLayout {
         }
     }
 
+    /**
+     * refresh the dataset
+     * @param context Context
+     */
+    public void onRefreshData(Context context){
+        mAdapter.onRefreshData(context);
+    }
+
+    public interface ICallback{
+        void onShowFAB();
+        void onHideFAB();
+    }
 }

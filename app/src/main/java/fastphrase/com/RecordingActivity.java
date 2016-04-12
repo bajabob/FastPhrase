@@ -53,7 +53,7 @@ public class RecordingActivity extends AppCompatActivity implements IRecord{
 
         // save recording to disk
         AppDataManager appData = new AppDataManager(this);
-        appData.addRecording(newRecording, this);
+        appData.addRecording(newRecording);
         appData.save(this);
 
         // open recording

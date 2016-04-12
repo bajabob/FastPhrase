@@ -29,8 +29,13 @@ public class PlaybackListAdapter extends RecyclerView.Adapter<FolderViewHolder>
 
 
     public PlaybackListAdapter(Context context){
-        mPresenter = new AppDataPresenter(context);
+        onRefreshData(context);
         mContext = new WeakReference<Context>(context);
+    }
+
+    public void onRefreshData(Context context){
+        mPresenter = new AppDataPresenter(context);
+        this.notifyDataSetChanged();
     }
 
     @Override

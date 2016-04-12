@@ -64,6 +64,7 @@ public class FolderViewHolder extends RecyclerView.ViewHolder
     public void onBindData(PlaybackViewHolderData data, int position, Context context) {
         mFolderView.setFolderName(data.tag.label);
         mFolderView.setFolderPosition(position);
+        mFolderView.setItemCount(data.recordings.size());
 
         // remove all views from container
         mRecordings.removeAllViews();

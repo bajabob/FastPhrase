@@ -26,10 +26,24 @@ public class PlaybackListActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_playback_list);
 
         mRecordFAB = (RecordFABView) findViewById(R.id.record_fab);
-        mRecordFAB.setRecordFABListener( this );
+        mRecordFAB.setRecordFABListener(this);
 
         mPlaybackList = (PlaybackListView)findViewById(R.id.playback_list_view);
         mPlaybackList.setPlaybackController(this);
+        mPlaybackList.setCallback(new PlaybackListView.ICallback() {
+            @Override
+            public void onShowFAB() {
+                if(mRecordFAB != null){
+                    mRecordFAB.onFadeIn();
+                }
+            }
+            @Override
+            public void onHideFAB() {
+                if(mRecordFAB != null){
+                    mRecordFAB.onFadeOut();
+                }
+            }
+        });
 
         mEmptyState = (EmptyStateView)findViewById(R.id.empty_state);
     }
@@ -38,6 +52,9 @@ public class PlaybackListActivity extends AppCompatActivity implements
     protected void onResume() {
         super.onResume();
         mRecordFAB.onFadeIn();
+        if(mPlaybackList != null){
+            mPlaybackList.onRefreshData(this);
+        }
     }
 
     @Override

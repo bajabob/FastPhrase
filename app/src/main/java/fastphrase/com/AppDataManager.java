@@ -34,12 +34,34 @@ public class AppDataManager {
     }
 
     /**
-     * Add a new recording to the system
+     * Add a new recording to the system. Does not allow duplicates.
      * @param recording Recording
-     * @return ADMResponse
      */
-    public void addRecording(Recording recording, Context context){
+    public void addRecording(Recording recording){
+        this.removeRecording(recording);
         mAppData.recordings.add(recording);
+    }
+
+    /**
+     * Remove a recording from the system
+     * @param recording Recording
+     */
+    public void removeRecording(Recording recording){
+        for(int i = 0; i < mAppData.recordings.size(); i++){
+            if(mAppData.recordings.get(i).hash == recording.hash){
+                mAppData.recordings.remove(i);
+                break;
+            }
+        }
+    }
+
+    /**
+     * Check if a label exists in the store
+     * @param label String
+     * @return boolean
+     */
+    public boolean hasLabel(String label){
+        return getRecording(label) != null;
     }
 
     /**
@@ -57,13 +79,14 @@ public class AppDataManager {
     }
 
     /**
-     * get a recording by its exact label
+     * get a recording by its exact label (to lowercase)
      * @param label string
      * @return Recording | null (if none is found)
      */
     public Recording getRecording(String label){
+        String search = label.toLowerCase();
         for(Recording r : mAppData.recordings){
-            if(r.label.toLowerCase() == label.toLowerCase()){
+            if(r.label.toLowerCase().equals(search)){
                 return r;
             }
         }

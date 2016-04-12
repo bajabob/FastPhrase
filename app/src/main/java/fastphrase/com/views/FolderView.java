@@ -21,6 +21,7 @@ public class FolderView extends LinearLayout{
     private TextView mFolderName;
     private ViewFlipper mFolderIcon;
     private IFolderListener mListener;
+    private TextView mFolderItemCount;
     private int mPosition;
 
     public FolderView(Context context) {
@@ -38,9 +39,10 @@ public class FolderView extends LinearLayout{
         View view = inflater.inflate(R.layout.view_folder, this, true);
 
         mFolderName = (TextView)view.findViewById(R.id.folder_name);
+        mFolderItemCount = (TextView)view.findViewById(R.id.item_count);
         mFolderIcon = (ViewFlipper)view.findViewById(R.id.folder_flipper);
         mFolderIcon.setInAnimation(this.getContext(),R.anim.folder_open);
-        mFolderIcon.setOutAnimation(this.getContext(),R.anim.folder_close);
+        mFolderIcon.setOutAnimation(this.getContext(), R.anim.folder_close);
 
         this.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -85,6 +87,8 @@ public class FolderView extends LinearLayout{
     public void setFolderPosition(int position){
         mPosition = position;
     }
+
+    public void setItemCount(int count) { mFolderItemCount.setText(Integer.toString(count)); }
 
     /**
      * Sets who is listening for callbacks
