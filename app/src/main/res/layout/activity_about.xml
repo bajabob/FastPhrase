@@ -33,6 +33,7 @@
         android:textAlignment="center"
         android:layout_margin="10dp"
         style="@style/h3"
+        android:autoLink="web"
         android:text="@string/about_description"/>
 
 

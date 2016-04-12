@@ -23,7 +23,12 @@
     <string name="edit_uc">EDIT</string>
     <string name="delete_uc">DELETE</string>
 
-    <string name="team_caption">FastPhrase Team (left to right): Jennings Fairchild, Justin Tan, Matt Dyl, Bob Tim, Wesley Vance</string>
-    <string name="about_description">FastPhrase was created at Texas A&amp;M University for the team\'s senior design project. It was made under the guidance of Dr. Robin Murphy to be used for the refugee crisis off the coast of Turkey/Greece.</string>
+    <string name="team_caption">FastPhrase Team (left to right): Jennings Fairchild, Justin Tan, Matt
+        Dyl, Bob Timm, Wesley Vance</string>
+    <string name="about_description">FastPhrase was designed and created at Texas A&amp;M University for
+        a senior design project in Computer Science. Under the guidance of Dr. Robin Murphy, FastPhrase
+        is an application designed to aid emergency workers in disaster situations where translations
+        are needed without a reliable internet connection. For more on Dr. Murphy and her research in
+        the field of robotics and emergency response, please visit http://faculty.cs.tamu.edu/murphy/ </string>
 
 </resources>
