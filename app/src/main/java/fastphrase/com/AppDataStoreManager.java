@@ -63,25 +63,25 @@ public class AppDataStoreManager {
      */
     private static String defaultJSONAppData(){
         AppData ad = new AppData();
-//
-//        ad.tags.add(new Tag("Arabic"));
-//        ad.tags.add(new Tag("Greek"));
-//        ad.tags.add(new Tag("First Encounter"));
-//
-//        ad.recordings = new ArrayList<Recording>();
-//        ad.recordings.add(new Recording("Sit Down", Arrays.asList(
-//                ad.tags.get(0).hash,
-//                ad.tags.get(1).hash,
-//                ad.tags.get(2).hash
-//        ), 955));
-//        ad.recordings.add(new Recording("20 Degrees Port", Arrays.asList(
-//                ad.tags.get(0).hash,
-//                ad.tags.get(1).hash
-//        ), 1430));
-//        ad.recordings.add(new Recording("Stay in the boat", Arrays.asList(
-//                ad.tags.get(1).hash
-//        ), 1200));
-//
+
+        ad.tags.add(new Tag("Arabic"));
+        ad.tags.add(new Tag("Greek"));
+        ad.tags.add(new Tag("First Encounter"));
+
+        ad.recordings = new ArrayList<Recording>();
+        ad.recordings.add(new Recording("Sit Down", Arrays.asList(
+                ad.tags.get(0).hash,
+                ad.tags.get(1).hash,
+                ad.tags.get(2).hash
+        ), 955));
+        ad.recordings.add(new Recording("20 Degrees Port", Arrays.asList(
+                ad.tags.get(0).hash,
+                ad.tags.get(1).hash
+        ), 1430));
+        ad.recordings.add(new Recording("Stay in the boat", Arrays.asList(
+                ad.tags.get(1).hash
+        ), 1200));
+
         Gson gson = new Gson();
         return gson.toJson(ad, AppData.class);
     }
