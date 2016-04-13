@@ -47,13 +47,13 @@ public class TitleBarView extends FrameLayout{
     }
 
     public void setPlaybackTitleBar() {
-        mLogo.setImageResource(R.drawable.logo_playback_white);
+        mLogo.setImageResource(R.drawable.logo_green);
         mBackground.setBackgroundColor(getResources().getColor(R.color.p500));
         mAboutButton.setVisibility(View.VISIBLE);
     }
 
     public void setRecordingTitleBar() {
-        mLogo.setImageResource(R.drawable.logo_recording_white);
+        mLogo.setImageResource(R.drawable.logo_red);
         mBackground.setBackgroundColor(getResources().getColor(R.color.r500));
         mAboutButton.setVisibility(View.GONE);
     }

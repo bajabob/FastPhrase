@@ -3,14 +3,13 @@ package fastphrase.com;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import fastphrase.com.models.Recording;
 import fastphrase.com.record.IRecord;
-import fastphrase.com.record.RecordCompatFragment;
+import fastphrase.com.record.RecordErrorFragment;
 import fastphrase.com.record.RecordFragment;
 import fastphrase.com.views.TitleBarView;
 
@@ -30,12 +29,16 @@ public class RecordingActivity extends AppCompatActivity implements IRecord{
         titleBarView.setRecordingTitleBar();
 
         if (savedInstanceState == null) {
-            RecordFragment fragment = RecordFragment.newInstance();
-            fragment.setIRecordCallback(this);
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.add(R.id.fragment_container, fragment).commit();
+            attachRecordFragment();
         }
 
+    }
+
+    private void attachRecordFragment(){
+        RecordFragment fragment = RecordFragment.newInstance();
+        fragment.setIRecordCallback(this);
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_container, fragment).commit();
     }
 
 
@@ -63,11 +66,16 @@ public class RecordingActivity extends AppCompatActivity implements IRecord{
     }
 
     @Override
-    public void onRecordingException(boolean canStartCompatRecordFragment) {
+    public void onRecordingException(boolean canStartRecordErrorFragment) {
         // view requested compat recorder fragment
-        if(canStartCompatRecordFragment){
-            RecordCompatFragment fragment = RecordCompatFragment.newInstance();
-            fragment.setIRecordCallback(this);
+        if(canStartRecordErrorFragment){
+            RecordErrorFragment fragment = RecordErrorFragment.newInstance();
+            fragment.setIRecordCallback(new RecordErrorFragment.ICallback() {
+                @Override
+                public void onRetry() {
+                    attachRecordFragment();
+                }
+            });
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.fragment_container, fragment).commit();
         }

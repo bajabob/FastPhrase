@@ -8,6 +8,6 @@ import fastphrase.com.models.Recording;
 public interface IRecord {
 
     void onRecordingComplete(Recording newRecording);
-    void onRecordingException(boolean canStartCompatRecordFragment);
+    void onRecordingException(boolean canStartRecordErrorFragment);
     
 }

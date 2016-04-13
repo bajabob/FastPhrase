@@ -10,7 +10,7 @@
     <!-- logo  -->
     <ImageView
         android:id="@+id/logo"
-        android:src="@drawable/logo_playback_white"
+        android:src="@drawable/logo_green"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
