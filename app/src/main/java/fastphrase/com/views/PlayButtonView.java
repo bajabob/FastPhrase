@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import java.util.Timer;
 
 import fastphrase.com.R;
+import fastphrase.com.helpers.SettingsHelper;
 
 /**
  * Created by bob on 2/29/16.
@@ -41,7 +42,7 @@ public class PlayButtonView extends FrameLayout{
 
         this.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-
+                SettingsHelper.onClick(v.getContext(), v);
                 // don't allow the play button to be pressed if it is currently animating
                 if(mPlayButtonTimer != null){
                     return;

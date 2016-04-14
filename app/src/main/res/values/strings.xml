@@ -43,6 +43,8 @@
         is an application designed to aid emergency workers in disaster situations where translations
         are needed without a reliable internet connection. For more on Dr. Murphy and her research in
         the field of robotics and emergency response, please visit http://faculty.cs.tamu.edu/murphy/ </string>
+    <string name="haptic_checkbox">Haptic Click Feedback</string>
+    <string name="audio_checkbox">Audio Click Feedback</string>
     <!-- ########################################################## -->
 
 </resources>

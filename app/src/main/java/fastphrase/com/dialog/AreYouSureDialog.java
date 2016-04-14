@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import fastphrase.com.R;
+import fastphrase.com.helpers.SettingsHelper;
 
 /**
  * Created by bobtimm on 3/31/2016.
@@ -44,6 +45,7 @@ public class AreYouSureDialog extends DialogFragment{
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SettingsHelper.onClick(view.getContext(),view);
                 if (mListener != null) {
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
@@ -63,6 +65,7 @@ public class AreYouSureDialog extends DialogFragment{
         yes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SettingsHelper.onClick(view.getContext(),view);
                 if (mListener != null) {
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {

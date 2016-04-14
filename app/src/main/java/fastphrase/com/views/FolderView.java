@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import fastphrase.com.R;
+import fastphrase.com.helpers.SettingsHelper;
 
 /**
  * Created by bob on 2/29/16.
@@ -46,6 +47,7 @@ public class FolderView extends LinearLayout{
 
         this.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                SettingsHelper.onClick(v.getContext(), v);
                 if (mFolderIcon.getDisplayedChild() == 0) {
                     mFolderIcon.showNext();
                     if (mListener != null) {

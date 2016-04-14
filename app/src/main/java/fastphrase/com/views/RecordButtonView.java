@@ -10,6 +10,7 @@ import android.widget.FrameLayout;
 import android.widget.ViewFlipper;
 
 import fastphrase.com.R;
+import fastphrase.com.helpers.SettingsHelper;
 
 public class RecordButtonView extends FrameLayout{
 
@@ -35,6 +36,7 @@ public class RecordButtonView extends FrameLayout{
 
         this.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
+                SettingsHelper.onClick(v.getContext(), v);
                 if (mRecordIcon.getDisplayedChild() == 0) {
                     mRecordIcon.showNext();
                     if (mListener != null) {

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import fastphrase.com.R;
+import fastphrase.com.helpers.SettingsHelper;
 import fastphrase.com.views.IconTextButtonView;
 
 /**
@@ -54,6 +55,7 @@ public class MoreOptionsDialog extends DialogFragment{
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SettingsHelper.onClick(view.getContext(), view);
                 if(mListener != null){
                     mListener.onEdit(mRecordingHash);
                     MoreOptionsDialog.this.delayedDismiss();
@@ -71,6 +73,7 @@ public class MoreOptionsDialog extends DialogFragment{
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SettingsHelper.onClick(view.getContext(),view);
                 if (mListener != null) {
                     mListener.onDelete(mRecordingHash);
                     MoreOptionsDialog.this.delayedDismiss();
@@ -85,6 +88,7 @@ public class MoreOptionsDialog extends DialogFragment{
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SettingsHelper.onClick(view.getContext(),view);
                 if (mListener != null) {
                     mListener.onCancel();
                     MoreOptionsDialog.this.delayedDismiss();

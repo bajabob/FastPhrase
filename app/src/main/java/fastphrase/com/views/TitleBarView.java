@@ -11,6 +11,7 @@ import android.widget.ImageView;
 
 import fastphrase.com.AboutActivity;
 import fastphrase.com.R;
+import fastphrase.com.helpers.SettingsHelper;
 
 /**
  * Created by bob on 2/29/16.
@@ -41,6 +42,7 @@ public class TitleBarView extends FrameLayout{
 
         mAboutButton.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
+                SettingsHelper.onClick(v.getContext(), v);
                 onAboutActivityRequested();
             }
         });
