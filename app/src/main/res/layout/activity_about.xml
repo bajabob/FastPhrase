@@ -40,12 +40,6 @@
         android:layout_height="1dp"
         android:background="@android:color/darker_gray"/>
     <CheckBox
-        android:id="@+id/audio_checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/audio_checkbox"
-        />
-    <CheckBox
         android:id="@+id/haptic_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
