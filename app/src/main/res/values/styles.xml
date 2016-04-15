@@ -10,7 +10,7 @@
         <!-- edit text line color -->
         <item name="colorControlNormal">@color/pa400</item>
         <item name="colorControlActivated">@color/pa400</item>
-        <item name="colorControlHighlight">@color/pa400</item>
+        <item name="colorControlHighlight">@color/grey_50</item>
 
     </style>
 
@@ -20,7 +20,7 @@
 
         <item name="colorControlNormal">@color/ra400</item>
         <item name="colorControlActivated">@color/ra400</item>
-        <item name="colorControlHighlight">@color/ra400</item>
+        <item name="colorControlHighlight">@color/grey_50</item>
     </style>
 
     <!-- TEXT    ####################################################-->
