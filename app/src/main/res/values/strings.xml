@@ -13,7 +13,9 @@
     <string name="untagged_ucf">Untagged</string>
     <string name="options_ucf">Options</string>
     <string name="edit_save_recording_ucf">Edit &amp; Save Recording</string>
+    <string name="tag_editor_ucf">Edit &amp; Assign Tags</string>
     <string name="label_name_ucf">Label/Name</string>
+    <string name="tag_label_ucf">New Tag Label</string>
 
     <string name="cancel_uc">CANCEL</string>
     <string name="edit_uc">EDIT</string>
@@ -21,6 +23,7 @@
     <string name="save_uc">SAVE</string>
     <string name="yes_uc">YES</string>
     <string name="retry_uc">RETRY</string>
+    <string name="tag_editor_uc">EDIT &amp; ASSIGN TAGS</string>
 
     <!-- ########################################################## -->
 

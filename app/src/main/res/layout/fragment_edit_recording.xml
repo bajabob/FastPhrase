@@ -48,10 +48,25 @@
         android:nextFocusUp="@id/label"
         android:nextFocusLeft="@id/label"/>
 
+    <fastphrase.com.views.IconTextButtonView
+        android:id="@+id/add_tag"
+        android:layout_marginTop="@dimen/spacing_xlarge"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey_50"
+        android:layout_marginTop="@dimen/spacing_xlarge"/>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/spacing_xlarge">
+        android:layout_marginTop="@dimen/spacing_xlarge"
+        android:paddingLeft="@dimen/spacing_xlarge"
+        android:paddingRight="@dimen/spacing_xlarge">
 
         <fastphrase.com.views.IconTextButtonView
             android:id="@+id/save"

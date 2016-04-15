@@ -8,9 +8,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import fastphrase.com.dialog.AreYouSureDialog;
-import fastphrase.com.dialog.MoreOptionsDialog;
 import fastphrase.com.models.Recording;
 import fastphrase.com.record.EditRecordingFragment;
+import fastphrase.com.record.TagEditorFragment;
 import fastphrase.com.views.TitleBarView;
 
 public class EditRecordingActivity extends AppCompatActivity {
@@ -43,7 +43,7 @@ public class EditRecordingActivity extends AppCompatActivity {
         attachEditRecordingFragment(recordingHash);
     }
 
-    private void attachEditRecordingFragment(long recordingHash){
+    private void attachEditRecordingFragment(final long recordingHash){
         Log.d(TAG, "Starting EditRecordingFragment with "+recordingHash);
         EditRecordingFragment fragment = EditRecordingFragment.newInstance(recordingHash);
         fragment.setCallback(new EditRecordingFragment.ICallback() {
@@ -74,6 +74,15 @@ public class EditRecordingActivity extends AppCompatActivity {
                     }
                 });
                 dialog.show(getSupportFragmentManager(), "are you sure dialog");
+            }
+
+            @Override
+            public void onEditAndAssignTags(Recording recording) {
+                TagEditorFragment tagEditorFrag = TagEditorFragment.newInstance(recording.hash);
+                tagEditorFrag.setCallback(new TagEditorFragment.ICallback() {
+                });
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.fragment_container, tagEditorFrag).commit();
             }
         });
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
