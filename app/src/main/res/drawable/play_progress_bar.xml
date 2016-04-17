@@ -6,7 +6,8 @@
             <shape
                 android:shape="ring"
                 android:thickness="3dp"
-                android:innerRadius="20dp">
+                android:innerRadius="20dp"
+                android:useLevel="true">
                 <solid android:color="@color/p500" />
             </shape>
         </rotate>
