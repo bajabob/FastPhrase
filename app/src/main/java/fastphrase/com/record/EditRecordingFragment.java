@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import fastphrase.com.AppDataManager;
 import fastphrase.com.R;
+import fastphrase.com.helpers.SettingsHelper;
 import fastphrase.com.models.Recording;
 import fastphrase.com.views.IconTextButtonView;
 
@@ -69,6 +70,25 @@ public class EditRecordingFragment extends Fragment{
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SettingsHelper.onClick(view.getContext(), view);
+                String newLabel = mLabel.getText().toString();
+
+                Recording possibleDuplicate = mAppData.getRecording(newLabel);
+
+                if(newLabel.length() == 0){
+                    mMessage.setVisibility(View.VISIBLE);
+                    mMessage.setText(R.string.error_empty_label);
+                    return;
+                }else if(possibleDuplicate != null && possibleDuplicate.hash != mRecording.hash){
+                    mMessage.setVisibility(View.VISIBLE);
+                    mMessage.setText(R.string.error_duplicate_label_exists);
+                    return;
+                }else{
+                    mMessage.setVisibility(View.GONE);
+                }
+
+                mRecording.label = newLabel;
+
                 if(mCallback != null){
                     if(canSave()) {
                         mRecording.label = mLabel.getText().toString();
@@ -88,6 +108,7 @@ public class EditRecordingFragment extends Fragment{
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SettingsHelper.onClick(view.getContext(),view);
                 if(mCallback != null){
                     mCallback.onDeleteRecording(mRecording);
                 }else{

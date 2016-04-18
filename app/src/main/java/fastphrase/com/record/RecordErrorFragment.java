@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import fastphrase.com.R;
+import fastphrase.com.helpers.SettingsHelper;
 
 /**
  * Created by bob on 4/8/16.
@@ -31,6 +32,7 @@ public class RecordErrorFragment extends Fragment{
         retry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SettingsHelper.onClick(v.getContext(), v);
                 if(mCallback != null){
                     mCallback.onRetry();
                 }else{

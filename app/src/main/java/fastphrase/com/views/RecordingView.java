@@ -15,6 +15,7 @@ import java.lang.ref.WeakReference;
 
 import fastphrase.com.IPlaybackController;
 import fastphrase.com.R;
+import fastphrase.com.helpers.SettingsHelper;
 import fastphrase.com.models.Recording;
 import fastphrase.com.models.Tag;
 
@@ -51,6 +52,7 @@ public class RecordingView extends LinearLayout{
         mOptions.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                SettingsHelper.onClick(view.getContext(), view);
                 if(mListener != null){
                     // lets parent know which recording to edit
                     mListener.get().onRequestEditRecordingDialog(mRecording.hash);

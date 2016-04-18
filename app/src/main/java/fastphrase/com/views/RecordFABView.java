@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import fastphrase.com.R;
+import fastphrase.com.helpers.SettingsHelper;
 
 public class RecordFABView extends FrameLayout{
 
@@ -33,6 +34,7 @@ public class RecordFABView extends FrameLayout{
         mRecordButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                SettingsHelper.onClick(v.getContext(), v);
                 if (mListener != null) {
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
