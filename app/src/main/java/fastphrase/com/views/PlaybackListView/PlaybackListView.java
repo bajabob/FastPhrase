@@ -7,6 +7,7 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.os.Handler;
 
 import fastphrase.com.IPlaybackController;
 import fastphrase.com.R;
@@ -15,6 +16,8 @@ import fastphrase.com.R;
  * Created by bob on 2/28/16.
  */
 public class PlaybackListView extends LinearLayout {
+    Handler h = new Handler();
+    int delay = 1000;
 
     private PlaybackListAdapter mAdapter;
     private RecyclerView mRecyclerView;
@@ -29,7 +32,16 @@ public class PlaybackListView extends LinearLayout {
     }
 
     public PlaybackListView(Context context, AttributeSet attrs, int defStyleAttr) {
+
         super(context, attrs, defStyleAttr);
+
+//      SHOWS THE FAB AFTER A SECOND OF BEING HIDDEN
+        h.postDelayed(new Runnable() {
+            public void run() {
+                mCallback.onShowFAB();
+                h.postDelayed(this, delay);
+            }
+        }, delay);
 
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = (View) inflater.inflate(R.layout.view_playback_list, this, true);
