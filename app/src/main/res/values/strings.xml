@@ -24,6 +24,7 @@
     <string name="yes_uc">YES</string>
     <string name="retry_uc">RETRY</string>
     <string name="tag_editor_uc">EDIT &amp; ASSIGN TAGS</string>
+    <string name="add_tag">ADD TAG</string>
 
     <!-- ########################################################## -->
 
@@ -31,6 +32,7 @@
 
     <string name="error_duplicate_label_exists">This label is currently in use. Labels must be unique.</string>
     <string name="error_empty_label">Please enter a label or name for this recording!</string>
+    <string name="error_empty_tag">Please enter a label or name for this new tag!</string>
     <string name="error_other_recording_app">Unable to connect to your device\'s microphone. It is
         possible that another application is currently using the microphone and requires closing.</string>
 

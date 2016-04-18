@@ -38,14 +38,14 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:weightSum="3"
+        android:weightSum="5"
         android:layout_marginTop="@dimen/spacing_large"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <EditText
             android:id="@+id/label"
-            android:layout_weight="2"
+            android:layout_weight="3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:hint="@string/tag_label_ucf"
@@ -58,7 +58,7 @@
 
         <fastphrase.com.views.IconTextButtonView
             android:id="@+id/add"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:layout_gravity="center_vertical"
             android:layout_width="0dp"
             android:layout_height="wrap_content"/>
@@ -67,7 +67,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:scrollbarAlwaysDrawVerticalTrack="true">
 
         <LinearLayout
             android:id="@+id/tag_container"

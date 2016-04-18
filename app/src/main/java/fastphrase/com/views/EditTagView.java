@@ -22,6 +22,8 @@ public class EditTagView extends FrameLayout{
     private Tag mTag;
     private boolean mIsSelected;
 
+    private ImageButton mEdit, mSave, mDelete;
+
     private ICallback mListener;
 
     public EditTagView(Context context) {
@@ -42,16 +44,68 @@ public class EditTagView extends FrameLayout{
         checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-
+                mIsSelected = isChecked;
+                if(mListener != null){
+                    if(mIsSelected){
+                        mListener.onTagSelected(mTag);
+                    }else {
+                        mListener.onTagDeselected(mTag);
+                    }
+                }else{
+                    throw new RuntimeException("Listener is null, not expected");
+                }
             }
         });
 
         mLabel = (TextView) view.findViewById(R.id.tag_label);
         mLabelEdit = (EditText) view.findViewById(R.id.tag_label_edit);
 
-        ImageButton save = (ImageButton) view.findViewById(R.id.save);
-        ImageButton edit = (ImageButton) view.findViewById(R.id.edit);
-        ImageButton delete = (ImageButton) view.findViewById(R.id.delete);
+        mDelete = (ImageButton) view.findViewById(R.id.delete);
+        mDelete.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mListener != null){
+                    mListener.onAreYouSureDialogRequested(mTag);
+                }else{
+                    throw new RuntimeException("Listener is null, not expected");
+                }
+            }
+        });
+
+        mSave = (ImageButton) view.findViewById(R.id.save);
+        mSave.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mListener != null){
+                    mTag.label = mLabelEdit.getText().toString();
+                    mLabel.setText(mTag.label);
+                    mListener.onTagEdited(mTag);
+                    mListener.onClearFocus();
+                    mSave.setVisibility(GONE);
+                    mDelete.setVisibility(VISIBLE);
+                    mEdit.setVisibility(VISIBLE);
+                    mLabelEdit.setVisibility(GONE);
+                    mLabel.setVisibility(VISIBLE);
+                }else{
+                    throw new RuntimeException("Listener is null, not expected");
+                }
+            }
+        });
+
+        mEdit = (ImageButton) view.findViewById(R.id.edit);
+        mEdit.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mSave.setVisibility(VISIBLE);
+                mDelete.setVisibility(GONE);
+                mEdit.setVisibility(GONE);
+
+                mLabelEdit.setText(mTag.label);
+                mLabelEdit.setVisibility(VISIBLE);
+                mLabel.setVisibility(GONE);
+
+            }
+        });
 
     }
 
@@ -72,6 +126,7 @@ public class EditTagView extends FrameLayout{
         void onTagEdited(Tag tag);
         void onTagSelected(Tag tag);
         void onTagDeselected(Tag tag);
+        void onClearFocus();
     }
 
 }

@@ -43,6 +43,15 @@ public class AppDataManager {
     }
 
     /**
+     * Add a new tag to the system. Does not allow duplicates.
+     * @param tag Tag
+     */
+    public void addTag(Tag tag){
+        this.removeTag(tag);
+        mAppData.tags.add(tag);
+    }
+
+    /**
      * Remove a recording from the system
      * @param recording Recording
      */
@@ -58,6 +67,27 @@ public class AppDataManager {
         for(int i = 0; i < mAppData.recordings.size(); i++){
             if(mAppData.recordings.get(i).hash == recordingHash){
                 mAppData.recordings.remove(i);
+                break;
+            }
+        }
+    }
+
+    /**
+     * Remove a tag from the system
+     * @param tag Tag
+     */
+    public void removeTag(Tag tag){
+        this.removeTag(tag.hash);
+    }
+
+    /**
+     * Remove a tag from the system
+     * @param tagHash long
+     */
+    public void removeTag(long tagHash){
+        for(int i = 0; i < mAppData.tags.size(); i++){
+            if(mAppData.tags.get(i).hash == tagHash){
+                mAppData.tags.remove(i);
                 break;
             }
         }
@@ -87,6 +117,21 @@ public class AppDataManager {
         for(Recording r : mAppData.recordings){
             if(r.label.toLowerCase().equals(search)){
                 return r;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * get a tag by its exact label (to lowercase)
+     * @param label string
+     * @return Tag | null (if none is found)
+     */
+    public Tag getTag(String label){
+        String search = label.toLowerCase();
+        for(Tag t : mAppData.tags){
+            if(t.label.toLowerCase().equals(search)){
+                return t;
             }
         }
         return null;
@@ -155,15 +200,32 @@ public class AppDataManager {
     }
 
     /**
-     * simple class for providing errors
+     * Add a tag to a recording
+     * @param recording Recording
+     * @param tag Tag
      */
-//    public class ADMResponse{
-//        public String message;
-//        public boolean hadError = false;
-//
-//        public ADMResponse(String message, boolean hadError){
-//            this.message = message;
-//            this.hadError = hadError;
-//        }
-//    }
+    public void addTagToRecording(Recording recording, Tag tag){
+        for(Recording r : mAppData.recordings){
+            if(r.hash == recording.hash){
+                if(!r.tagHashes.contains(tag.hash)){
+                    r.tagHashes.add(tag.hash);
+                }
+            }
+        }
+    }
+
+    /**
+     * Add a tag to a recording
+     * @param recording Recording
+     * @param tag Tag
+     */
+    public void removeTagFromRecording(Recording recording, Tag tag){
+        for(Recording r : mAppData.recordings){
+            if(r.hash == recording.hash){
+                if(r.tagHashes.contains(tag.hash)){
+                    r.tagHashes.remove(tag.hash);
+                }
+            }
+        }
+    }
 }
