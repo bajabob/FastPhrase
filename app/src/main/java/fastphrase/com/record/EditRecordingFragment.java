@@ -8,13 +8,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import org.apmem.tools.layouts.FlowLayout;
 
 import fastphrase.com.AppDataManager;
 import fastphrase.com.R;
 import fastphrase.com.helpers.SettingsHelper;
 import fastphrase.com.models.Recording;
+import fastphrase.com.models.Tag;
 import fastphrase.com.views.IconTextButtonView;
+import fastphrase.com.views.TagView;
 
 /**
  * Created by bob on 4/8/16.
@@ -28,6 +33,7 @@ public class EditRecordingFragment extends Fragment{
     private EditText mLabel;
     private ICallback mCallback;
     private TextView mMessage;
+    private FlowLayout mTagContainer;
 
     private AppDataManager mAppData;
 
@@ -57,9 +63,8 @@ public class EditRecordingFragment extends Fragment{
         mRecording = mAppData.getRecording(recordingHash);
 
         mLabel = (EditText) v.findViewById(R.id.label);
-        if(mRecording.label != null && mRecording.label.length() > 0) {
-            mLabel.setText(mRecording.label);
-        }
+        mTagContainer = (FlowLayout) v.findViewById(R.id.tag_container);
+
         mMessage = (TextView) v.findViewById(R.id.message);
 
         // save button
@@ -135,8 +140,6 @@ public class EditRecordingFragment extends Fragment{
             }
         });
 
-        Log.d(TAG, mRecording.toJson());
-
         return v;
     }
 
@@ -162,6 +165,32 @@ public class EditRecordingFragment extends Fragment{
         }
 
         return true;
+    }
+
+
+    public void onStart(){
+        super.onStart();
+        invalidateData();
+    }
+
+
+    private void invalidateData(){
+        // set label
+        if(mRecording.label != null && mRecording.label.length() > 0) {
+            mLabel.setText(mRecording.label);
+        }
+
+        // add tags
+        for(Tag tag : mRecording.getTags()){
+
+            // add tags to list
+            TagView tagView = new TagView(getActivity());
+            tagView.setLabel(tag.label);
+            tagView.setLayoutParams(new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT));
+            mTagContainer.addView(tagView);
+        }
     }
 
     public interface ICallback {

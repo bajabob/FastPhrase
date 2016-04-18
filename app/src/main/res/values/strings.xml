@@ -11,11 +11,12 @@
     -->
 
     <string name="untagged_ucf">Untagged</string>
+    <string name="unnammed_ucf">Unnamed</string>
     <string name="options_ucf">Options</string>
     <string name="edit_save_recording_ucf">Edit &amp; Save Recording</string>
     <string name="tag_editor_ucf">Edit &amp; Assign Tags</string>
-    <string name="label_name_ucf">Label/Name</string>
-    <string name="tag_label_ucf">New Tag Label</string>
+    <string name="label_name_ucf">Enter A Name...</string>
+    <string name="tag_label_ucf">Create New Tag...</string>
 
     <string name="cancel_uc">CANCEL</string>
     <string name="edit_uc">EDIT</string>

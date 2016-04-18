@@ -48,6 +48,13 @@
         android:nextFocusUp="@id/label"
         android:nextFocusLeft="@id/label"/>
 
+    <org.apmem.tools.layouts.FlowLayout
+        android:id="@+id/tag_container"
+        android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
     <fastphrase.com.views.IconTextButtonView
         android:id="@+id/add_tag"
         android:layout_marginTop="@dimen/spacing_xlarge"

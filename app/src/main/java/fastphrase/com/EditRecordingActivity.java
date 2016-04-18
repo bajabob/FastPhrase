@@ -44,49 +44,63 @@ public class EditRecordingActivity extends AppCompatActivity {
     }
 
     private void attachEditRecordingFragment(final long recordingHash){
-        Log.d(TAG, "Starting EditRecordingFragment with "+recordingHash);
+        Log.d(TAG, "Starting EditRecordingFragment with " + recordingHash);
         EditRecordingFragment fragment = EditRecordingFragment.newInstance(recordingHash);
         fragment.setCallback(new EditRecordingFragment.ICallback() {
+
             @Override
             public void onSaveRecording(Recording recording) {
                 AppDataManager appData = new AppDataManager(EditRecordingActivity.this);
                 appData.addRecording(recording);
                 appData.save(EditRecordingActivity.this);
+
                 finish();
             }
 
             @Override
             public void onDeleteRecording(final Recording recording) {
-
-                AreYouSureDialog dialog = AreYouSureDialog.newInstance();
-                dialog.setDialogListener(new AreYouSureDialog.DialogListener() {
-                    @Override
-                    public void onYes() {
-                        AppDataManager appData = new AppDataManager(EditRecordingActivity.this);
-                        appData.removeRecording(recording);
-                        appData.save(EditRecordingActivity.this);
-                        finish();
-                    }
-
-                    @Override
-                    public void onCancel() {
-                        // do nothing!
-                    }
-                });
-                dialog.show(getSupportFragmentManager(), "are you sure dialog");
+                onRequestAreYouSureDialog(recording);
             }
 
             @Override
             public void onEditAndAssignTags(Recording recording) {
-                TagEditorFragment tagEditorFrag = TagEditorFragment.newInstance(recording.hash);
-                tagEditorFrag.setCallback(new TagEditorFragment.ICallback() {
-                });
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.fragment_container, tagEditorFrag).commit();
+                AppDataManager appData = new AppDataManager(EditRecordingActivity.this);
+                appData.addRecording(recording);
+                appData.save(EditRecordingActivity.this);
+
+                attachEditTagsFragment(recording.hash);
             }
         });
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_container, fragment).commit();
+    }
+
+    private void attachEditTagsFragment(final long recordingHash){
+        TagEditorFragment tagEditorFrag = TagEditorFragment.newInstance(recordingHash);
+        tagEditorFrag.setCallback(new TagEditorFragment.ICallback() {
+        });
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.addToBackStack("edit-tags-fragment");
+        ft.replace(R.id.fragment_container, tagEditorFrag).commit();
+    }
+
+    private void onRequestAreYouSureDialog(final Recording recording){
+        AreYouSureDialog dialog = AreYouSureDialog.newInstance();
+        dialog.setDialogListener(new AreYouSureDialog.DialogListener() {
+            @Override
+            public void onYes() {
+                AppDataManager appData = new AppDataManager(EditRecordingActivity.this);
+                appData.removeRecording(recording);
+                appData.save(EditRecordingActivity.this);
+                finish();
+            }
+
+            @Override
+            public void onCancel() {
+                // do nothing!
+            }
+        });
+        dialog.show(getSupportFragmentManager(), "are you sure dialog");
     }
 
 }

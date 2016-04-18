@@ -64,7 +64,7 @@ public class RecordingView extends LinearLayout{
         mPlayButton.setPlayButtonListener(new PlayButtonView.IPlayButtonListener() {
             @Override
             public void onPlayButtonPressed() {
-                if(mListener != null){
+                if (mListener != null) {
                     // lets parent know which recording to play
                     mListener.get().onPlayRecording(mRecording);
                 }
@@ -80,7 +80,15 @@ public class RecordingView extends LinearLayout{
      */
     public void setRecording(Recording recording, Tag parentTag, Context context){
         mRecording = recording;
-        mRecordingName.setText(recording.label);
+
+        if(recording.label != null && recording.label.length() > 0) {
+            mRecordingName.setText(recording.label);
+            mRecordingName.setTextColor(context.getResources().getColor(R.color.black_100));
+        }else{
+            mRecordingName.setText(context.getString(R.string.unnammed_ucf));
+            mRecordingName.setTextColor(context.getResources().getColor(R.color.r700));
+        }
+
         mPlayButton.setPlayLengthMs(recording.playbackLengthMs);
 
         for(Tag tag : recording.getTags()){

@@ -18,6 +18,7 @@ public class EditTagView extends FrameLayout{
 
     private TextView mLabel;
     private EditText mLabelEdit;
+    private CheckBox mCheckbox;
 
     private Tag mTag;
     private boolean mIsSelected;
@@ -40,8 +41,8 @@ public class EditTagView extends FrameLayout{
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = (View) inflater.inflate(R.layout.view_edit_tag, this, true);
 
-        CheckBox checkbox = (CheckBox) view.findViewById(R.id.checkbox);
-        checkbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        mCheckbox = (CheckBox) view.findViewById(R.id.checkbox);
+        mCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 mIsSelected = isChecked;
@@ -114,6 +115,7 @@ public class EditTagView extends FrameLayout{
         mTag = tag;
         mLabel.setText(tag.label);
         mLabelEdit.setText(tag.label);
+        mCheckbox.setChecked(isSelected);
     }
 
     public void setICallbackListener(ICallback listener){
