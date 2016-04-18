@@ -1,47 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/spacing_large">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/h1"
-        android:fontFamily="sans-serif-light"
-        android:text="@string/tag_editor_ucf"/>
-
-    <TextView
-        android:id="@+id/message"
+    <LinearLayout
+        android:layout_above="@+id/add_tag"
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/h3"
-        android:fontFamily="sans-serif"
-        android:textColor="@color/r900"
-        android:textAlignment="center"
-        android:padding="@dimen/spacing_medium"
-        android:visibility="gone"
-        tools:text="Test Message"/>
+        android:layout_height="match_parent">
 
-    <!--
-        Dummy item to prevent AutoCompleteTextView from receiving focus
-        http://stackoverflow.com/questions/1555109/stop-edittext-from-gaining-focus-at-activity-startup
-    -->
-    <LinearLayout
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:layout_width="0px"
-        android:layout_height="0px"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/h1"
+            android:fontFamily="sans-serif-light"
+            android:text="@string/tag_editor_ucf"/>
+
+        <TextView
+            android:id="@+id/message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/h3"
+            android:fontFamily="sans-serif"
+            android:textColor="@color/r900"
+            android:textAlignment="center"
+            android:padding="@dimen/spacing_medium"
+            android:visibility="gone"
+            tools:text="Test Message"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/h3"
+            android:fontFamily="sans-serif"
+            android:textColor="@color/black_100"
+            android:textAlignment="center"
+            android:text="@string/select_tags"
+            android:padding="@dimen/spacing_medium"/>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbarAlwaysDrawVerticalTrack="true">
+
+            <LinearLayout
+                android:id="@+id/tag_container"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </ScrollView>
+
+    </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/add_tag"
+        android:layout_alignParentBottom="true"
         android:orientation="horizontal"
         android:weightSum="5"
         android:layout_marginTop="@dimen/spacing_large"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <!--
+            Dummy item to prevent AutoCompleteTextView from receiving focus
+            http://stackoverflow.com/questions/1555109/stop-edittext-from-gaining-focus-at-activity-startup
+        -->
+        <LinearLayout
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:layout_width="0px"
+            android:layout_height="0px"/>
 
         <EditText
             android:id="@+id/label"
@@ -65,18 +97,4 @@
 
     </LinearLayout>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbarAlwaysDrawVerticalTrack="true">
-
-        <LinearLayout
-            android:id="@+id/tag_container"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
-    </ScrollView>
-
-
-</LinearLayout>
+</RelativeLayout>

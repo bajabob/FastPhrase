@@ -38,6 +38,9 @@
 
     <string name="empty_list_message">Press the red button to create your first recording!</string>
 
+    <string name="select_tags">Select which tags to assign to this recording below. You can also add
+        and edit tags here. Press the back button when complete.</string>
+
     <string name="are_you_sure">Are you sure?</string>
 
     <!-- ABOUT ACTIVITY -->
