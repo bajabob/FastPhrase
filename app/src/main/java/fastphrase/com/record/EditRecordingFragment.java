@@ -69,26 +69,11 @@ public class EditRecordingFragment extends Fragment{
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String newLabel = mLabel.getText().toString();
-
-                Recording possibleDuplicate = mAppData.getRecording(newLabel);
-
-                if(newLabel.length() == 0){
-                    mMessage.setVisibility(View.VISIBLE);
-                    mMessage.setText(R.string.error_empty_label);
-                    return;
-                }else if(possibleDuplicate != null && possibleDuplicate.hash != mRecording.hash){
-                    mMessage.setVisibility(View.VISIBLE);
-                    mMessage.setText(R.string.error_duplicate_label_exists);
-                    return;
-                }else{
-                    mMessage.setVisibility(View.GONE);
-                }
-
-                mRecording.label = newLabel;
-
                 if(mCallback != null){
-                    mCallback.onSaveRecording(mRecording);
+                    if(canSave()) {
+                        mRecording.label = mLabel.getText().toString();
+                        mCallback.onSaveRecording(mRecording);
+                    }
                 }else{
                     throw new RuntimeException("Callback is null. Not expected.");
                 }
@@ -111,14 +96,57 @@ public class EditRecordingFragment extends Fragment{
             }
         });
 
+        // add tag button
+        IconTextButtonView addTag = (IconTextButtonView) v.findViewById(R.id.add_tag);
+        addTag.setLabel(getString(R.string.tag_editor_uc));
+        addTag.setIcon(ContextCompat.getDrawable(getActivity(), R.drawable.ic_add_black_24dp));
+        addTag.setBackgroundColor(getResources().getColor(R.color.white_80));
+        addTag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mCallback != null){
+                    if(canSave()) {
+                        mCallback.onEditAndAssignTags(mRecording);
+                    }
+                }else{
+                    throw new RuntimeException("Callback is null. Not expected.");
+                }
+            }
+        });
+
         Log.d(TAG, mRecording.toJson());
 
         return v;
     }
 
+    /**
+     * verifies all user inserted data
+     * @return boolean
+     */
+    private boolean canSave(){
+        String newLabel = mLabel.getText().toString();
+
+        Recording possibleDuplicate = mAppData.getRecording(newLabel);
+
+        if(newLabel.length() == 0){
+            mMessage.setVisibility(View.VISIBLE);
+            mMessage.setText(R.string.error_empty_label);
+            return false;
+        }else if(possibleDuplicate != null && possibleDuplicate.hash != mRecording.hash){
+            mMessage.setVisibility(View.VISIBLE);
+            mMessage.setText(R.string.error_duplicate_label_exists);
+            return false;
+        }else{
+            mMessage.setVisibility(View.GONE);
+        }
+
+        return true;
+    }
+
     public interface ICallback {
         void onSaveRecording(Recording recording);
         void onDeleteRecording(Recording recording);
+        void onEditAndAssignTags(Recording recording);
     }
 
 }

@@ -13,7 +13,9 @@
     <string name="untagged_ucf">Untagged</string>
     <string name="options_ucf">Options</string>
     <string name="edit_save_recording_ucf">Edit &amp; Save Recording</string>
+    <string name="tag_editor_ucf">Edit &amp; Assign Tags</string>
     <string name="label_name_ucf">Label/Name</string>
+    <string name="tag_label_ucf">New Tag Label</string>
 
     <string name="cancel_uc">CANCEL</string>
     <string name="edit_uc">EDIT</string>
@@ -21,6 +23,8 @@
     <string name="save_uc">SAVE</string>
     <string name="yes_uc">YES</string>
     <string name="retry_uc">RETRY</string>
+    <string name="tag_editor_uc">EDIT &amp; ASSIGN TAGS</string>
+    <string name="add_tag">ADD TAG</string>
 
     <!-- ########################################################## -->
 
@@ -28,10 +32,14 @@
 
     <string name="error_duplicate_label_exists">This label is currently in use. Labels must be unique.</string>
     <string name="error_empty_label">Please enter a label or name for this recording!</string>
+    <string name="error_empty_tag">Please enter a label or name for this new tag!</string>
     <string name="error_other_recording_app">Unable to connect to your device\'s microphone. It is
         possible that another application is currently using the microphone and requires closing.</string>
 
     <string name="empty_list_message">Press the red button to create your first recording!</string>
+
+    <string name="select_tags">Select which tags to assign to this recording below. You can also add
+        and edit tags here. Press the back button when complete.</string>
 
     <string name="are_you_sure">Are you sure?</string>
 
