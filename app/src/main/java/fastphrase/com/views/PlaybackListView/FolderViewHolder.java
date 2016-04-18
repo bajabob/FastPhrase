@@ -18,7 +18,7 @@ import fastphrase.com.views.RecordingView;
 /**
  * Created by bob on 2/28/16.
  */
-public class FolderViewHolder extends RecyclerView.ViewHolder
+public class FolderViewHolder extends ViewHolder
         implements FolderView.IFolderListener {
 
     private FolderView mFolderView;

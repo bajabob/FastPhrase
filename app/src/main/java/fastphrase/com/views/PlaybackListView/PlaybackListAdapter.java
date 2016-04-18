@@ -20,7 +20,7 @@ import fastphrase.com.views.FolderView;
 /**
  * Created by bob on 2/28/16.
  */
-public class PlaybackListAdapter extends RecyclerView.Adapter<FolderViewHolder>
+public class PlaybackListAdapter extends RecyclerView.Adapter<ViewHolder>
     implements FolderView.IFolderListener{
 
     private AppDataPresenter mPresenter;
@@ -39,7 +39,7 @@ public class PlaybackListAdapter extends RecyclerView.Adapter<FolderViewHolder>
     }
 
     @Override
-    public FolderViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
 
         if(viewType == R.layout.viewholder_folder){
@@ -49,19 +49,27 @@ public class PlaybackListAdapter extends RecyclerView.Adapter<FolderViewHolder>
             return holder;
         }
 
+        if(viewType == R.layout.viewholder_empty){
+            EmptyViewHolder holder = new EmptyViewHolder(v);
+            return holder;
+        }
+
         return null;
     }
 
     @Override
-    public void onBindViewHolder(FolderViewHolder holder, int position) {
-        if(holder != null){
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        if(holder != null && position < mPresenter.getItemCount()){
             holder.onBindData(mPresenter.get(position), position, mContext.get());
         }
     }
 
     @Override
     public int getItemViewType(int position){
-        return R.layout.viewholder_folder;
+        if(mPresenter != null && position < mPresenter.getItemCount()) {
+            return R.layout.viewholder_folder;
+        }
+        return R.layout.viewholder_empty;
     }
 
     @Override
@@ -75,7 +83,7 @@ public class PlaybackListAdapter extends RecyclerView.Adapter<FolderViewHolder>
         if(mListener != null){
             mListener.onPlaybackListHasElements();
         }
-        return mPresenter.getItemCount();
+        return mPresenter.getItemCount() + 1;
     }
 
     public void setPlaybackController(IPlaybackController listener){

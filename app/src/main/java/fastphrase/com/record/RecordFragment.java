@@ -90,7 +90,7 @@ public class RecordFragment extends Fragment
                     Log.e("AudioRecorder", e.getMessage());
                 }
                 if (mCallback != null) {
-                    mCallback.onRecordingException(true);
+                    mCallback.onRecordingException(false);
                 }
             }
         });
@@ -100,7 +100,6 @@ public class RecordFragment extends Fragment
         mNewRecording.playbackLengthMs = mElapsedTime.getElapsedTimeInMilliseconds();
         mAmplitude.onRecordingStopped();
         if(mCallback != null) {
-            mAudioRecorder.cancel();
             mAudioRecorder = null;
             mCallback.onRecordingComplete(mNewRecording);
         }
