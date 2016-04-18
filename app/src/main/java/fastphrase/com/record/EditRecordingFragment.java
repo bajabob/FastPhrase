@@ -97,6 +97,7 @@ public class EditRecordingFragment extends Fragment{
                 if(mCallback != null){
                     if(canSave()) {
                         mRecording.label = mLabel.getText().toString();
+                        mCallback.onBackAllowed();
                         mCallback.onSaveRecording(mRecording);
                     }
                 }else{
@@ -133,6 +134,7 @@ public class EditRecordingFragment extends Fragment{
                 if(mCallback != null){
                     if(canSave()) {
                         mCallback.onEditAndAssignTags(mRecording);
+                        mCallback.onBackAllowed();
                     }
                 }else{
                     throw new RuntimeException("Callback is null. Not expected.");
@@ -178,6 +180,17 @@ public class EditRecordingFragment extends Fragment{
         // set label
         if(mRecording.label != null && mRecording.label.length() > 0) {
             mLabel.setText(mRecording.label);
+            if(mCallback != null){
+                mCallback.onBackAllowed();
+            }else{
+                throw new RuntimeException("Listener null, not expected");
+            }
+        }else{
+            if(mCallback != null){
+                mCallback.onBackNotAllowed();
+            }else{
+                throw new RuntimeException("Listener null, not expected");
+            }
         }
 
         // add tags
@@ -197,6 +210,8 @@ public class EditRecordingFragment extends Fragment{
         void onSaveRecording(Recording recording);
         void onDeleteRecording(Recording recording);
         void onEditAndAssignTags(Recording recording);
+        void onBackAllowed();
+        void onBackNotAllowed();
     }
 
 }

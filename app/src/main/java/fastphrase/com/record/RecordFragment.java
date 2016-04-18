@@ -64,10 +64,8 @@ public class RecordFragment extends Fragment
     public void onStartRecording() {
 
         /**
-         * restart listening system and delete previous recording
+         * restart listening
          */
-        mAudioRecorder.cancel();
-        mRecordingFileSystem.deleteCurrent();
         mAudioRecorder.start(this);
 
         mAmplitude.onRecordingStarted();
@@ -136,7 +134,6 @@ public class RecordFragment extends Fragment
                 .config(AudioRecorder.MediaRecorderConfig.DEFAULT)
                 .loggable()
                 .build();
-        mAudioRecorder.start(this);
     }
 
     @Override

@@ -18,6 +18,9 @@ public class EditRecordingActivity extends AppCompatActivity {
     private static final String TAG = "EditRecordingActivity";
     private static final String BUNDLE_RECORDING_HASH = "bundle_recording_hash";
 
+    private long mRecordingHash;
+    private boolean mCanGoBack = false;
+
     public static Intent newInstance(Context context, long recordingHash){
         Intent intent = new Intent(context, EditRecordingActivity.class);
         Bundle args = new Bundle();
@@ -32,15 +35,15 @@ public class EditRecordingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_recording);
 
         Bundle bundle = getIntent().getExtras();
-        long recordingHash = bundle.getLong(BUNDLE_RECORDING_HASH, -1);
-        if(recordingHash == -1){
+        mRecordingHash = bundle.getLong(BUNDLE_RECORDING_HASH, -1);
+        if(mRecordingHash == -1){
             throw new RuntimeException("No recording hash specified. Please use newInstance() method pattern.");
         }
 
         TitleBarView titleBarView = (TitleBarView)findViewById(R.id.title);
         titleBarView.setRecordingTitleBar();
 
-        attachEditRecordingFragment(recordingHash);
+        attachEditRecordingFragment(mRecordingHash);
     }
 
     private void attachEditRecordingFragment(final long recordingHash){
@@ -59,7 +62,7 @@ public class EditRecordingActivity extends AppCompatActivity {
 
             @Override
             public void onDeleteRecording(final Recording recording) {
-                onRequestAreYouSureDialog(recording);
+                onRequestAreYouSureDialog(recording.hash);
             }
 
             @Override
@@ -69,6 +72,16 @@ public class EditRecordingActivity extends AppCompatActivity {
                 appData.save(EditRecordingActivity.this);
 
                 attachEditTagsFragment(recording.hash);
+            }
+
+            @Override
+            public void onBackAllowed() {
+                mCanGoBack = true;
+            }
+
+            @Override
+            public void onBackNotAllowed() {
+                mCanGoBack = false;
             }
         });
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -84,13 +97,13 @@ public class EditRecordingActivity extends AppCompatActivity {
         ft.replace(R.id.fragment_container, tagEditorFrag).commit();
     }
 
-    private void onRequestAreYouSureDialog(final Recording recording){
+    private void onRequestAreYouSureDialog(final long recordingHash){
         AreYouSureDialog dialog = AreYouSureDialog.newInstance();
         dialog.setDialogListener(new AreYouSureDialog.DialogListener() {
             @Override
             public void onYes() {
                 AppDataManager appData = new AppDataManager(EditRecordingActivity.this);
-                appData.removeRecording(recording);
+                appData.removeRecording(recordingHash);
                 appData.save(EditRecordingActivity.this);
                 finish();
             }
@@ -103,4 +116,9 @@ public class EditRecordingActivity extends AppCompatActivity {
         dialog.show(getSupportFragmentManager(), "are you sure dialog");
     }
 
+    public void onBackPressed(){
+        if(mCanGoBack){
+            super.onBackPressed();
+        }
+    }
 }
