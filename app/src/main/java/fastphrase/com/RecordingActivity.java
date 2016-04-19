@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.Toast;
 
 import fastphrase.com.models.Recording;
 import fastphrase.com.record.IRecord;
@@ -18,6 +19,15 @@ public class RecordingActivity extends AppCompatActivity implements IRecord{
     public static Intent newInstance(Context context){
         Intent intent = new Intent(context, RecordingActivity.class);
         return intent;
+    }
+
+    private void ResetRecordingActivity() {
+        setContentView(R.layout.activity_recording);
+
+        TitleBarView titleBarView = (TitleBarView)findViewById(R.id.title);
+        titleBarView.setRecordingTitleBar();
+
+        attachRecordFragment();
     }
 
     @Override
@@ -52,17 +62,31 @@ public class RecordingActivity extends AppCompatActivity implements IRecord{
 
     @Override
     public void onRecordingComplete(Recording newRecording) {
-        Log.d("Recording Complete", newRecording.toJson());
+        // recording is less than 500ms
+        if(newRecording.playbackLengthMs < 500){
+            Context context = getApplicationContext();
+            CharSequence text = "Recordings need to be longer than half a second";
+            int duration = Toast.LENGTH_SHORT;
 
-        // save recording to disk
-        AppDataManager appData = new AppDataManager(this);
-        appData.addRecording(newRecording);
-        appData.save(this);
+//            Toast toast = Toast.makeText(context, text, duration);
+//            toast.show();
+            Toast.makeText(context, text, duration).show();
 
-        // open recording
-        Intent intent = EditRecordingActivity.newInstance(this, newRecording.hash);
-        finish(); // we do not need to come back to this current activity
-        startActivity(intent);
+            ResetRecordingActivity();
+        }
+        else {
+            Log.d("Recording Complete", newRecording.toJson());
+
+            // save recording to disk
+            AppDataManager appData = new AppDataManager(this);
+            appData.addRecording(newRecording);
+            appData.save(this);
+
+            // open recording
+            Intent intent = EditRecordingActivity.newInstance(this, newRecording.hash);
+            finish(); // we do not need to come back to this current activity
+            startActivity(intent);
+        }
     }
 
     @Override

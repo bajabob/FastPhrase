@@ -30,6 +30,7 @@
     <string name="error_empty_label">Please enter a label or name for this recording!</string>
     <string name="error_other_recording_app">Unable to connect to your device\'s microphone. It is
         possible that another application is currently using the microphone and requires closing.</string>
+    <string name="error_short_recording">Recordings should be longer than half a second</string>
 
     <string name="empty_list_message">Press the red button to create your first recording!</string>
 
