@@ -2,7 +2,6 @@ package fastphrase.com.views.PlaybackListView;
 
 import android.content.Context;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;

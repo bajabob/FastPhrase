@@ -18,6 +18,7 @@ import fastphrase.com.R;
 import fastphrase.com.helpers.SettingsHelper;
 import fastphrase.com.models.Recording;
 import fastphrase.com.models.Tag;
+import fastphrase.com.views.PlaybackListView.IQueue;
 
 /**
  * Created by bob on 2/29/16.
@@ -63,10 +64,10 @@ public class RecordingView extends LinearLayout{
         mPlayButton = (PlayButtonView)view.findViewById(R.id.play_button);
         mPlayButton.setPlayButtonListener(new PlayButtonView.IPlayButtonListener() {
             @Override
-            public void onPlayButtonPressed() {
+            public void onPlayButtonPressed(IQueue queueListener) {
                 if (mListener != null) {
                     // lets parent know which recording to play
-                    mListener.get().onPlayRecording(mRecording);
+                    mListener.get().onPlayRecording(mRecording, queueListener);
                 }
             }
         });

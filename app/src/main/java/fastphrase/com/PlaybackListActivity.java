@@ -16,6 +16,7 @@ import fastphrase.com.dialog.MoreOptionsDialog;
 import fastphrase.com.helpers.RecordingFileSystem;
 import fastphrase.com.models.Recording;
 import fastphrase.com.views.EmptyStateView;
+import fastphrase.com.views.PlaybackListView.IQueue;
 import fastphrase.com.views.PlaybackListView.PlaybackListView;
 import fastphrase.com.views.RecordFABView;
 
@@ -143,7 +144,7 @@ public class PlaybackListActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onPlayRecording(Recording recording) {
+    public void onPlayRecording(Recording recording, IQueue queueListener) {
         Log.d("Recording", "Play: " + recording.label);
         RecordingFileSystem rfs = new RecordingFileSystem(recording);
         MediaPlayer mp = MediaPlayer.create(this, Uri.fromFile(new File(rfs.getFilenameAndPath())));

@@ -13,11 +13,12 @@ import java.util.Timer;
 
 import fastphrase.com.R;
 import fastphrase.com.helpers.SettingsHelper;
+import fastphrase.com.views.PlaybackListView.IQueue;
 
 /**
  * Created by bob on 2/29/16.
  */
-public class PlayButtonView extends FrameLayout{
+public class PlayButtonView extends FrameLayout implements IQueue{
 
     private ProgressBar mProgress;
     private long mPlayLengthMs;
@@ -40,35 +41,44 @@ public class PlayButtonView extends FrameLayout{
 
         mProgress = (ProgressBar)view.findViewById(R.id.progress);
 
-        this.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                SettingsHelper.onClick(v.getContext(), v);
-                // don't allow the play button to be pressed if it is currently animating
-                if(mPlayButtonTimer != null){
-                    return;
-                }
-
-                // let parent know the play button has been pressed
-                if(mListener != null){
-                    mListener.onPlayButtonPressed();
-                }
-
-                mPlayButtonTimer = new PlayButtonTimer(new IPlayButtonTimerListener() {
-                    @Override
-                    public void onUpdate(int percentFilled) {
-                        mProgress.setProgress(percentFilled);
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        mProgress.setProgress( 100 );
-                        mPlayButtonTimer.onDestroy();
-                        mPlayButtonTimer = null;
-                    }
-
-                }, mPlayLengthMs);
+        this.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                onButtonClick();
             }
         });
+    }
+
+    private void onButtonClick(){
+        SettingsHelper.onClick(getContext(), this);
+        // don't allow the play button to be pressed if it is currently animating
+        if(mPlayButtonTimer != null){
+            return;
+        }
+
+        // let parent know the play button has been pressed
+        if(mListener != null){
+            mListener.onPlayButtonPressed(this);
+        }
+
+        mPlayButtonTimer = new PlayButtonTimer(new IPlayButtonTimerListener() {
+            @Override
+            public void onUpdate(int percentFilled) {
+                mProgress.setProgress(percentFilled);
+            }
+
+            @Override
+            public void onComplete() {
+                mProgress.setProgress( 100 );
+                mPlayButtonTimer.onDestroy();
+                mPlayButtonTimer = null;
+            }
+
+        }, mPlayLengthMs);
+    }
+
+    @Override
+    public void onAnimate() {
+        onButtonClick();
     }
 
     /**
@@ -88,7 +98,7 @@ public class PlayButtonView extends FrameLayout{
     }
 
     public interface IPlayButtonListener{
-        void onPlayButtonPressed();
+        void onPlayButtonPressed(IQueue queueListener);
     }
 
     public interface IPlayButtonTimerListener{
