@@ -37,6 +37,7 @@
     <string name="error_other_recording_app">Unable to connect to your device\'s microphone. It is
         possible that another application is currently using the microphone and requires closing.</string>
     <string name="error_empty_recording">There is no audio associated with this recording. Please try recording it again.</string>
+    <string name="error_short_recording">Recordings must be longer than half a second</string>
 
     <string name="empty_list_message">Press the red button to create your first recording!</string>
 

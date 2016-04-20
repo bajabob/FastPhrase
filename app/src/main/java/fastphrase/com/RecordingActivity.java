@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.Toast;
 
 import fastphrase.com.models.Recording;
 import fastphrase.com.record.IRecord;
@@ -25,13 +26,17 @@ public class RecordingActivity extends AppCompatActivity implements IRecord{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recording);
 
+        initView();
+    }
+
+    private void initView() {
         TitleBarView titleBarView = (TitleBarView)findViewById(R.id.title);
         titleBarView.setRecordingTitleBar();
 
-        if (savedInstanceState == null) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        if(ft.isEmpty()){
             attachRecordFragment();
         }
-
     }
 
     private void attachRecordFragment(){
@@ -52,17 +57,24 @@ public class RecordingActivity extends AppCompatActivity implements IRecord{
 
     @Override
     public void onRecordingComplete(Recording newRecording) {
-        Log.d("Recording Complete", newRecording.toJson());
+        // recording is less than 500ms
+        if(newRecording.playbackLengthMs < 500){
+            Toast.makeText(this, getString(R.string.error_short_recording), Toast.LENGTH_SHORT).show();
+            finish();
+        }
+        else {
+            Log.d("Recording Complete", newRecording.toJson());
 
-        // save recording to disk
-        AppDataManager appData = new AppDataManager(this);
-        appData.addRecording(newRecording);
-        appData.save(this);
+            // save recording to disk
+            AppDataManager appData = new AppDataManager(this);
+            appData.addRecording(newRecording);
+            appData.save(this);
 
-        // open recording
-        Intent intent = EditRecordingActivity.newInstance(this, newRecording.hash);
-        finish(); // we do not need to come back to this current activity
-        startActivity(intent);
+            // open recording
+            Intent intent = EditRecordingActivity.newInstance(this, newRecording.hash);
+            finish(); // we do not need to come back to this current activity
+            startActivity(intent);
+        }
     }
 
     @Override
