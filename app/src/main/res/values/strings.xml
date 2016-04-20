@@ -30,6 +30,7 @@
     <!-- ########################################################## -->
 
     <string name="app_name">FastPhrase</string>
+    <string name="version">Version: </string>
 
     <string name="error_duplicate_label_exists">This label is currently in use. Labels must be unique.</string>
     <string name="error_empty_label">Please enter a label or name for this recording!</string>
