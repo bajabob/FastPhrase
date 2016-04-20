@@ -43,23 +43,19 @@ public class PlayButtonView extends FrameLayout implements IQueue{
 
         this.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                onButtonClick();
+                SettingsHelper.onClick(getContext(), PlayButtonView.this);
+
+                // let parent know the play button has been pressed
+                if(mListener != null){
+                    mListener.onPlayButtonPressed(PlayButtonView.this);
+                }
             }
         });
     }
 
-    private void onButtonClick(){
-        SettingsHelper.onClick(getContext(), this);
-        // don't allow the play button to be pressed if it is currently animating
-        if(mPlayButtonTimer != null){
-            return;
-        }
 
-        // let parent know the play button has been pressed
-        if(mListener != null){
-            mListener.onPlayButtonPressed(this);
-        }
-
+    @Override
+    public void onAnimate() {
         mPlayButtonTimer = new PlayButtonTimer(new IPlayButtonTimerListener() {
             @Override
             public void onUpdate(int percentFilled) {
@@ -74,11 +70,6 @@ public class PlayButtonView extends FrameLayout implements IQueue{
             }
 
         }, mPlayLengthMs);
-    }
-
-    @Override
-    public void onAnimate() {
-        onButtonClick();
     }
 
     /**
@@ -136,11 +127,17 @@ public class PlayButtonView extends FrameLayout implements IQueue{
                 long elapsedTime = currentTime - mTimeButtonPressed;
 
                 if(elapsedTime > mPlayLengthMs){
-                    mListener.onComplete();
+                    if(mListener != null) {
+                        mListener.onComplete();
+                    }
                 }else{
                     int percentFilled = (int) (((float) elapsedTime / (float) mPlayLengthMs) * 100);
-                    mListener.onUpdate(percentFilled);
-                    mHandler.postDelayed(this, UPDATE_FREQUENCY_MS);
+                    if(mListener != null) {
+                        mListener.onUpdate(percentFilled);
+                    }
+                    if(mHandler != null) {
+                        mHandler.postDelayed(this, UPDATE_FREQUENCY_MS);
+                    }
                 }
             }
         };

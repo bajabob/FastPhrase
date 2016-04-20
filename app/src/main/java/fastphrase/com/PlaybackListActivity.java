@@ -1,23 +1,18 @@
 package fastphrase.com;
 
 import android.content.Intent;
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import java.io.File;
-import java.io.IOException;
-
 import fastphrase.com.dialog.AreYouSureDialog;
 import fastphrase.com.dialog.MoreOptionsDialog;
-import fastphrase.com.helpers.RecordingFileSystem;
 import fastphrase.com.models.Recording;
 import fastphrase.com.views.EmptyStateView;
 import fastphrase.com.views.PlaybackListView.IQueue;
 import fastphrase.com.views.PlaybackListView.PlaybackListView;
+import fastphrase.com.views.PlaybackListView.PlaybackQueueManager;
 import fastphrase.com.views.RecordFABView;
 
 public class PlaybackListActivity extends AppCompatActivity implements
@@ -29,6 +24,7 @@ public class PlaybackListActivity extends AppCompatActivity implements
     private PlaybackListView mPlaybackList;
     private RecordFABView mRecordFAB;
     private EmptyStateView mEmptyState;
+    private PlaybackQueueManager mPlaybackQueueManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +57,8 @@ public class PlaybackListActivity extends AppCompatActivity implements
     @Override
     protected void onResume() {
         super.onResume();
+        mPlaybackQueueManager = new PlaybackQueueManager(this);
+
         mRecordFAB.onFadeIn();
         if(mPlaybackList != null){
             mPlaybackList.onRefreshData(this);
@@ -70,6 +68,13 @@ public class PlaybackListActivity extends AppCompatActivity implements
                 onPlaybackListEmpty();
             }
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mPlaybackQueueManager.onDestroy();
+        mPlaybackQueueManager = null;
     }
 
     @Override
@@ -145,17 +150,6 @@ public class PlaybackListActivity extends AppCompatActivity implements
 
     @Override
     public void onPlayRecording(Recording recording, IQueue queueListener) {
-        Log.d("Recording", "Play: " + recording.label);
-        RecordingFileSystem rfs = new RecordingFileSystem(recording);
-        MediaPlayer mp = MediaPlayer.create(this, Uri.fromFile(new File(rfs.getFilenameAndPath())));
-        mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mediaPlayer) {
-                mediaPlayer.release();
-                mediaPlayer = null;
-            }
-        });
-
-        mp.start();
+        mPlaybackQueueManager.onPlay(recording, queueListener);
     }
 }
