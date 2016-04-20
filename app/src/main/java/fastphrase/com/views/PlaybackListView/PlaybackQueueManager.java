@@ -5,11 +5,13 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Handler;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.File;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import fastphrase.com.R;
 import fastphrase.com.helpers.RecordingFileSystem;
 import fastphrase.com.models.Recording;
 
@@ -88,20 +90,29 @@ public class PlaybackQueueManager {
         }
 
         public void onPlay(Context context){
-            Log.d("Recording", "Play: " + mRecording.label);
             RecordingFileSystem rfs = new RecordingFileSystem(mRecording);
-            MediaPlayer mp = MediaPlayer.create(context, Uri.fromFile(new File(rfs.getFilenameAndPath())));
-            mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                @Override
-                public void onCompletion(MediaPlayer mediaPlayer) {
-                    mediaPlayer.release();
-                    mediaPlayer = null;
-                    mPlayState = STATE_COMPLETE;
-                }
-            });
-            mp.start();
-            mPlayState = STATE_PLAYING;
-            mQueueListener.onAnimate();
+            File recordingFile = new File(rfs.getFilenameAndPath());
+
+            if( !recordingFile.exists()){
+                String noRecording = context.getString(R.string.error_empty_recording);
+                Toast.makeText(context, noRecording, Toast.LENGTH_LONG).show();
+                mQueueListener.onError();
+                mPlayState = STATE_COMPLETE;
+            } else {
+                Log.d("Recording", "Play: " + mRecording.label);
+                MediaPlayer mp = MediaPlayer.create(context, Uri.fromFile(recordingFile));
+                mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                    @Override
+                    public void onCompletion(MediaPlayer mediaPlayer) {
+                        mediaPlayer.release();
+                        mediaPlayer = null;
+                        mPlayState = STATE_COMPLETE;
+                    }
+                });
+                mp.start();
+                mPlayState = STATE_PLAYING;
+                mQueueListener.onAnimate();
+            }
         }
     }
 }

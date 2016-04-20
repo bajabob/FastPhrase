@@ -23,6 +23,7 @@ public class PlayButtonView extends FrameLayout implements IQueue{
     private PlayButtonTimer mPlayButtonTimer;
     private IPlayButtonListener mListener;
     private ImageView mQueueIcon;
+    private ImageView mErrorIcon;
 
     public PlayButtonView(Context context) {
         this(context, null);
@@ -41,6 +42,7 @@ public class PlayButtonView extends FrameLayout implements IQueue{
         mProgress = (ProgressBar)view.findViewById(R.id.progress);
 
         mQueueIcon = (ImageView) view.findViewById(R.id.queue_icon);
+        mErrorIcon = (ImageView) view.findViewById(R.id.error_icon);
 
         this.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -52,6 +54,16 @@ public class PlayButtonView extends FrameLayout implements IQueue{
                 }
             }
         });
+    }
+
+    @Override
+    public void onError() {
+        if(mQueueIcon != null) {
+            mQueueIcon.setVisibility(GONE);
+        }
+        if(mErrorIcon != null){
+            mErrorIcon.setVisibility(VISIBLE);
+        }
     }
 
     @Override

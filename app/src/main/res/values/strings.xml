@@ -36,12 +36,12 @@
     <string name="error_empty_tag">Please enter a label or name for this new tag!</string>
     <string name="error_other_recording_app">Unable to connect to your device\'s microphone. It is
         possible that another application is currently using the microphone and requires closing.</string>
+    <string name="error_empty_recording">There is no audio associated with this recording. Please try recording it again.</string>
 
     <string name="empty_list_message">Press the red button to create your first recording!</string>
 
     <string name="select_tags">Select which tags to assign to this recording below. You can also add
         and edit tags here. Press the back button when complete.</string>
-
     <string name="are_you_sure">Are you sure?</string>
 
     <!-- ABOUT ACTIVITY -->
