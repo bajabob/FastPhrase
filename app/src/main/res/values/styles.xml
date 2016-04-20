@@ -4,6 +4,7 @@
     <style name="AppTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
 
         <!-- notification drawer -->
+        <item name="colorPrimary">@color/p700</item>
         <item name="colorPrimaryDark">@color/p700</item>
         <item name="android:typeface">monospace</item>
 
