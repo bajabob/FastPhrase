@@ -50,12 +50,16 @@ public class FolderView extends LinearLayout{
                 SettingsHelper.onClick(v.getContext(), v);
                 if (mFolderIcon.getDisplayedChild() == 0) {
                     mFolderIcon.showNext();
+                    mFolderIcon.setInAnimation(v.getContext(), R.anim.closed_folder_open);
+                    mFolderIcon.setOutAnimation(v.getContext(), R.anim.closed_folder_close);
                     if (mListener != null) {
                         // lets parent know the folder has opened
                         mListener.onFolderOpened(mPosition);
                     }
                 } else {
                     mFolderIcon.showPrevious();
+                    mFolderIcon.setInAnimation(v.getContext(),R.anim.folder_open);
+                    mFolderIcon.setOutAnimation(v.getContext(), R.anim.folder_close);
                     if (mListener != null) {
                         // lets parent know the folder has closed
                         mListener.onFolderClosed(mPosition);
