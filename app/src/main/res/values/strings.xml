@@ -16,7 +16,7 @@
     <string name="edit_save_recording_ucf">Edit &amp; Save Recording</string>
     <string name="tag_editor_ucf">Edit &amp; Assign Tags</string>
     <string name="label_name_ucf">Enter A Name...</string>
-    <string name="tag_label_ucf">Create New Tag...</string>
+    <string name="tag_label_ucf">Tag Label...</string>
 
     <string name="cancel_uc">CANCEL</string>
     <string name="edit_uc">EDIT</string>
@@ -45,6 +45,7 @@
     <string name="select_tags">Select which tags to assign to this recording below. You can also add
         and edit tags here. Press the back button when complete.</string>
     <string name="are_you_sure">Are you sure?</string>
+    <string name="create_a_new_tag">Create A New Tag</string>
 
     <!-- ABOUT ACTIVITY -->
     <string name="team_caption">FastPhrase Team (left to right): Jennings Fairchild, Justin Tan, Matt

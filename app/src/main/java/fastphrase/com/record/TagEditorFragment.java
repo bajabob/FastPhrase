@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import fastphrase.com.AppDataManager;
 import fastphrase.com.R;
+import fastphrase.com.dialog.AddTagDialog;
 import fastphrase.com.dialog.AreYouSureDialog;
 import fastphrase.com.models.Recording;
 import fastphrase.com.models.Tag;
@@ -33,8 +34,7 @@ public class TagEditorFragment extends Fragment implements EditTagView.ICallback
     private AppDataManager mAppData;
     private Recording mRecording;
     private LinearLayout mTagViews;
-    private TextView mMessage;
-    private EditText mNewTagLabel;
+
 
     public static TagEditorFragment newInstance(long recordingHash){
         TagEditorFragment f = new TagEditorFragment();
@@ -62,9 +62,6 @@ public class TagEditorFragment extends Fragment implements EditTagView.ICallback
         mRecording = mAppData.getRecording(recordingHash);
 
         mTagViews = (LinearLayout) v.findViewById(R.id.tag_container);
-        mNewTagLabel = (EditText) v.findViewById(R.id.label);
-
-        mMessage = (TextView) v.findViewById(R.id.message);
 
         IconTextButtonView addTag = (IconTextButtonView) v.findViewById(R.id.add);
         addTag.setLabel(getString(R.string.add_tag));
@@ -73,41 +70,28 @@ public class TagEditorFragment extends Fragment implements EditTagView.ICallback
         addTag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mNewTagLabel.getText().length() == 0) {
-                    mMessage.setVisibility(View.VISIBLE);
-                    mMessage.setText(getString(R.string.error_empty_tag));
-                    return;
-                } else if (mAppData.getTag(mNewTagLabel.getText().toString()) != null) {
-                    mMessage.setVisibility(View.VISIBLE);
-                    mMessage.setText(getString(R.string.error_duplicate_label_exists));
-                    return;
-                } else {
-                    mMessage.setVisibility(View.GONE);
-                    Tag t = new Tag(mNewTagLabel.getText().toString());
-                    mAppData.addTag(t);
-                    clearFocus();
-                    invalidateTagList();
-                }
+                AddTagDialog dialog = AddTagDialog.newInstance();
+                dialog.setDialogListener(new AddTagDialog.DialogListener() {
+                    @Override
+                    public void onAddTag(Tag tag) {
+                        mAppData.addTag(tag);
+                        mAppData.save(getActivity());
+                        clearFocus();
+                        invalidateTagList();
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        // do nothing
+                    }
+                });
+                dialog.show(getActivity().getSupportFragmentManager(), "add recording dialog");
             }
         });
 
         invalidateTagList();
 
         return v;
-    }
-
-    /**
-     * hide keyboard, reset edit text
-     */
-    private void clearFocus(){
-        mNewTagLabel.clearFocus();
-        mNewTagLabel.setText("");
-        // Check if no view has focus:
-        View view = getActivity().getCurrentFocus();
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
     }
 
     /**
@@ -126,6 +110,18 @@ public class TagEditorFragment extends Fragment implements EditTagView.ICallback
                     LinearLayout.LayoutParams.MATCH_PARENT,
                     LinearLayout.LayoutParams.WRAP_CONTENT));
             mTagViews.addView(editTagView);
+        }
+    }
+
+    /**
+     * hide keyboard, reset edit text
+     */
+    private void clearFocus(){
+        // Check if no view has focus:
+        View view = getActivity().getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
 
@@ -157,6 +153,7 @@ public class TagEditorFragment extends Fragment implements EditTagView.ICallback
     @Override
     public void onTagEdited(Tag tag) {
         mAppData.addTag(tag);
+        mAppData.save(getActivity());
     }
 
     @Override
