@@ -3,13 +3,11 @@ package fastphrase.com.views;
 import android.content.Context;
 import android.os.Handler;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
-
-import java.util.Timer;
 
 import fastphrase.com.R;
 import fastphrase.com.helpers.SettingsHelper;
@@ -24,6 +22,7 @@ public class PlayButtonView extends FrameLayout implements IQueue{
     private long mPlayLengthMs;
     private PlayButtonTimer mPlayButtonTimer;
     private IPlayButtonListener mListener;
+    private ImageView mQueueIcon;
 
     public PlayButtonView(Context context) {
         this(context, null);
@@ -41,18 +40,26 @@ public class PlayButtonView extends FrameLayout implements IQueue{
 
         mProgress = (ProgressBar)view.findViewById(R.id.progress);
 
+        mQueueIcon = (ImageView) view.findViewById(R.id.queue_icon);
+
         this.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 SettingsHelper.onClick(getContext(), PlayButtonView.this);
 
                 // let parent know the play button has been pressed
-                if(mListener != null){
+                if (mListener != null) {
                     mListener.onPlayButtonPressed(PlayButtonView.this);
                 }
             }
         });
     }
 
+    @Override
+    public void onQueued() {
+        if(mQueueIcon != null) {
+            mQueueIcon.setVisibility(VISIBLE);
+        }
+    }
 
     @Override
     public void onAnimate() {
@@ -70,6 +77,10 @@ public class PlayButtonView extends FrameLayout implements IQueue{
             }
 
         }, mPlayLengthMs);
+
+        if(mQueueIcon != null) {
+            mQueueIcon.setVisibility(GONE);
+        }
     }
 
     /**

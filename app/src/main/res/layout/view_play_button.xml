@@ -25,4 +25,13 @@
         android:progress="100"
         android:progressDrawable="@drawable/play_progress_bar" />
 
+    <ImageView
+        android:id="@+id/queue_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_add_black_24dp"
+        android:tint="@color/black_90"
+        android:layout_gravity="top|right"
+        android:visibility="gone"/>
+
 </FrameLayout>

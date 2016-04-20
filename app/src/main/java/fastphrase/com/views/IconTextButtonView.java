@@ -1,17 +1,12 @@
 package fastphrase.com.views;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.support.v4.view.ViewCompat;
-import android.support.v7.internal.app.AppCompatViewInflater;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import fastphrase.com.R;

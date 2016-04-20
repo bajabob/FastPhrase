@@ -53,6 +53,9 @@ public class PlaybackQueueManager {
 
     public void onPlay(Recording recording, IQueue queueListener){
         mPlaybackElements.add(new PlaybackElement(recording, queueListener));
+        if(mPlaybackElements != null && mPlaybackElements.size() > 1){
+            queueListener.onQueued();
+        }
     }
 
     public void onDestroy(){

@@ -5,4 +5,5 @@ package fastphrase.com.views.PlaybackListView;
  */
 public interface IQueue {
     void onAnimate();
+    void onQueued();
 }
