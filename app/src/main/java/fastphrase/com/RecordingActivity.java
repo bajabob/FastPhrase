@@ -21,27 +21,22 @@ public class RecordingActivity extends AppCompatActivity implements IRecord{
         return intent;
     }
 
-    private void ResetRecordingActivity() {
-        setContentView(R.layout.activity_recording);
-
-        TitleBarView titleBarView = (TitleBarView)findViewById(R.id.title);
-        titleBarView.setRecordingTitleBar();
-
-        attachRecordFragment();
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recording);
 
+        initView();
+    }
+
+    private void initView() {
         TitleBarView titleBarView = (TitleBarView)findViewById(R.id.title);
         titleBarView.setRecordingTitleBar();
 
-        if (savedInstanceState == null) {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        if(ft.isEmpty()){
             attachRecordFragment();
         }
-
     }
 
     private void attachRecordFragment(){
@@ -64,15 +59,8 @@ public class RecordingActivity extends AppCompatActivity implements IRecord{
     public void onRecordingComplete(Recording newRecording) {
         // recording is less than 500ms
         if(newRecording.playbackLengthMs < 500){
-            Context context = getApplicationContext();
-            CharSequence text = "Recordings need to be longer than half a second";
-            int duration = Toast.LENGTH_SHORT;
-
-//            Toast toast = Toast.makeText(context, text, duration);
-//            toast.show();
-            Toast.makeText(context, text, duration).show();
-
-            ResetRecordingActivity();
+            Toast.makeText(this, getString(R.string.error_short_recording), Toast.LENGTH_SHORT).show();
+            finish();
         }
         else {
             Log.d("Recording Complete", newRecording.toJson());
