@@ -9,6 +9,8 @@
     <color name="black_90">#f5000000</color>
     <color name="black_60">#393939</color>
 
+    <color name="r50_warning">#5ebc4141</color>
+
     <color name="grey_50">#b7b7b7</color>
 
     <!-- Playback colors -->
