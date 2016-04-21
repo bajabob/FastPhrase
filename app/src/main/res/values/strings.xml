@@ -58,5 +58,6 @@
     <string name="haptic_checkbox">Haptic Click Feedback</string>
     <string name="audio_checkbox">Audio Click Feedback</string>
     <!-- ########################################################## -->
-
+    <!-- RECORD ACTIVITY -->
+    <string name="record_warning">Warning: Turning off device screen will cause recording to be lost.</string>
 </resources>
