@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.ViewFlipper;
 
 import fastphrase.com.R;
 import fastphrase.com.models.Tag;
@@ -19,6 +20,7 @@ public class EditTagView extends FrameLayout{
     private TextView mLabel;
     private EditText mLabelEdit;
     private CheckBox mCheckbox;
+    private ViewFlipper mEditFlipper;
 
     private Tag mTag;
     private boolean mIsSelected;
@@ -73,6 +75,10 @@ public class EditTagView extends FrameLayout{
             }
         });
 
+        mEditFlipper = (ViewFlipper) view.findViewById(R.id.edit_flipper);
+        mEditFlipper.setInAnimation(this.getContext(),R.anim.fade_in);
+        mEditFlipper.setOutAnimation(this.getContext(),R.anim.fade_out);
+
         mSave = (ImageButton) view.findViewById(R.id.save);
         mSave.setOnClickListener(new OnClickListener() {
             @Override
@@ -82,11 +88,9 @@ public class EditTagView extends FrameLayout{
                     mLabel.setText(mTag.label);
                     mListener.onTagEdited(mTag);
                     mListener.onClearFocus();
-                    mSave.setVisibility(GONE);
-                    mDelete.setVisibility(VISIBLE);
-                    mEdit.setVisibility(VISIBLE);
                     mLabelEdit.setVisibility(GONE);
                     mLabel.setVisibility(VISIBLE);
+                    mEditFlipper.showPrevious();
                 }else{
                     throw new RuntimeException("Listener is null, not expected");
                 }
@@ -97,14 +101,10 @@ public class EditTagView extends FrameLayout{
         mEdit.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                mSave.setVisibility(VISIBLE);
-                mDelete.setVisibility(GONE);
-                mEdit.setVisibility(GONE);
-
                 mLabelEdit.setText(mTag.label);
                 mLabelEdit.setVisibility(VISIBLE);
                 mLabel.setVisibility(GONE);
-
+                mEditFlipper.showNext();
             }
         });
 
