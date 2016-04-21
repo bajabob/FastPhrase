@@ -32,8 +32,8 @@ public class AboutActivity extends AppCompatActivity {
 
         mHaptic.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SettingsHelper.onClick(buttonView.getContext(), buttonView);
                 SettingsHelper.setHapticPreference(buttonView.getContext(), isChecked);
+                SettingsHelper.onClick(buttonView.getContext(), buttonView);
             }
         });
 

@@ -90,7 +90,7 @@ public class AddTagDialog extends DialogFragment{
                                 return;
                             } else if (mAppData.getTag(mNewTagLabel.getText().toString()) != null) {
                                 mMessage.setVisibility(View.VISIBLE);
-                                mMessage.setText(getString(R.string.error_duplicate_label_exists));
+                                mMessage.setText(getString(R.string.error_duplicate_tag_exists));
                                 return;
                             } else {
                                 mMessage.setVisibility(View.GONE);
