@@ -16,6 +16,7 @@ import fastphrase.com.AppDataManager;
 import fastphrase.com.R;
 import fastphrase.com.dialog.AddTagDialog;
 import fastphrase.com.dialog.AreYouSureDialog;
+import fastphrase.com.helpers.SettingsHelper;
 import fastphrase.com.models.Recording;
 import fastphrase.com.models.Tag;
 import fastphrase.com.views.EditTagView;
@@ -70,6 +71,7 @@ public class TagEditorFragment extends Fragment implements EditTagView.ICallback
         addTag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SettingsHelper.onClick(v.getContext(), v);
                 AddTagDialog dialog = AddTagDialog.newInstance();
                 dialog.setDialogListener(new AddTagDialog.DialogListener() {
                     @Override

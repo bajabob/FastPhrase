@@ -131,6 +131,7 @@ public class EditRecordingFragment extends Fragment{
         addTag.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SettingsHelper.onClick(view.getContext(), view);
                 if(mCallback != null){
                     if(canSave()) {
                         mCallback.onEditAndAssignTags(mRecording);

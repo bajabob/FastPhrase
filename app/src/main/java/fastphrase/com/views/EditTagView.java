@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import fastphrase.com.R;
+import fastphrase.com.helpers.SettingsHelper;
 import fastphrase.com.models.Tag;
 
 public class EditTagView extends FrameLayout{
@@ -47,6 +48,7 @@ public class EditTagView extends FrameLayout{
         mCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SettingsHelper.onClick(buttonView.getContext(), buttonView);
                 mIsSelected = isChecked;
                 if(mListener != null){
                     if(mIsSelected){
@@ -67,6 +69,7 @@ public class EditTagView extends FrameLayout{
         mDelete.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                SettingsHelper.onClick(v.getContext(), v);
                 if(mListener != null){
                     mListener.onAreYouSureDialogRequested(mTag);
                 }else{
@@ -76,13 +79,14 @@ public class EditTagView extends FrameLayout{
         });
 
         mEditFlipper = (ViewFlipper) view.findViewById(R.id.edit_flipper);
-        mEditFlipper.setInAnimation(this.getContext(),R.anim.fade_in);
+        mEditFlipper.setInAnimation(this.getContext(), R.anim.fade_in);
         mEditFlipper.setOutAnimation(this.getContext(),R.anim.fade_out);
 
         mSave = (ImageButton) view.findViewById(R.id.save);
         mSave.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                SettingsHelper.onClick(v.getContext(), v);
                 if(mListener != null){
                     mTag.label = mLabelEdit.getText().toString();
                     mLabel.setText(mTag.label);
@@ -101,6 +105,7 @@ public class EditTagView extends FrameLayout{
         mEdit.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                SettingsHelper.onClick(v.getContext(), v);
                 mLabelEdit.setText(mTag.label);
                 mLabelEdit.setVisibility(VISIBLE);
                 mLabel.setVisibility(GONE);
