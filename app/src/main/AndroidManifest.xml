@@ -41,6 +41,9 @@
         <activity android:name=".AboutActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"/>
+
+        <service android:name=".record.RecordingService" />
+
     </application>
 
 </manifest>

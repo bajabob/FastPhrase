@@ -1,5 +1,6 @@
 package fastphrase.com.record;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -18,12 +19,12 @@ import fastphrase.com.views.RecordButtonView;
  * Created by bob on 4/8/16.
  */
 public class RecordFragment extends Fragment
-        implements RecordButtonView.IRecordButtonListener, AudioRecorder.OnStartListener{
+        implements RecordButtonView.IRecordButtonListener{
 
     private Recording mNewRecording;
     private RecordingFileSystem mRecordingFileSystem;
     private ElapsedTimeView mElapsedTime;
-    private AudioRecorder mAudioRecorder;
+
     private AmplitudeView mAmplitude;
     private RecordButtonView mRecordButton;
     private IRecord mCallback;
@@ -63,37 +64,20 @@ public class RecordFragment extends Fragment
     @Override
     public void onStartRecording() {
 
-        /**
-         * restart listening
-         */
-        mAudioRecorder.start(this);
-
         mAmplitude.onRecordingStarted();
         mElapsedTime.onStart();
+
+
+        getActivity().startService(RecordingService.newStartInstance(mRecordingFileSystem.getFilenameAndPath(), getActivity()));
     }
 
     @Override
     public void onStopRecording() {
 
+        getActivity().stopService(RecordingService.newStopInstance(getActivity()));
+
         mRecordButton.removeRecordButtonListener();
         mRecordButton.onFadeOut();
-
-        mAudioRecorder.pause(new AudioRecorder.OnPauseListener() {
-            @Override
-            public void onPaused(String activeRecordFileName) {
-                Log.d("AudioRecorder", "paused, " + activeRecordFileName);
-            }
-
-            @Override
-            public void onException(Exception e) {
-                if (e != null && e.getMessage() != null) {
-                    Log.e("AudioRecorder", e.getMessage());
-                }
-                if (mCallback != null) {
-                    mCallback.onRecordingException(false);
-                }
-            }
-        });
 
         // stop timer and get elapsed time
         mElapsedTime.onStop();
@@ -105,42 +89,14 @@ public class RecordFragment extends Fragment
         }
     }
 
-
     @Override
-    public void onStarted() {
-        Log.d("AudioRecorder", "started");
-    }
-
-    @Override
-    public void onAmplitudeChange(int percentage) {
-        mAmplitude.onAmplitudeChange(percentage);
-    }
-
-    @Override
-    public void onException(Exception e) {
-        if(e != null && e.getMessage() != null) {
-            Log.e("AudioRecorder", e.getMessage());
-        }
-        if(mCallback != null) {
-            mCallback.onRecordingException(true);
-        }
-    }
-
     public void onResume(){
         super.onResume();
-        mAudioRecorder = AudioRecorderBuilder.with()
-                .fileName(mRecordingFileSystem.getFilenameAndPath())
-                .config(AudioRecorder.MediaRecorderConfig.DEFAULT)
-                .loggable()
-                .build();
     }
 
     @Override
     public void onPause(){
         super.onPause();
-        if(mAudioRecorder != null) {
-            mAudioRecorder.cancel();
-        }
     }
 
 }
