@@ -1,5 +1,6 @@
 package fastphrase.com.record;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -7,6 +8,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -63,6 +66,13 @@ public class EditRecordingFragment extends Fragment{
         mRecording = mAppData.getRecording(recordingHash);
 
         mLabel = (EditText) v.findViewById(R.id.label);
+        if(mLabel.getText().toString().length() < 1){
+            mLabel.requestFocus();
+            getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+//            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+//            imm.showSoftInput(mLabel, InputMethodManager.SHOW_IMPLICIT);
+        }
+
         mTagContainer = (FlowLayout) v.findViewById(R.id.tag_container);
 
         mMessage = (TextView) v.findViewById(R.id.message);
