@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,12 +65,6 @@ public class EditRecordingFragment extends Fragment{
         mRecording = mAppData.getRecording(recordingHash);
 
         mLabel = (EditText) v.findViewById(R.id.label);
-        if(mLabel.getText().toString().length() < 1){
-            mLabel.requestFocus();
-            getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-//            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-//            imm.showSoftInput(mLabel, InputMethodManager.SHOW_IMPLICIT);
-        }
 
         mTagContainer = (FlowLayout) v.findViewById(R.id.tag_container);
 
@@ -142,7 +135,7 @@ public class EditRecordingFragment extends Fragment{
             @Override
             public void onClick(View view) {
                 SettingsHelper.onClick(view.getContext(), view);
-                if(mCallback != null){
+                if (mCallback != null){
                     if(canSave()) {
                         mCallback.onEditAndAssignTags(mRecording);
                         mCallback.onBackAllowed();
@@ -184,6 +177,21 @@ public class EditRecordingFragment extends Fragment{
     public void onStart(){
         super.onStart();
         invalidateData();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        if(mRecording != null && mRecording.label.length() == 0){
+            mLabel.requestFocus();
+            getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(mLabel, InputMethodManager.SHOW_IMPLICIT);
+        }else{
+            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(mLabel.getWindowToken(), 0);
+        }
     }
 
 
