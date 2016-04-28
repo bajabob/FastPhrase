@@ -132,6 +132,9 @@ public class PlaybackListActivity extends AppCompatActivity implements
                         appData.removeRecording(recordingHash);
                         appData.save(PlaybackListActivity.this);
                         mPlaybackList.onRefreshData(PlaybackListActivity.this);
+                        if(!mPlaybackList.hasElements()){
+                            onPlaybackListEmpty();
+                        }
                     }
 
                     @Override
