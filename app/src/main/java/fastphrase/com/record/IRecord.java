@@ -7,6 +7,7 @@ import fastphrase.com.models.Recording;
  */
 public interface IRecord {
 
+    void onRecordingStarted();
     void onRecordingComplete(Recording newRecording);
     void onRecordingException(boolean canStartRecordErrorFragment);
     

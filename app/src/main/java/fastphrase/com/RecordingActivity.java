@@ -17,6 +17,8 @@ import fastphrase.com.views.TitleBarView;
 
 public class RecordingActivity extends AppCompatActivity implements IRecord{
 
+    private boolean mCanFinish = true;
+
     public static Intent newInstance(Context context){
         Intent intent = new Intent(context, RecordingActivity.class);
         return intent;
@@ -51,10 +53,9 @@ public class RecordingActivity extends AppCompatActivity implements IRecord{
 
     @Override
     public void onBackPressed() {
-        /**
-         * Todo, tell fragments to discard recording
-         */
-        finish();
+        if(mCanFinish) {
+            finish();
+        }
     }
 
     @Override
@@ -93,5 +94,10 @@ public class RecordingActivity extends AppCompatActivity implements IRecord{
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.fragment_container, fragment).commit();
         }
+    }
+
+    @Override
+    public void onRecordingStarted() {
+        mCanFinish = false;
     }
 }

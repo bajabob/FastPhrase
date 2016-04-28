@@ -109,6 +109,9 @@ public class RecordFragment extends Fragment
     @Override
     public void onStarted() {
         Log.d("AudioRecorder", "started");
+        if(mCallback != null) {
+            mCallback.onRecordingStarted();
+        }
     }
 
     @Override
