@@ -155,16 +155,10 @@ public class EditRecordingFragment extends Fragment{
      */
     private boolean canSave(){
         String newLabel = mLabel.getText().toString();
-
-        Recording possibleDuplicate = mAppData.getRecording(newLabel);
-
+        
         if(newLabel.length() == 0){
             mMessage.setVisibility(View.VISIBLE);
             mMessage.setText(R.string.error_empty_label);
-            return false;
-        }else if(possibleDuplicate != null && possibleDuplicate.hash != mRecording.hash){
-            mMessage.setVisibility(View.VISIBLE);
-            mMessage.setText(R.string.error_duplicate_label_exists);
             return false;
         }else{
             mMessage.setVisibility(View.GONE);
