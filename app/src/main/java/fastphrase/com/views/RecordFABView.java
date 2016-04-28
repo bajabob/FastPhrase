@@ -34,7 +34,6 @@ public class RecordFABView extends FrameLayout{
         mRecordButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                mRecordButton.setEnabled(false);
                 SettingsHelper.onClick(v.getContext(), v);
                 if (mListener != null) {
                     Handler handler = new Handler();
@@ -68,7 +67,6 @@ public class RecordFABView extends FrameLayout{
      * Fade in this button from view
      */
     public void onFadeIn(){
-        mRecordButton.setEnabled(true);
         mRecordButton.show();
     }
 

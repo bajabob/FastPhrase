@@ -26,6 +26,8 @@ public class PlaybackListActivity extends AppCompatActivity implements
     private EmptyStateView mEmptyState;
     private PlaybackQueueManager mPlaybackQueueManager;
 
+    private boolean mHasOpenedRecordActivity = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +59,9 @@ public class PlaybackListActivity extends AppCompatActivity implements
     @Override
     protected void onResume() {
         super.onResume();
+
+        mHasOpenedRecordActivity = false;
+
         mPlaybackQueueManager = new PlaybackQueueManager(this);
 
         mRecordFAB.onFadeIn();
@@ -91,8 +96,11 @@ public class PlaybackListActivity extends AppCompatActivity implements
 
     @Override
     public void onRecordActivityRequested() {
-        Intent intent = RecordingActivity.newInstance(this);
-        startActivity(intent);
+        if(!mHasOpenedRecordActivity) {
+            mHasOpenedRecordActivity = true;
+            Intent intent = RecordingActivity.newInstance(this);
+            startActivity(intent);
+        }
     }
 
     @Override
