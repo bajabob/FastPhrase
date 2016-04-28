@@ -80,16 +80,10 @@ public class EditRecordingFragment extends Fragment{
             public void onClick(View view) {
                 SettingsHelper.onClick(view.getContext(), view);
                 String newLabel = mLabel.getText().toString();
-
-                Recording possibleDuplicate = mAppData.getRecording(newLabel);
-
+                
                 if(newLabel.length() == 0){
                     mMessage.setVisibility(View.VISIBLE);
                     mMessage.setText(R.string.error_empty_label);
-                    return;
-                }else if(possibleDuplicate != null && possibleDuplicate.hash != mRecording.hash){
-                    mMessage.setVisibility(View.VISIBLE);
-                    mMessage.setText(R.string.error_duplicate_label_exists);
                     return;
                 }else{
                     mMessage.setVisibility(View.GONE);
