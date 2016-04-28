@@ -26,7 +26,7 @@
     <string name="retry_uc">RETRY</string>
     <string name="tag_editor_uc">EDIT &amp; ASSIGN TAGS</string>
     <string name="add_tag">ADD TAG</string>
-    <string name="done_button">DONE</string>
+    <string name="done_uc">DONE</string>
 
     <!-- ########################################################## -->
 
