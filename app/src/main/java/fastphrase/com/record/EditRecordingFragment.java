@@ -1,12 +1,13 @@
 package fastphrase.com.record;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -132,6 +133,11 @@ public class EditRecordingFragment extends Fragment{
             @Override
             public void onClick(View view) {
                 SettingsHelper.onClick(view.getContext(), view);
+
+                // hides keyboard after pressing add tag button
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(),0);
+
                 if(mCallback != null){
                     if(canSave()) {
                         mCallback.onEditAndAssignTags(mRecording);
