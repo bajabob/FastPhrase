@@ -7,6 +7,7 @@ import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -64,6 +65,7 @@ public class EditRecordingFragment extends Fragment{
         mRecording = mAppData.getRecording(recordingHash);
 
         mLabel = (EditText) v.findViewById(R.id.label);
+
         mTagContainer = (FlowLayout) v.findViewById(R.id.tag_container);
 
         mMessage = (TextView) v.findViewById(R.id.message);
@@ -180,6 +182,21 @@ public class EditRecordingFragment extends Fragment{
     public void onStart(){
         super.onStart();
         invalidateData();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+        if(mRecording != null && mRecording.label.length() == 0){
+            mLabel.requestFocus();
+            getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(mLabel, InputMethodManager.SHOW_IMPLICIT);
+        }else{
+            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(mLabel.getWindowToken(), 0);
+        }
     }
 
 
