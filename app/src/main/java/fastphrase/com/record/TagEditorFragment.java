@@ -8,11 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import fastphrase.com.AppDataManager;
+import fastphrase.com.EditRecordingActivity;
 import fastphrase.com.R;
 import fastphrase.com.dialog.AddTagDialog;
 import fastphrase.com.dialog.AreYouSureDialog;
@@ -88,6 +90,14 @@ public class TagEditorFragment extends Fragment implements EditTagView.ICallback
                     }
                 });
                 dialog.show(getActivity().getSupportFragmentManager(), "add recording dialog");
+            }
+        });
+
+        Button doneButton = (Button) v.findViewById(R.id.done_button);
+        doneButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((EditRecordingActivity)v.getContext()).onBackPressed();
             }
         });
 
