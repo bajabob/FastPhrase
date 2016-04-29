@@ -3,12 +3,10 @@ package fastphrase.com.record;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
-import android.widget.Toast;
-
-import fastphrase.com.models.Recording;
 
 /**
  * Created by bob on 4/21/16.
@@ -19,8 +17,15 @@ public class RecordingService extends Service {
 
     private AudioRecorder mAudioRecorder;
 
-    /** interface for clients that bind */
-    IBinder mBinder;
+    private final IBinder mBinder = new LocalBinder();
+
+    private int mLastAmplitudePercentage = 0;
+
+    public class LocalBinder extends Binder {
+        RecordingService getService() {
+            return RecordingService.this;
+        }
+    }
 
 
     public static Intent newStartInstance(String recordingFilenameAndPath, Context context){
@@ -67,7 +72,8 @@ public class RecordingService extends Service {
 
             @Override
             public void onAmplitudeChange(int percentage) {
-                mAmplitude.onAmplitudeChange(percentage);
+//                mAmplitude.onAmplitudeChange(percentage);
+                mLastAmplitudePercentage = percentage;
             }
 
             @Override
@@ -75,13 +81,17 @@ public class RecordingService extends Service {
                 if(e != null && e.getMessage() != null) {
                     Log.e("AudioRecorder", e.getMessage());
                 }
-                if(mCallback != null) {
-                    mCallback.onRecordingException(true);
-                }
+//                if(mCallback != null) {
+//                    mCallback.onRecordingException(true);
+//                }
             }
         });
 
         return START_STICKY;
+    }
+
+    public int getAmplitude(){
+        return mLastAmplitudePercentage;
     }
 
     @Override
@@ -99,9 +109,9 @@ public class RecordingService extends Service {
                 if (e != null && e.getMessage() != null) {
                     Log.e("AudioRecorder", e.getMessage());
                 }
-                if (mCallback != null) {
-                    mCallback.onRecordingException(false);
-                }
+//                if (mCallback != null) {
+//                    mCallback.onRecordingException(false);
+//                }
             }
         });
     }

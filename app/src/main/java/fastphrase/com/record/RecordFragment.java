@@ -1,7 +1,12 @@
 package fastphrase.com.record;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +25,12 @@ import fastphrase.com.views.RecordButtonView;
  */
 public class RecordFragment extends Fragment
         implements RecordButtonView.IRecordButtonListener{
+
+    private static final int UPDATE_FREQUENCY_MS = 25;
+
+    private boolean mIsServiceBound = false;
+    private RecordingService mService;
+    private Handler mHandler = new Handler();
 
     private Recording mNewRecording;
     private RecordingFileSystem mRecordingFileSystem;
@@ -53,6 +64,39 @@ public class RecordFragment extends Fragment
         return v;
     }
 
+    private ServiceConnection mConnection = new ServiceConnection() {
+        public void onServiceConnected(ComponentName className, IBinder service) {
+            // This is called when the connection with the service has been
+            // established, giving us the service object we can use to
+            // interact with the service.  Because we have bound to a explicit
+            // service that we know is running in our own process, we can
+            // cast its IBinder to a concrete class and directly access it.
+            mService = ((RecordingService.LocalBinder)service).getService();
+
+            mHandler.postDelayed(mRunnable, UPDATE_FREQUENCY_MS);
+        }
+
+        public void onServiceDisconnected(ComponentName className) {
+            // This is called when the connection with the service has been
+            // unexpectedly disconnected -- that is, its process crashed.
+            // Because it is running in our same process, we should never
+            // see this happen.
+            mService = null;
+
+        }
+    };
+
+    private Runnable mRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if(mIsServiceBound && mService != null){
+
+                mAmplitude.onAmplitudeChange(mService.getAmplitude());
+
+            }
+        }
+    };
+
     /**
      * Set the parent callback for this fragment
      * @param callback
@@ -67,14 +111,23 @@ public class RecordFragment extends Fragment
         mAmplitude.onRecordingStarted();
         mElapsedTime.onStart();
 
-
-        getActivity().startService(RecordingService.newStartInstance(mRecordingFileSystem.getFilenameAndPath(), getActivity()));
+        getActivity().bindService(
+                RecordingService.newStartInstance(
+                        mRecordingFileSystem.getFilenameAndPath(),
+                        getActivity()),
+                mConnection,
+                Context.BIND_AUTO_CREATE);
+        mIsServiceBound = true;
     }
 
     @Override
     public void onStopRecording() {
 
-        getActivity().stopService(RecordingService.newStopInstance(getActivity()));
+        if (mIsServiceBound) {
+            mIsServiceBound = false;
+            // Detach our existing connection.
+            getActivity().unbindService(mConnection);
+        }
 
         mRecordButton.removeRecordButtonListener();
         mRecordButton.onFadeOut();
@@ -84,7 +137,7 @@ public class RecordFragment extends Fragment
         mNewRecording.playbackLengthMs = mElapsedTime.getElapsedTimeInMilliseconds();
         mAmplitude.onRecordingStopped();
         if(mCallback != null) {
-            mAudioRecorder = null;
+//            mAudioRecorder = null;
             mCallback.onRecordingComplete(mNewRecording);
         }
     }
