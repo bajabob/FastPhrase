@@ -27,7 +27,7 @@ public class AppDataStoreManager {
      * @return AppData
      */
     public static AppData load(Context context){
-        SharedPreferences prefs = context.getSharedPreferences(SHARED_FILE, context.MODE_PRIVATE);
+        SharedPreferences prefs = context.getSharedPreferences(SHARED_FILE, Context.MODE_PRIVATE);
         String json = prefs.getString(SHARED_FILE, null);
         if(json == null){
             json = defaultJSONAppData();
@@ -52,8 +52,18 @@ public class AppDataStoreManager {
      * @param appData AppData
      */
     public static void save(Context context, AppData appData){
-        SharedPreferences.Editor editor = context.getSharedPreferences(SHARED_FILE, context.MODE_PRIVATE).edit();
+        SharedPreferences.Editor editor = context.getSharedPreferences(SHARED_FILE, Context.MODE_PRIVATE).edit();
         editor.putString(SHARED_FILE, appData.toJson());
+        editor.apply();
+    }
+
+    /**
+     * delete AppData
+     * @param context Context
+     */
+    public static void delete(Context context){
+        SharedPreferences.Editor editor = context.getSharedPreferences(SHARED_FILE, Context.MODE_PRIVATE).edit();
+        editor.putString(SHARED_FILE, null);
         editor.apply();
     }
 
@@ -61,7 +71,7 @@ public class AppDataStoreManager {
      * App data to use the first time the application is loaded (for testing purposes)
      * @return AppData
      */
-    private static String defaultJSONAppData(){
+    public static String defaultJSONAppData(){
         AppData ad = new AppData();
 
         ad.tags.add(new Tag("Sample Tag"));
